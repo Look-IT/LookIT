@@ -13,9 +13,9 @@ export const DANGER = {
 };
 
 export const PRIMARY = {
-  DEFAULT: '#2563eb',
-  DARK: '#1e3a8a',
-  LIGHT: '#93c5fd',
+  DEFAULT: '#6e80e6',
+  DARK: '#4b4dac',
+  LIGHT: '#a8b7fa',
 };
 export const GRAY = {
   DEFAULT: '#a3a3a3',
