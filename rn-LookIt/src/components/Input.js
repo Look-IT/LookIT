@@ -18,6 +18,7 @@ export const ReturnKeyTypes = {
 };
 
 const Input = forwardRef(
+  // eslint-disable-next-line no-unused-vars
   ({ title, placeholder, value, iconName, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
 

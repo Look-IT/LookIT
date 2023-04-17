@@ -3,6 +3,7 @@ import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prop-types
 const HeaderLeftButton = ({ canGoBack, tintColor }) => {
   const navigation = useNavigation();
   if (!canGoBack) {

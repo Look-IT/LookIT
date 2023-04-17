@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 import { WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton.js';
 const Stack = createNativeStackNavigator();
@@ -15,6 +16,7 @@ const AuthStack = () => {
       }}
     >
       <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   );
 };

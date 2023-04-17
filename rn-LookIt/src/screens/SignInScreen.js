@@ -1,15 +1,12 @@
 import { Image, StyleSheet, View, Keyboard, Alert } from 'react-native';
-import Input, {
-  KeyboardTypes,
-  ReturnKeyTypes,
-  IconNames,
-} from '../components/Input';
+import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import SafeInputView from '../components/SafeInputView.js';
 import { useRef, useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import { signIn } from '../api/auth';
 import PropTypes from 'prop-types';
 import { useUserContext } from '../contexts/UserContext';
+import { useNavigation } from '@react-navigation/native';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -38,7 +35,13 @@ const SignInScreen = () => {
       }
     }
   };
-  const onSignIn = () => {};
+
+  const navigation = useNavigation();
+
+  const onSignUp = () => {
+    navigation.navigate('SignUp');
+    console.log('heelo');
+  };
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
@@ -86,8 +89,7 @@ const SignInScreen = () => {
         <View style={[styles.buttonContainer, { marginTop: 0 }]}>
           <Button
             title={'회원가입'}
-            onPress={onSignIn}
-            disabled={disabled}
+            onPress={onSignUp}
             buttonType={ButtonTypes.TRANSPARENT}
           ></Button>
         </View>
