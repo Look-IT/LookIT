@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-
+import { UserProvider } from './contexts/UserContext';
+import Navigation from './navigations/Navigation.js';
 const App = () => {
   return (
-    <View style={{ marginTop: 50 }}>
-      <StatusBar style="darl"></StatusBar>
-      <Text style={{ fontSize: 30 }}>LookIT App</Text>
-    </View>
+    <UserProvider>
+      <StatusBar style="dark" />
+      <Navigation />
+    </UserProvider>
   );
 };
 
