@@ -1,7 +1,11 @@
 export const WHITE = '#ffffff';
 
 export const BLACK = '#000000';
-
+export const TRANSPARENT = {
+  LIGHT: 'transparent',
+  DEFAULT: 'transparent',
+  DARK: 'transparent',
+};
 export const DANGER = {
   LIGHT: '#fca5a5',
   DEFAULT: '#dc2626',

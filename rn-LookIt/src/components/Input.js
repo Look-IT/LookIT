@@ -2,7 +2,6 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { GRAY, PRIMARY, BLACK } from '../colors';
 import { forwardRef, useState } from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const IconNames = {
   EMAIL: 'email',
@@ -50,6 +49,7 @@ const Input = forwardRef(
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           ></TextInput>
+          {/*
 
           <View style={styles.icon}>
             <MaterialCommunityIcons
@@ -67,6 +67,7 @@ const Input = forwardRef(
               })()}
             ></MaterialCommunityIcons>
           </View>
+            */}
         </View>
       </View>
     );
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'yellow',
     width: '100%',
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 8,
   },
   title: {
     marginBottom: 4,
@@ -98,19 +99,19 @@ const styles = StyleSheet.create({
   },
   input: {
     //backgroundColor: 'blue',
-    borderWidth: 1,
-    borderRadius: 8,
+    borderBottomWidth: 1,
+    //borderRadius: 8,
     paddingHorizontal: 10,
-    height: 42,
+    height: 40,
     borderColor: GRAY.DEFAULT,
-    paddingLeft: 30,
+    //paddingLeft: 30,
   },
   hasValueTitle: {
     color: BLACK,
     borderColor: BLACK,
   },
   focusedInput: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: PRIMARY.DEFAULT,
     color: PRIMARY.DEFAULT,
   },

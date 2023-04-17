@@ -6,7 +6,7 @@ import Input, {
 } from '../components/Input';
 import SafeInputView from '../components/SafeInputView.js';
 import { useRef, useEffect, useState } from 'react';
-import Button from '../components/Button';
+import Button, { ButtonTypes } from '../components/Button';
 import { signIn } from '../api/auth';
 import PropTypes from 'prop-types';
 import { useUserContext } from '../contexts/UserContext';
@@ -38,6 +38,7 @@ const SignInScreen = () => {
       }
     }
   };
+  const onSignIn = () => {};
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
@@ -54,31 +55,40 @@ const SignInScreen = () => {
         ></Image>
 
         <Input
-          title={'이메일'}
-          placeholder="your@email.com"
+          title={''}
+          placeholder="이메일"
           keyboardType={KeyboardTypes.EMAIL}
           returnKeyType={ReturnKeyTypes.NEXT}
           onChangeText={(email) => setEmail(email.trim())}
           onSubmitEditing={() => passwordRef.current.focus()}
           value={email}
-          iconName={IconNames.EMAIL}
+          //iconName={IconNames.EMAIL}
         ></Input>
         <Input
           ref={passwordRef}
-          title={'비밀번호'}
+          title={''}
           placeholder="비밀번호"
           returnKeyType={ReturnKeyTypes.DONE}
           secureTextEntry
           value={password}
           onChangeText={(password) => setPassword(password.trim())}
-          iconName={IconNames.PASSWORD}
+          //iconName={IconNames.PASSWORD}
         ></Input>
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, { marginTop: 30 }]}>
           <Button
             title={'로그인'}
             onPress={onSubmit}
             disabled={disabled}
             isLoading={isLoading}
+          ></Button>
+        </View>
+
+        <View style={[styles.buttonContainer, { marginTop: 0 }]}>
+          <Button
+            title={'회원가입'}
+            onPress={onSignIn}
+            disabled={disabled}
+            buttonType={ButtonTypes.TRANSPARENT}
           ></Button>
         </View>
       </View>
@@ -97,13 +107,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 128,
+    height: 128,
+    marginBottom: 20,
   },
   buttonContainer: {
     width: '100%',
-    marginTop: 30,
-    paddingHorizontal: 20,
+
+    paddingHorizontal: 10,
   },
 });
 
