@@ -1,3 +1,5 @@
+//스크린들을 쌓아두는 stack
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';

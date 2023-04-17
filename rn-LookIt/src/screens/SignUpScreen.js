@@ -1,3 +1,5 @@
+//회원가입 화면
+
 import { StyleSheet, Text, View } from 'react-native';
 
 const SignUpScreen = () => {

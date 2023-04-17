@@ -1,3 +1,5 @@
+//ios 실행 시 입력창이 다른 컴포넌트를 가리는 걸 방지하는 컴포넌트
+
 import {
   Keyboard,
   KeyboardAvoidingView,

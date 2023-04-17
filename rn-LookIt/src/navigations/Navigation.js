@@ -1,3 +1,5 @@
+//네비게이션
+
 import { useUserContext } from '../contexts/UserContext';
 import { NavigationContainer } from '@react-navigation/native';
 

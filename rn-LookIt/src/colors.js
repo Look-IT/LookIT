@@ -1,6 +1,7 @@
 export const WHITE = '#ffffff';
 
 export const BLACK = '#000000';
+
 export const TRANSPARENT = {
   LIGHT: 'transparent',
   DEFAULT: 'transparent',

@@ -1,3 +1,5 @@
+//텍스트 입력 창
+
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { GRAY, PRIMARY, BLACK } from '../colors';
@@ -20,7 +22,7 @@ export const ReturnKeyTypes = {
 const Input = forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ title, placeholder, value, iconName, ...props }, ref) => {
-    const [isFocused, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(false); // 인풋 창 클릭 시 , 집중 효과를 주기 위한 상태 변수
 
     Input.displayName = 'Input';
     return (
@@ -50,25 +52,6 @@ const Input = forwardRef(
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           ></TextInput>
-          {/*
-
-          <View style={styles.icon}>
-            <MaterialCommunityIcons
-              name={iconName}
-              size={20}
-              color={(() => {
-                switch (true) {
-                  case isFocused:
-                    return PRIMARY.DEFAULT;
-                  case !!value:
-                    return BLACK;
-                  default:
-                    return GRAY.DEFAULT;
-                }
-              })()}
-            ></MaterialCommunityIcons>
-          </View>
-            */}
         </View>
       </View>
     );
@@ -84,7 +67,6 @@ Input.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    //backgroundColor: 'yellow',
     width: '100%',
     paddingHorizontal: 20,
     marginVertical: 8,
@@ -99,7 +81,6 @@ const styles = StyleSheet.create({
     color: PRIMARY.DEFAULT,
   },
   input: {
-    //backgroundColor: 'blue',
     borderBottomWidth: 1,
     //borderRadius: 8,
     paddingHorizontal: 10,

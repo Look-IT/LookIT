@@ -1,3 +1,5 @@
+//로그인 화면
+
 import { Image, StyleSheet, View, Keyboard, Alert } from 'react-native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import SafeInputView from '../components/SafeInputView.js';
@@ -9,13 +11,15 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const passwordRef = useRef(null);
+  const [email, setEmail] = useState(''); //이메일 상태 변수
+  const [password, setPassword] = useState(''); // 비밀번호 상태 변수
+  const [isLoading, setIsLoading] = useState(false); //로그인 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
+  const passwordRef = useRef(null); //아이디 창에서 엔터 누를 시 자동으로 비밀번호 입력창으로 넘어가기 위한 상태 변수
 
   const { setUser } = useUserContext();
+
   const onSubmit = async () => {
+    //로그인 버튼 클릭 시 호출되는 함수
     if (!isLoading && !disabled) {
       try {
         setIsLoading(true);
@@ -39,12 +43,14 @@ const SignInScreen = () => {
   const navigation = useNavigation();
 
   const onSignUp = () => {
+    //회원가입 버튼 클릭시 호출되는 함수
     navigation.navigate('SignUp');
     console.log('heelo');
   };
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
+    //로그인 버튼 활성화에 관여하는 상태변수
     setDisabled(!email || !password);
   }, [email, password]);
 

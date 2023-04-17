@@ -1,6 +1,8 @@
+//버튼 컴포넌트
+
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { TRANSPARENT, GRAY, PRIMARY, WHITE, DANGER, BLACK } from '../colors';
+import { TRANSPARENT, GRAY, PRIMARY, WHITE, DANGER } from '../colors';
 
 export const ButtonTypes = {
   PRIMARY: 'PRIMARY',
