@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 4,
-    color: GRAY.DEFAULT,
+    color: BLACK,
   },
 
   focusedTitle: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    //borderRadius: 8,
+
     paddingHorizontal: 10,
     height: 40,
     borderColor: GRAY.DEFAULT,

@@ -5,6 +5,9 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import { WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton.js';
+
+//로그인 전 화면에 표시되는 스크린 stack
+
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
@@ -18,7 +21,15 @@ const AuthStack = () => {
       }}
     >
       <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{
+          headerShown: true,
+          headerTitle: '회원가입',
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
   );
 };
