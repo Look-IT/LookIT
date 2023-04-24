@@ -15,7 +15,7 @@ const HeaderLeftButton = ({ canGoBack, tintColor }) => {
   return (
     <Pressable onPress={navigation.goBack} hitSlop={10}>
       <MaterialCommunityIcons
-        name="chevron-left"
+        name="arrow-left"
         size={30}
         color={tintColor}
       ></MaterialCommunityIcons>
@@ -23,7 +23,7 @@ const HeaderLeftButton = ({ canGoBack, tintColor }) => {
   );
 };
 
-HeaderLeftButton.PropTypes = {
+HeaderLeftButton.propTypes = {
   canGoBack: PropTypes.bool,
   tintColor: PropTypes.string,
 };
