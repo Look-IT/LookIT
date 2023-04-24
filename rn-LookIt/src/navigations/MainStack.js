@@ -25,10 +25,10 @@ const MainStack = () => {
       }}
     >
       <Stack.Screen
-        name="List"
+        name="FriendList"
         component={ListScreen}
         options={{
-          title: 'TODO LIST',
+          title: '친구',
         }}
       ></Stack.Screen>
     </Stack.Navigator>

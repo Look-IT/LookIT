@@ -9,9 +9,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-.screens/FriendListScreen.js
-.navigations/MainStack.js
-.components/List.js
 
 # macOS
 .DS_Store
