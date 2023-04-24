@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeInputView from '../components/SafeInputView';
 import { StatusBar } from 'expo-status-bar';
 import TextButton from '../components/TextButton';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -43,9 +44,10 @@ const SignUpScreen = () => {
     setIdConfirm(true);
   };
   return (
-    <SafeInputView>
-      <StatusBar style="light"></StatusBar>
-      <View style={[styles.container, { paddingTop: top }]}>
+    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View
+        style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
+      >
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 4 }}>
             <Input
@@ -97,9 +99,13 @@ const SignUpScreen = () => {
           returnKeyType={ReturnKeyTypes.DONE}
           KeyboardType={KeyboardTypes.DEFAULT}
         ></Input>
+        <View style={{ paddingBottom: 60 }}></View>
       </View>
       <View
-        style={(styles.buttonContainer, { height: 48, paddingHorizontal: 10 })}
+        style={
+          (styles.buttonContainer,
+          { height: 48, width: '100%', paddingHorizontal: 20 })
+        }
       >
         <Button
           title={'회원가입'}
@@ -109,7 +115,7 @@ const SignUpScreen = () => {
         ></Button>
       </View>
       <View style={{ paddingBottom: 34 }}></View>
-    </SafeInputView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     justifyContent: 'center',
+    //alignSelf: 'flex-end',
   },
 
   idCheck: {

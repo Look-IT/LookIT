@@ -13,9 +13,9 @@ const SafeInputView = ({ children }) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.select({
+      /*behavior={Platform.select({
         ios: 'padding',
-      })}
+      })}*/
     >
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {children}
