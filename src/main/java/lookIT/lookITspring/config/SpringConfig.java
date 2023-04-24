@@ -1,6 +1,8 @@
 package lookIT.lookITspring.config;
 
 import lookIT.lookITspring.repository.MemberRepository;
+import lookIT.lookITspring.security.CustomUserDetailsService;
+import lookIT.lookITspring.security.JwtProvider;
 import lookIT.lookITspring.service.MemberService;
 import lookIT.lookITspring.service.MemberServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +24,18 @@ public class SpringConfig {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
+	@Bean JwtProvider jwtProvider(){
+		return new JwtProvider(cumstomUserDetailsService());
+	}
+
 	@Bean
 	public MemberService memberService() {
-		return new MemberServiceImpl(memberRepository, passwordEncoder());
+		return new MemberServiceImpl(memberRepository, passwordEncoder(), jwtProvider());
+	}
+
+	@Bean
+	public CustomUserDetailsService cumstomUserDetailsService(){
+		return new CustomUserDetailsService(memberRepository);
 	}
 
 }

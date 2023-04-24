@@ -1,4 +1,4 @@
-package lookIT.lookITspring.config;
+package lookIT.lookITspring.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package lookIT.lookITspring.controller;
 
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.MemberSignUpRequestDto;
@@ -24,5 +25,10 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.OK)
 	public Long join(@Valid @RequestBody MemberSignUpRequestDto request) throws Exception {
 		return memberService.signUp(request);
+	}
+
+	@PostMapping("/login")
+	public String login(@RequestBody Map<String, String> member) {
+		return memberService.login(member);
 	}
 }
