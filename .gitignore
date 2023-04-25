@@ -43,3 +43,5 @@ out/
 *.iml
 out
 gen
+
+application.properties
