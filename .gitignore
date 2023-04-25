@@ -44,4 +44,4 @@ out/
 out
 gen
 
-application.properties
+/application.properties
