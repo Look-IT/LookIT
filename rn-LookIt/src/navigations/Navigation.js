@@ -7,12 +7,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './AuthStack';
 import MainStack from './MainStack';
 
+import ContentTab from './ContentTab';
+
 const Navigation = () => {
   const { user } = useUserContext();
 
   return (
     <NavigationContainer>
-      {user ? <AuthStack /> : <AuthStack />}
+      {user ? <MainStack /> : <MainStack />}
     </NavigationContainer>
   );
 };

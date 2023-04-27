@@ -9,7 +9,6 @@ import { signIn } from '../api/auth';
 import PropTypes from 'prop-types';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const SignInScreen = () => {
   const [email, setEmail] = useState(''); //이메일 상태 변수

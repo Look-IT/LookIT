@@ -6,8 +6,7 @@ import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import SafeInputView from '../components/SafeInputView';
-import { StatusBar } from 'expo-status-bar';
+
 import TextButton from '../components/TextButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
