@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, View } from 'react-native';
-import { GRAY } from '../colors';
+import { GRAY, WHITE } from '../colors';
 import List from '../components/List';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import InputFab from '../components/InputFab.js';
@@ -70,13 +70,14 @@ const FriendListScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flex: 1, paddingBottom: bottom }}>
+    <View style={[styles.container, { flex: 1, paddingBottom: bottom }]}>
       <View style={styles.list}></View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: WHITE },
   list: {
     width: '100%',
     height: 48,

@@ -8,7 +8,7 @@ import CollectionScreen from '../screens/CollectionScreen';
 import SettingScreen from '../screens/SettingScreen';
 import { MainRoutes } from './routes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { PRIMARY } from '../colors';
+import { PRIMARY, WHITE } from '../colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +41,7 @@ const ContentTab = () => {
           name="홈"
           component={HomeScreen}
           options={{
+            backgroundColor: WHITE,
             headerShown: false,
             tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'home' }),
           }}

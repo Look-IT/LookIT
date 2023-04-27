@@ -1,7 +1,7 @@
 //설정 스크린
 
 import { StyleSheet, Text, View } from 'react-native';
-
+import { WHITE } from '../colors';
 const SettingScreen = () => {
   return (
     <View style={styles.container}>
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: WHITE,
   },
 });
 
