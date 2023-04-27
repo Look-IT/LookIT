@@ -44,6 +44,24 @@ public class MemberServiceIntegrationTest {
 	}
 
 	@Test
+	public void 중복_이메일_예외() throws Exception {
+		//Given
+		String tagName = "ccc";
+		String email = "ccc@ajou.ac.kr";
+		String password = "12345abc!";
+		String nickName = "abcChocolate";
+
+		MemberSignUpRequestDto member1 = new MemberSignUpRequestDto(tagName, email, password, nickName);
+		MemberSignUpRequestDto member2 = new MemberSignUpRequestDto(tagName, email, password, nickName);
+		//When
+		memberService.signUp(member1);
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> memberService.signUp(member2)); // 예외가 발생해야 한다.
+
+		assertThat(e.getMessage()).isEqualTo("이미 존재하는 이메일입니다.");
+	}
+
+	@Test
 	public void 로그인() throws Exception {
 		
 		//Given

@@ -36,7 +36,6 @@ public class MemberSignUpRequestDto {
 			.email(email)
 			.password(password)
 			.nickName(nickName)
-//			.role(Role.USER)
 			.build();
 	}
 }

@@ -23,7 +23,8 @@ public class MemberServiceImpl implements MemberService {
 	public Long signUp(MemberSignUpRequestDto requestDto) throws Exception {
 
 		if (memberRepository.findByEmail(requestDto.getEmail()).isPresent()) {
-			throw new Exception("이미 존재하는 이메일입니다.");
+			//throw new Exception("이미 존재하는 이메일입니다.");
+			throw new IllegalStateException("이미 존재하는 이메일입니다.");
 		}
 
 		Member member = memberRepository.save(requestDto.toEntity());
