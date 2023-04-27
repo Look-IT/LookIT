@@ -9,19 +9,9 @@ import SettingScreen from '../screens/SettingScreen';
 import { MainRoutes } from './routes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PRIMARY, WHITE } from '../colors';
+import { Image, StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
-
-const getTabBarIcon = ({ focused, color, size, name }) => {
-  const iconName = focused ? name : `${name}-outline`;
-  return (
-    <MaterialCommunityIcons
-      name={iconName}
-      color={color}
-      size={size}
-    ></MaterialCommunityIcons>
-  );
-};
 
 const ContentTab = () => {
   return (
@@ -43,15 +33,38 @@ const ContentTab = () => {
           options={{
             backgroundColor: WHITE,
             headerShown: false,
-            tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'home' }),
+            tabBarIcon: (props) => {
+              return props.focused ? (
+                <Image
+                  source={require('../../assets/Icon_Home.png')}
+                  style={styles.image}
+                ></Image>
+              ) : (
+                <Image
+                  source={require('../../assets/Icon_Home-outline.png')}
+                  style={styles.image}
+                ></Image>
+              );
+            },
           }}
         ></Tab.Screen>
         <Tab.Screen
           name="친구"
           component={FriendListScreen}
           options={{
-            tabBarIcon: (props) =>
-              getTabBarIcon({ ...props, name: 'account-multiple' }),
+            tabBarIcon: (props) => {
+              return props.focused ? (
+                <Image
+                  source={require('../../assets/Icon_Friend.png')}
+                  style={styles.image}
+                ></Image>
+              ) : (
+                <Image
+                  source={require('../../assets/Icon_Friend-outline.png')}
+                  style={styles.image}
+                ></Image>
+              );
+            },
           }}
         ></Tab.Screen>
         <Tab.Screen
@@ -59,7 +72,19 @@ const ContentTab = () => {
           component={CollectionScreen}
           options={{
             headerShown: false,
-            tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'trophy' }),
+            tabBarIcon: (props) => {
+              return props.focused ? (
+                <Image
+                  source={require('../../assets/Icon_Collection.png')}
+                  style={styles.image}
+                ></Image>
+              ) : (
+                <Image
+                  source={require('../../assets/Icon_Collection-outline.png')}
+                  style={styles.image}
+                ></Image>
+              );
+            },
           }}
         ></Tab.Screen>
         <Tab.Screen
@@ -67,12 +92,31 @@ const ContentTab = () => {
           component={SettingScreen}
           options={{
             headerShown: false,
-            tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'cog' }),
+            tabBarIcon: (props) => {
+              return props.focused ? (
+                <Image
+                  source={require('../../assets/Icon_Setting.png')}
+                  style={styles.image}
+                ></Image>
+              ) : (
+                <Image
+                  source={require('../../assets/Icon_Setting-outline.png')}
+                  style={styles.image}
+                ></Image>
+              );x
+            },
           }}
         ></Tab.Screen>
       </Tab.Navigator>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: 24,
+    height: 24,
+  },
+});
 
 export default ContentTab;

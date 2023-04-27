@@ -82,7 +82,7 @@ const SignUpScreen = () => {
         <View style={{ paddingBottom: 30 }}></View>
         <Input
           title={'비밀번호'}
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="8~30자리의 알파벳, 숫자, 특수문자."
           value={password}
           secureTextEntry
           onChangeText={(password) => setPassword(password.trim())}

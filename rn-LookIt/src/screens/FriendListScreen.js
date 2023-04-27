@@ -1,60 +1,59 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  FlatList,
+} from 'react-native';
 import { GRAY, WHITE } from '../colors';
 import List from '../components/List';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import InputFab from '../components/InputFab.js';
 import { useEffect, useState } from 'react';
+import FriendList from '../components/FriendList';
 //import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 const FriendListScreen = ({ navigation, route }) => {
   const { bottom } = useSafeAreaInsets(); //기기별 화면 아래쪽 가려지는 것 방지를 위한 상태변수
-  const [friend, setFriend] = useState([]); //친구 정보를 담은 상태 변수
+
+  const [receiveFriend, setReceiveFriend] = useState([
+    { id: '123', nickName: '임민호' },
+    { id: '223', nickName: '임민호' },
+    { id: '323', nickName: '임민호' },
+  ]); //받은 친구 요청 정보를 담은 상태 변수
+
+  const [sendFriend, setSendFriend] = useState([
+    { id: '123', nickName: '임민호' },
+    { id: '223', nickName: '임민호' },
+    { id: '323', nickName: '임민호' },
+  ]); //보낸 친구 요청 정보를 담은 상태 변수
+
+  const [friend, setFriend] = useState([
+    { id: '123', nickName: '임민호' },
+    { id: '223', nickName: '임민호' },
+    { id: '323', nickName: '임민호' },
+  ]); //친구 정보를 담은 상태 변수
 
   const [isBottom, setIsBottom] = useState(false);
 
-  const [ReceiveListExpand, setReceiveListExpand] = useState(false);
-  const [SendListExpand, setSendListExpand] = useState(false);
-  const [FriendListExpand, setFriendListExpand] = useState(false);
-  //const { getItem, setItem } = useAsyncStorage('');
-  /*
-  const save = async (data) => {
-    try {
-      await setItem(JSON.stringify(data));
-      setFriend(data);
-    } catch (e) {
-      Alert.alert('저장하기 실패', '데이터 저장에 실패했습니다.');
-    }
-  };
+  const [ReceiveListExpand, setReceiveListExpand] = useState(false); // 받은 친구 요청 리스트 확장 / 축소 관련 상태 변수
+  const [SendListExpand, setSendListExpand] = useState(false); // 보낸 친구 요청 리스트 확장 / 축소 관련 상태 변수
+  const [FriendListExpand, setFriendListExpand] = useState(false); // 친구 리스트 확장 / 축소 관련 상태 변수
 
-  const load = async () => {
-    try {
-      const data = await getItem();
-      const friend = JSON.parse(data || '[]');
-      setFriend(friend);
-    } catch (e) {
-      Alert.alert('불러오기 실패', '데이터 불러오기에 실패하였습니다.');
-    }
-  };
-
-  const onDelete = (id) => {
-    const newfriend = friend.filter((item) => item.id !== id);
-    save(newfriend);
-  };
-
-  useEffect(() => {
-    load();
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-*/
-  const onPressExpand = (isExpand) => {
-    switch (isExpand) {
-      case ReceiveListExpand:
+  const onPressExpand = (whatTypeExpand) => {
+    // 각 리스트 터치시 확장 / 축소 변수를 컨트롤 하는 함수
+    console.log(ReceiveListExpand);
+    console.log(whatTypeExpand);
+    switch (whatTypeExpand) {
+      case 'ReceiveListExpand':
         setReceiveListExpand(!ReceiveListExpand);
+
         return;
-      case SendListExpand:
+      case 'SendListExpand':
         setSendListExpand(!SendListExpand);
         return;
-      case FriendListExpand:
+      case 'FriendListExpand':
         setFriendListExpand(!FriendListExpand);
         return;
       default:
@@ -62,16 +61,31 @@ const FriendListScreen = ({ navigation, route }) => {
     }
   };
 
-  const onInsert = (task) => {
-    const id = Date.now().toString();
-    const newfriend = [{ id, task, isDone: false }, ...friend];
-    setFriend(newfriend);
-    //save(newfriend);
-  };
-
   return (
-    <View style={[styles.container, { flex: 1, paddingBottom: bottom }]}>
-      <View style={styles.list}></View>
+    <View style={[styles.container, { paddingBottom: bottom }]}>
+      <View style={{ paddingHorizontal: 16 }}>
+        <View style={{ height: 56, justifyContent: 'center' }}>
+          <Text style={[styles.text, { fontSize: 14 }]}>내 닉네임</Text>
+        </View>
+        <Pressable onPress={() => onPressExpand('ReceiveListExpand')}>
+          <View style={styles.list}>
+            <Text style={[styles.text, { fontSize: 10 }]}>받은 친구 요청</Text>
+          </View>
+        </Pressable>
+        {ReceiveListExpand && <FriendList data={receiveFriend}></FriendList>}
+
+        <Pressable onPress={() => onPressExpand('SendListExpand')}>
+          <View style={styles.list}>
+            <Text style={[styles.text, { fontSize: 10 }]}>보낸 친구 요청</Text>
+          </View>
+        </Pressable>
+        {SendListExpand && <FriendList data={sendFriend}></FriendList>}
+
+        <View style={styles.list}>
+          <Text style={[styles.text, { fontSize: 10 }]}>친구</Text>
+        </View>
+        <FriendList data={friend}></FriendList>
+      </View>
     </View>
   );
 };
@@ -79,10 +93,16 @@ const FriendListScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: WHITE },
   list: {
-    width: '100%',
     height: 48,
-    paddingHorizontal: 16,
-    borderBottomColor: { GRAY },
+    borderTopWidth: 1,
+    borderColor: GRAY.DEFAULT,
+    justifyContent: 'center',
+    paddingBottom: 8,
+  },
+  text: {
+    fontWeight: 500,
+
+    lineHeight: 16,
   },
 });
 
