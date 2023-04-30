@@ -29,6 +29,7 @@ dependencies {
 	testImplementation 'org.projectlombok:lombok:1.18.22'
 
 	compileOnly 'org.projectlombok:lombok'
+
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
