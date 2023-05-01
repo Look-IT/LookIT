@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { GRAY, BLACK } from '../colors';
 
-const FriendListItem = memo(({ item }) => {
+const RequestFriendListItem = memo(({ item }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.nickNameFont}>{item.nickName}</Text>
@@ -15,9 +15,9 @@ const FriendListItem = memo(({ item }) => {
   );
 });
 
-FriendListItem.displayName = 'FriendListItem';
+RequestFriendListItem.displayName = 'RequestFriendListItem';
 
-FriendListItem.propTypes = {
+RequestFriendListItem.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
   nickNameFont: {
     fontSize: 14,
@@ -43,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FriendListItem;
+export default RequestFriendListItem;

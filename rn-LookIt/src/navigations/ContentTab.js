@@ -88,22 +88,23 @@ const ContentTab = () => {
           }}
         ></Tab.Screen>
         <Tab.Screen
-          name="설정"
+          name="MY"
           component={SettingScreen}
           options={{
             headerShown: false,
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image
-                  source={require('../../assets/Icon_Setting.png')}
+                  source={require('../../assets/Icon_MyPage.png')}
                   style={styles.image}
                 ></Image>
               ) : (
                 <Image
-                  source={require('../../assets/Icon_Setting-outline.png')}
+                  source={require('../../assets/Icon_MyPage-outline.png')}
                   style={styles.image}
                 ></Image>
-              );x
+              );
+              x;
             },
           }}
         ></Tab.Screen>

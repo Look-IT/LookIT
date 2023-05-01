@@ -1,24 +1,24 @@
-//일반 친구 리스트
+//받은 & 보낸 친구 요청 리스트
 
 import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import FriendListItem from './FriendListItem';
+import RequestFriendListItem from './RequestFriendListItem';
 
-const FriendList = ({ data, ListHeaderComponent }) => {
+const RequestFriendList = ({ data, ListHeaderComponent }) => {
   return (
     <FlatList
       style={{ flexGrow: 1 }}
       windowSize={1}
       data={data}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => <FriendListItem item={item} />}
+      renderItem={({ item }) => <RequestFriendListItem item={item} />}
       ListHeaderComponent={ListHeaderComponent}
     ></FlatList>
   );
 };
 
-FriendList.propTypes = {
+RequestFriendList.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default FriendList;
+export default RequestFriendList;
