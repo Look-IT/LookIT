@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import FriendListScreen from '../screens/FriendListScreen';
 import CollectionScreen from '../screens/CollectionScreen';
-import SettingScreen from '../screens/SettingScreen';
+import MyPageScreen from '../screens/MyPageScreen';
+import TestScreen from '../screens/TestScreen';
 import { MainRoutes } from './routes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PRIMARY, WHITE } from '../colors';
@@ -52,6 +53,7 @@ const ContentTab = () => {
           name="친구"
           component={FriendListScreen}
           options={{
+            headerShown: true,
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image
@@ -71,7 +73,7 @@ const ContentTab = () => {
           name="컬렉션"
           component={CollectionScreen}
           options={{
-            headerShown: false,
+            headerShown: true,
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image
@@ -88,10 +90,10 @@ const ContentTab = () => {
           }}
         ></Tab.Screen>
         <Tab.Screen
-          name="MY"
-          component={SettingScreen}
+          name="내 프로필"
+          component={MyPageScreen}
           options={{
-            headerShown: false,
+            headerShown: true,
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image
@@ -104,7 +106,27 @@ const ContentTab = () => {
                   style={styles.image}
                 ></Image>
               );
-              x;
+            },
+          }}
+        ></Tab.Screen>
+        <Tab.Screen
+          name="테스트용"
+          component={TestScreen}
+          options={{
+            backgroundColor: WHITE,
+            headerShown: false,
+            tabBarIcon: (props) => {
+              return props.focused ? (
+                <Image
+                  source={require('../../assets/Icon_Home.png')}
+                  style={styles.image}
+                ></Image>
+              ) : (
+                <Image
+                  source={require('../../assets/Icon_Home-outline.png')}
+                  style={styles.image}
+                ></Image>
+              );
             },
           }}
         ></Tab.Screen>

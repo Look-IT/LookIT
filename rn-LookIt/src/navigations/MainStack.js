@@ -6,6 +6,7 @@ import { PRIMARY, WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
+import CameraScreen from '../screens/CameraScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -30,6 +31,11 @@ const MainStack = () => {
         name={MainRoutes.CONTENT_TAB}
         component={ContentTab}
       ></Stack.Screen>
+      <Stack.Screen
+        name="Camera"
+        component={CameraScreen}
+        options={{ headerLeft: HeaderLeftButton }}
+      />
     </Stack.Navigator>
   );
 };

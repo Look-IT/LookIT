@@ -2,7 +2,7 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import { WHITE } from '../colors';
-const SettingScreen = () => {
+const MyPageScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Setting</Text>
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingScreen;
+export default MyPageScreen;
