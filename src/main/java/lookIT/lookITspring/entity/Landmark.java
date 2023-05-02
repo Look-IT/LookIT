@@ -22,4 +22,15 @@ public class Landmark {
 //  @Column(name = "frame_path")
   private String framePath;
 
+  public String getName() {
+    return name;
+  }
+
+  public String getLandInfo() {
+    return landInfo;
+  }
+
+  public String getFramePath() {
+    return framePath;
+  }
 }

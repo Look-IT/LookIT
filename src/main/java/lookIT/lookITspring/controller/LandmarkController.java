@@ -1,11 +1,16 @@
 package lookIT.lookITspring.controller;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lookIT.lookITspring.dto.AllLandmarkDto;
+import lookIT.lookITspring.dto.LandmarkInfoDto;
+import lookIT.lookITspring.entity.Landmark;
 import lookIT.lookITspring.repository.LandmarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/main")
@@ -27,34 +32,19 @@ public class LandmarkController {
     return result;
   }
 
-  //아이디 값으로 반환
-//  @GetMapping("/landmarks/{landmarkID}")
-//  public ResponseEntity<Landmark> getLandmarkById(@PathVariable Long landmarkID) {
-//    Optional<Landmark> landmark = landmarkRepository.findById(landmarkID);
-//    if (landmark.isPresent()) {
-//      return ResponseEntity.ok(landmark.get());
-//    } else {
-//      return ResponseEntity.notFound().build();
-//    }
-//  }
-
-
-// 전부 반환
-//  @GetMapping("/landmarks")
-//  public List<Landmark> getAllLandmarks(){
-//    return landmarkRepository.findAll();
-//  }
-
-  //지정한 이름으로 반환
-//  @GetMapping("/landmarks")
-//  public ResponseEntity<Landmark> findByName(@RequestParam String name) {
-//    Optional<Landmark> landmark = landmarkRepository.findByName(name);
-//    if (landmark.isPresent()) {
-//      return ResponseEntity.ok(landmark.get());
-//    } else {
-//      return ResponseEntity.notFound().build();
-//    }
-//  }
-
+  //주어진 landmarkID의 정보 반환
+  @GetMapping
+  public ResponseEntity<LandmarkInfoDto> getLandmarkById(@RequestParam Long landmarkID) {
+    Optional<Landmark> landmark = landmarkRepository.findById(landmarkID);
+    if (landmark.isPresent()) {
+      LandmarkInfoDto landmarkInfo = new LandmarkInfoDto(
+          landmark.get().getName(),
+          landmark.get().getLandInfo(),
+          landmark.get().getFramePath());
+      return ResponseEntity.ok(landmarkInfo);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
 
 }
