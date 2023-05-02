@@ -1,0 +1,32 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: Panipani@9090
+
+  #security:
+  #  jwt:
+  #    header: Authorization
+  #    secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  #    token-validity-in-seconds: 86400
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show_sql: true
+    format_sql: true
+
+#    default_batch_fetch_size: 1000
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+  # parameter Binding
