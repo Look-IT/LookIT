@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/memories")
@@ -39,7 +40,11 @@ public class S3Controller {
 
         String fileName = file.getOriginalFilename();
         String folderName = "memoryphoto";
-        String key = folderName + "/" + fileName;
+        LocalDateTime now = LocalDateTime.now();
+        String nowTime = now.toString();
+        System.out.println(nowTime);
+
+        String key = folderName + "/" + fileName + nowTime;
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
 
