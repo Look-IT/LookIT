@@ -1,6 +1,7 @@
 package lookIT.lookITspring.service;
 
 import java.util.Map;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.MemberSignUpRequestDto;
@@ -23,7 +24,6 @@ public class MemberServiceImpl implements MemberService {
 	public Long signUp(MemberSignUpRequestDto requestDto) throws Exception {
 
 		if (memberRepository.findByEmail(requestDto.getEmail()).isPresent()) {
-			//throw new Exception("이미 존재하는 이메일입니다.");
 			throw new IllegalStateException("이미 존재하는 이메일입니다.");
 		}
 
@@ -44,5 +44,16 @@ public class MemberServiceImpl implements MemberService {
 		}
 
 		return jwtProvider.createToken(member.getEmail());
+	}
+
+	@Override
+	public boolean checkIdDuplicate(String tagName){
+		Optional<Member> optionalMember = memberRepository.findByTagName(tagName);
+		try{
+			Member member = optionalMember.get();
+			return false;
+		}catch (Exception e) {
+			return true;
+		}
 	}
 }

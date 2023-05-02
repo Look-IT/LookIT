@@ -13,7 +13,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
 		http
 			.formLogin().disable()
 			.httpBasic().disable()
@@ -24,6 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/member/login").permitAll()
 			.antMatchers("/member/join").permitAll()
+			.antMatchers("/member/join/exists").permitAll()
+			.antMatchers("/memories/upload").permitAll()
 			.antMatchers("/member").hasRole("USER")
 			.anyRequest().authenticated();
 	}

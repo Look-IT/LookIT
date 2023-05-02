@@ -7,10 +7,12 @@ import lookIT.lookITspring.service.MemberService;
 import lookIT.lookITspring.service.MemberServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableWebSecurity
 public class SpringConfig {
 
 	private final MemberRepository memberRepository;
@@ -21,7 +23,7 @@ public class SpringConfig {
 
 	@Bean
 	public PasswordEncoder passwordEncoder(){
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean JwtProvider jwtProvider(){
@@ -37,5 +39,4 @@ public class SpringConfig {
 	public CustomUserDetailsService cumstomUserDetailsService(){
 		return new CustomUserDetailsService(memberRepository);
 	}
-
 }

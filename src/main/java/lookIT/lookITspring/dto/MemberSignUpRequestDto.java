@@ -6,11 +6,13 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lookIT.lookITspring.entity.Member;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class MemberSignUpRequestDto {
 
 	@NotBlank(message = "아이디 입력해주세요.")
