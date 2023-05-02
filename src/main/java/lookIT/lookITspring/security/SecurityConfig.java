@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/member/join").permitAll()
 			.antMatchers("/member/join/exists").permitAll()
 			.antMatchers("/memories/upload").permitAll()
+			.antMatchers("/memories/photo").permitAll()
 			.antMatchers("/member").hasRole("USER")
 			.anyRequest().authenticated();
 	}

@@ -1,6 +1,8 @@
 package lookIT.lookITspring.entity;
 
 import javax.persistence.*;
+import java.util.Map;
+
 @Entity
 @Table(name = "memoryspot")
 public class MemorySpot {
@@ -25,6 +27,23 @@ public class MemorySpot {
     public void setId(MemorySpotId id) {
         this.id = id;
     }
+
+    public Float getSpotLatitude() {
+        return id.getSpotLatitude();
+    }
+
+    public void setSpotLatitude(Float spotLatitude) {
+        id.setSpotLatitude(spotLatitude);
+    }
+
+    public Float getSpotLongitude() {
+        return id.getSpotLongitude();
+    }
+
+    public void setSpotLongitude(Float spotLongitude) {
+        id.setSpotLongitude(spotLongitude);
+    }
+
 
     public String getMemoryPhoto() {
         return memoryPhoto;

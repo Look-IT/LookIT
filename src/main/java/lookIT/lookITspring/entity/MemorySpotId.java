@@ -27,5 +27,19 @@ public class MemorySpotId implements Serializable {
         this.memoryID = memoryID;
     }
 
-    // getters and setters
+    public Float getSpotLatitude() {
+        return spotLatitude;
+    }
+
+    public void setSpotLatitude(Float spotLatitude) {
+        this.spotLatitude = spotLatitude;
+    }
+
+    public Float getSpotLongitude() {
+        return spotLongitude;
+    }
+
+    public void setSpotLongitude(Float spotLongitude) {
+        this.spotLongitude = spotLongitude;
+    }
 }
