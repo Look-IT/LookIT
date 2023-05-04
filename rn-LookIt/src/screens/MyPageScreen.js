@@ -19,6 +19,18 @@ const MyPageScreen = () => {
       thumbnail: '../../assets/main.png',
       tag: ['tag1', 'tag2'],
     },
+    {
+      id: '137',
+      date: '2023.04.29',
+      thumbnail: '../../assets/main.png',
+      tag: ['tag1', 'tag2'],
+    },
+    {
+      id: '139',
+      date: '2023.04.30',
+      thumbnail: '../../assets/main.png',
+      tag: ['tag1', 'tag2'],
+    },
   ]);
 
   return (
