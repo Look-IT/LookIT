@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lookit2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: lookit
+    password: g961180gg
+
+  security:
+    jwt:
+      header: Authorization
+      secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+      token-validity-in-seconds: 86400
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+    show_sql: true
+    format_sql: true
+
+#    default_batch_fetch_size: 1000
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+  # parameter Binding
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIARRCDAQU4Q2MD2GKL
+      secretKey: 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
+    s3:
+      bucket: capstone-lookit
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+server:
+  port: 8080
