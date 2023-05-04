@@ -4,24 +4,38 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { BLACK, PRIMARY, WHITE } from '../colors';
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
+import { Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 const CameraScreen = () => {
+  const navigation = useNavigation();
+
   const [type, setType] = useState(CameraType.back);
   const [camera, setCamera] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
+
+  const width = Dimensions.get('window').width;
+  const height = width * (4 / 3);
 
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
-      setImage(data.uri);
+      const id = Date.now().toString();
+      const newImage = [{ id, data }, ...image];
+      setImage(newImage);
+
+      if (image.length >= 4) {
+        navigation.navigate('');
+      }
     }
   };
 
   return (
     <View style={styles.container}>
       <Camera
-        style={styles.camera}
+        style={[styles.camera, { width: width, height: height }]}
         type={type}
-        ratio="1:1"
+        ratio="4:3"
         ref={(ref) => setCamera(ref)}
       ></Camera>
       <Pressable onPress={takePicture}>
@@ -36,12 +50,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: WHITE,
+    backgroundColor: BLACK,
   },
   camera: {
-    width: '90%',
-    height: 500,
-    backgroundColor: BLACK,
+    backgroundColror: BLACK,
   },
   shotButton: {
     width: 48,

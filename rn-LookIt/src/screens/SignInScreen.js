@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const SignInScreen = () => {
   const [email, setEmail] = useState(''); //이메일 상태 변수
   const [password, setPassword] = useState(''); // 비밀번호 상태 변수
@@ -25,12 +26,23 @@ const SignInScreen = () => {
       try {
         setIsLoading(true);
         Keyboard.dismiss();
-        const data = await signIn(email, password);
-        console.log(data);
+
+        const response = await signIn(
+          'https://reqres.in/api/login',
+          email,
+          password
+        );
+
         setIsLoading(false);
-        setUser(data);
+        if (response.data && response.data.token) {
+          setUser(email);
+        } else {
+          throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');
+        }
       } catch (error) {
-        Alert.alert('로그인 실패', error, [
+        console.log(error);
+
+        Alert.alert('로그인 실패', '로그인이 실패했어', [
           {
             text: '확인',
             style: 'default',

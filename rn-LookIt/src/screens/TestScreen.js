@@ -11,12 +11,10 @@ import { Camera, CameraType } from 'expo-camera';
 const TestScreen = () => {
   const navigation = useNavigation();
 
-  const [hasPermission, setHasPermission] = useState(null);
-
   const onGetPermission = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
-    if (hasPermission === null || hasPermission === false) {
+
+    if (status !== 'granted') {
       Alert.alert('카메라 접근 권한', '카메라 접근 권한이 필요합니다.', [
         {
           text: '확인',
@@ -25,7 +23,7 @@ const TestScreen = () => {
       ]);
       return;
     }
-    console.log(hasPermission);
+    console.log(status);
     navigation.navigate('Camera');
   };
 

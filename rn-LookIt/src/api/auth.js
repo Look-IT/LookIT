@@ -1,14 +1,9 @@
-const USER_EMAIL = 'my@email.com';
-const USER_PASSWORD = '1234';
+import axios from 'axios';
 
-export const signIn = (email, password) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === USER_EMAIL && password == USER_PASSWORD) {
-        resolve(email);
-      } else {
-        reject('이메일 혹은 비밀번호가 올바르지 않습니다.');
-      }
-    }, 1000);
+export const signIn = async (url, email, password) => {
+  return await axios({
+    method: 'POST',
+    url: 'https://reqres.in/api/login',
+    data: { email: email, password: password },
   });
 };
