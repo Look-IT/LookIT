@@ -1,8 +1,9 @@
 plugins {
-	id 'java'ent' version '1.0.15.RELEASE'
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
-id 'org.springframework.boot' version '2.7.10'
-id 'io.spring.dependency-managem
+
 
 group = 'lookIT'
 version = '0.0.1-SNAPSHOT'
@@ -29,9 +30,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	testImplementation 'org.projectlombok:lombok:1.18.22'
     testImplementation 'org.testng:testng:7.1.0'
-	testImplementation 'junit:junit:4.13.1'
-	testImplementation 'junit:junit:4.13.1'
-    testImplementation 'junit:junit:4.13.1'
+
+	testImplementation 'org.mockito:mockito-core:3.9.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:4.2.0'
 
     compileOnly 'org.projectlombok:lombok'
 
@@ -46,7 +47,12 @@ dependencies {
 	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 	testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 test {
+	useJUnitPlatform()
+}
+tasks.named('test') {
 	useJUnitPlatform()
 }
