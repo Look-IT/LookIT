@@ -13,33 +13,33 @@ import java.io.Serializable;
 public class MemorySpotId implements Serializable {
 
     @Column(name = "spotLatitude")
-    private Float spotLatitude;
+    private Double spotLatitude;
 
     @Column(name = "spotLongitude")
-    private Float spotLongitude;
+    private Double spotLongitude;
 
     @Column(name = "memoryID")
     private Integer memoryID;
 
-    public MemorySpotId(Float spotLatitude, Float spotLongitude, Integer memoryID) {
+    public MemorySpotId(Double spotLatitude, Double spotLongitude, Integer memoryID) {
         this.spotLatitude = spotLatitude;
         this.spotLongitude = spotLongitude;
         this.memoryID = memoryID;
     }
 
-    public Float getSpotLatitude() {
+    public Double getSpotLatitude() {
         return spotLatitude;
     }
 
-    public void setSpotLatitude(Float spotLatitude) {
+    public void setSpotLatitude(Double spotLatitude) {
         this.spotLatitude = spotLatitude;
     }
 
-    public Float getSpotLongitude() {
+    public Double getSpotLongitude() {
         return spotLongitude;
     }
 
-    public void setSpotLongitude(Float spotLongitude) {
+    public void setSpotLongitude(Double spotLongitude) {
         this.spotLongitude = spotLongitude;
     }
 }

@@ -13,7 +13,7 @@ public class Memory {
     @Column(name = "memoryID")
     private Integer memoryId;
 
-    @Column(name = "creatAt", nullable = false, updatable = false,
+    @Column(name = "createAt", nullable = false, updatable = false,
             insertable = false, columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
