@@ -7,6 +7,7 @@ import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
 import CameraScreen from '../screens/CameraScreen';
+import FourPictureEditScreen from '../screens/FourPictureEditScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -34,6 +35,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Camera"
         component={CameraScreen}
+        options={{ headerLeft: HeaderLeftButton }}
+      />
+      <Stack.Screen
+        name="FourPictureEditScreen"
+        component={FourPictureEditScreen}
         options={{ headerLeft: HeaderLeftButton }}
       />
     </Stack.Navigator>

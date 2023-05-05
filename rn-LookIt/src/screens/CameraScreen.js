@@ -25,7 +25,7 @@ const CameraScreen = () => {
       setImage(newImage);
 
       if (image.length >= 4) {
-        navigation.navigate('');
+        navigation.navigate('FourPictureEditScreen');
       }
     }
   };
