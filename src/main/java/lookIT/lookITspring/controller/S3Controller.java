@@ -28,14 +28,13 @@ public class S3Controller {
     @Autowired
     private AmazonS3 s3Client;
 
-    @Autowired
     private MemorySpotService memorySpotService;
 
     @PostMapping("/upload")
     public boolean uploadFile(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("spotLatitude") Float spotLatitude,
-            @RequestParam("spotLongitude") Float spotLongitude,
+            @RequestParam("spotLatitude") Double spotLatitude,
+            @RequestParam("spotLongitude") Double spotLongitude,
             @RequestParam("memoryID") Integer memoryID
             ) throws IOException {
 
@@ -68,6 +67,4 @@ public class S3Controller {
     public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryID") Integer memoryID) throws Exception {
             return memorySpotService.showAllMemorySpotPhotos(memoryID);
     }
-
-
 }

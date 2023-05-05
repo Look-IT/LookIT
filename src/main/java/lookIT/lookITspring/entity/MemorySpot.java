@@ -28,19 +28,19 @@ public class MemorySpot {
         this.id = id;
     }
 
-    public Float getSpotLatitude() {
+    public Double getSpotLatitude() {
         return id.getSpotLatitude();
     }
 
-    public void setSpotLatitude(Float spotLatitude) {
+    public void setSpotLatitude(Double spotLatitude) {
         id.setSpotLatitude(spotLatitude);
     }
 
-    public Float getSpotLongitude() {
+    public Double getSpotLongitude() {
         return id.getSpotLongitude();
     }
 
-    public void setSpotLongitude(Float spotLongitude) {
+    public void setSpotLongitude(Double spotLongitude) {
         id.setSpotLongitude(spotLongitude);
     }
 

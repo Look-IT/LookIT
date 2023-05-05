@@ -5,19 +5,22 @@ import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.MemorySpot;
 import lookIT.lookITspring.entity.MemorySpotId;
 import lookIT.lookITspring.repository.MemorySpotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
 @RequiredArgsConstructor
+@Transactional
 public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
 
-    public boolean createNewMemorySpot(Float spotLatitude, Float spotLongitude, Integer memoryID, String imageUrl) {
+    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Integer memoryID, String imageUrl) {
         try {
             MemorySpotId id = MemorySpotId.builder().memoryID(memoryID).spotLatitude(spotLatitude).spotLongitude(spotLongitude).build();
             MemorySpot memorySpot = new MemorySpot(id, imageUrl);
@@ -35,20 +38,7 @@ public class MemorySpotService {
             if(memorySpots.isEmpty()) {
                 throw new Exception("No memory spot found for the given memory ID.");
             }
-            /*
-            List<String> photoUrls = new ArrayList<>();
-            for (MemorySpot memorySpot : memorySpots) {
-                photoUrls.add(memorySpot.getMemoryPhoto());
-            }
-             */
-            /*
-            return memorySpots.stream().peek(memorySpot -> {
-                MemorySpotId id = memorySpot.getId();
-                id.setSpotLatitude(memorySpot.getSpotLatitude());
-                id.setSpotLongitude(memorySpot.getSpotLongitude());
-            }).collect(Collectors.toList());
 
-             */
             List<Map<String, Object>> result = new ArrayList<>();
             for (MemorySpot memorySpot : memorySpots) {
                 Map<String, Object> spot = new HashMap<>();
@@ -63,6 +53,5 @@ public class MemorySpotService {
             throw e;
         }
     }
-
 
 }
