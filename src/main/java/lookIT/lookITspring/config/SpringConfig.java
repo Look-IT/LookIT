@@ -18,10 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringConfig {
 
 	private final MemberRepository memberRepository;
-	private final MemorySpotRepository memorySpotRepository;
-	public SpringConfig(MemberRepository memberRepository, MemorySpotRepository memorySpotRepository) {
+
+	public SpringConfig(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
-		this.memorySpotRepository = memorySpotRepository;
 	}
 
 	@Bean
@@ -41,10 +40,5 @@ public class SpringConfig {
 	@Bean
 	public CustomUserDetailsService cumstomUserDetailsService(){
 		return new CustomUserDetailsService(memberRepository);
-	}
-
-	@Bean
-	public MemorySpotService memorySpotService() {
-		return new MemorySpotService(memorySpotRepository);
 	}
 }

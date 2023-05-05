@@ -28,6 +28,7 @@ public class S3Controller {
     @Autowired
     private AmazonS3 s3Client;
 
+    @Autowired
     private MemorySpotService memorySpotService;
 
     @PostMapping("/upload")

@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 @RequiredArgsConstructor
-@Transactional
 public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
 
@@ -53,5 +53,4 @@ public class MemorySpotService {
             throw e;
         }
     }
-
 }
