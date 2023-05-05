@@ -1,8 +1,8 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.10'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'ent' version '1.0.15.RELEASE'
 }
+id 'org.springframework.boot' version '2.7.10'
+id 'io.spring.dependency-managem
 
 group = 'lookIT'
 version = '0.0.1-SNAPSHOT'
@@ -31,22 +31,18 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 
+	implementation 'org.springframework:spring-web:5.3.9'
+
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 	testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
 }
-
 test {
 	useJUnitPlatform()
 }
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
