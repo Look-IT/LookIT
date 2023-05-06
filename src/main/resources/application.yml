@@ -1,12 +1,6 @@
 spring:
   profiles:
-    active: local
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    active: deploy
 
   security:
     jwt:
@@ -45,3 +39,29 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: deploy
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST}:3306/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
