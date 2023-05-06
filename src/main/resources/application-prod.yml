@@ -3,6 +3,12 @@ spring:
     active:
       on-profile: prod
 
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+
   jpa:
     show-sql: false
     properties:
