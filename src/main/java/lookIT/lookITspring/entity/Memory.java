@@ -5,12 +5,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "memory")
+@Table(name = "Memory")
 public class Memory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memoryID")
+    @Column(name = "memoryId")
     private Integer memoryId;
 
     @Column(name = "createAt", nullable = false, updatable = false,
@@ -18,7 +18,7 @@ public class Memory {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = "userID", nullable = false)
+    @Column(name = "userId", nullable = false)
     private Integer userId;
 
     // constructors, getters, and setters

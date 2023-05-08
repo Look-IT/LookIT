@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MemorySpotRepository extends JpaRepository<MemorySpot, MemorySpotId> {
-    List<MemorySpot> findAllById_MemoryID(Integer memoryID);
+    List<MemorySpot> findAllById_MemoryId(Integer memoryId);
 }

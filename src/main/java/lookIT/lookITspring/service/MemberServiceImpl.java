@@ -47,8 +47,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean checkIdDuplicate(String tagName){
-		Optional<Member> optionalMember = memberRepository.findByTagName(tagName);
+	public boolean checkIdDuplicate(String tagId){
+		Optional<Member> optionalMember = memberRepository.findByTagId(tagId);
 		try{
 			Member member = optionalMember.get();
 			return false;

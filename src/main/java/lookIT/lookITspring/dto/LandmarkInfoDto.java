@@ -1,26 +1,26 @@
 package lookIT.lookITspring.dto;
 
 public class LandmarkInfoDto {
-  private String name;
+  private String landmarkName;
   private String landInfo;
-  private String framePath;
+  private String frameUrl;
 
-  public LandmarkInfoDto(String name, String landInfo, String framePath) {
-    this.name = name;
+  public LandmarkInfoDto(String landmarkName, String landInfo, String frameUrl) {
+    this.landmarkName = landmarkName;
     this.landInfo = landInfo;
-    this.framePath = framePath;
+    this.frameUrl = frameUrl;
   }
 
-  public String getName() {
-    return name;
+  public String getLandmarkName() {
+    return landmarkName;
   }
 
   public String getLandInfo() {
     return landInfo;
   }
 
-  public String getFramePath() {
-    return framePath;
+  public String getFrameUrl() {
+    return frameUrl;
   }
 }
 

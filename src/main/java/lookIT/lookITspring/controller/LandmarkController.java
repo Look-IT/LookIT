@@ -20,7 +20,7 @@ public class LandmarkController {
   @Autowired
   private LandmarkRepository landmarkRepository;
 
-  //모든 랜드마크의 landmarkID, landLatitude, landLongitude 반환
+  //모든 랜드마크의 landmarkId, landLatitude, landLongitude 반환
   @GetMapping("/landmarks")
   public List<AllLandmarkDto> getAllLandmarks() {
     List<Object[]> landmarks = landmarkRepository.findAllLandmarks();
@@ -38,9 +38,9 @@ public class LandmarkController {
     Optional<Landmark> landmark = landmarkRepository.findById(landmarkID);
     if (landmark.isPresent()) {
       LandmarkInfoDto landmarkInfo = new LandmarkInfoDto(
-          landmark.get().getName(),
+          landmark.get().getLandmarkName(),
           landmark.get().getLandInfo(),
-          landmark.get().getFramePath());
+          landmark.get().getFrameUrl());
       return ResponseEntity.ok(landmarkInfo);
     } else {
       return ResponseEntity.notFound().build();
