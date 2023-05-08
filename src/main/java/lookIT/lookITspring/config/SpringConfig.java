@@ -1,5 +1,6 @@
 package lookIT.lookITspring.config;
 
+import lookIT.lookITspring.repository.LandmarkRepository;
 import lookIT.lookITspring.repository.MemberRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import lookIT.lookITspring.security.CustomUserDetailsService;
@@ -18,9 +19,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringConfig {
 
 	private final MemberRepository memberRepository;
+	private final MemorySpotRepository memorySpotRepository;
+	private final LandmarkRepository landmarkRepository;
 
-	public SpringConfig(MemberRepository memberRepository) {
+	public SpringConfig(MemberRepository memberRepository,
+		MemorySpotRepository memorySpotRepository, LandmarkRepository landmarkRepository) {
 		this.memberRepository = memberRepository;
+		this.memorySpotRepository = memorySpotRepository;
+		this.landmarkRepository = landmarkRepository;
 	}
 
 	@Bean
@@ -29,7 +35,7 @@ public class SpringConfig {
 	}
 
 	@Bean JwtProvider jwtProvider(){
-		return new JwtProvider(cumstomUserDetailsService());
+		return new JwtProvider(customUserDetailsService());
 	}
 
 	@Bean
@@ -38,7 +44,12 @@ public class SpringConfig {
 	}
 
 	@Bean
-	public CustomUserDetailsService cumstomUserDetailsService(){
+	public CustomUserDetailsService customUserDetailsService(){
 		return new CustomUserDetailsService(memberRepository);
+	}
+
+	@Bean
+	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository){
+		return new MemorySpotService(memorySpotRepository);
 	}
 }
