@@ -20,7 +20,7 @@ public class LandmarkController {
   @Autowired
   private LandmarkRepository landmarkRepository;
 
-  //모든 랜드마크의 landmarkID, landLatitude, landLongitude 반환
+  //모든 랜드마크의 landmarkId, landLatitude, landLongitude 반환
   @GetMapping("/landmarks")
   public List<AllLandmarkDto> getAllLandmarks() {
     List<Object[]> landmarks = landmarkRepository.findAllLandmarks();

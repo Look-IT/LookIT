@@ -22,12 +22,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class Member extends BaseTimeEntity {
 
 	@Id
-	@Column(name = "userID")
+	@Column(name = "userId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "tagName", length = 20, unique = true)
-	private String tagName;
+	@Column(name = "tagId", length = 20, unique = true)
+	private String tagId;
 
 	@Column(length = 50, unique = true)
 	private String email;

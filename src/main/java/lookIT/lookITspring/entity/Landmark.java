@@ -6,7 +6,7 @@ import javax.persistence.Id;
 @Entity
 public class Landmark {
   @Id
-  private Long landmarkID;
+  private Long landmarkId;
 
   private String name;
 

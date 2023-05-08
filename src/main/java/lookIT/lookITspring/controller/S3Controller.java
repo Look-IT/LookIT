@@ -36,7 +36,7 @@ public class S3Controller {
             @RequestParam("file") MultipartFile file,
             @RequestParam("spotLatitude") Double spotLatitude,
             @RequestParam("spotLongitude") Double spotLongitude,
-            @RequestParam("memoryID") Integer memoryID
+            @RequestParam("memoryId") Integer memoryId
             ) throws IOException {
 
         String fileName = file.getOriginalFilename();
@@ -59,13 +59,13 @@ public class S3Controller {
             return false;
         }
         else{
-            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryID, imageUrl);
+            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId, imageUrl);
         }
 
     }
 
     @GetMapping("/photo")
-    public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryID") Integer memoryID) throws Exception {
-            return memorySpotService.showAllMemorySpotPhotos(memoryID);
+    public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Integer memoryId) throws Exception {
+            return memorySpotService.showAllMemorySpotPhotos(memoryId);
     }
 }

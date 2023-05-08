@@ -37,7 +37,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/join/exists")
-	public ResponseEntity<Boolean> checkIdDuplicate(@RequestParam("tagName") String tagName){
-		return ResponseEntity.ok(memberService.checkIdDuplicate(tagName));
+	public ResponseEntity<Boolean> checkIdDuplicate(@RequestParam("tagId") String tagId){
+		return ResponseEntity.ok(memberService.checkIdDuplicate(tagId));
 	}
 }

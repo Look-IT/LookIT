@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemorySpotRepository extends JpaRepository<MemorySpot, MemorySpotId> {
-    //MemorySpot findBySpotLatitudeAndSpotLongitudeAndMemoryID(Float spotLatitude, Float spotLongitude, Integer memoryID);
+    //MemorySpot findBySpotLatitudeAndSpotLongitudeAndMemoryId(Float spotLatitude, Float spotLongitude, Integer memoryId);
     Optional<MemorySpot> findByIdSpotLatitudeAndIdSpotLongitudeAndIdMemoryID(Double spotLatitude, Double spotLongitude, Integer memoryId);
 
-    List<MemorySpot> findAllById_MemoryID(Integer memoryID);
+    List<MemorySpot> findAllById_MemoryId(Integer memoryId);
 }
