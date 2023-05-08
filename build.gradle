@@ -34,8 +34,10 @@ dependencies {
 
 	testImplementation 'org.mockito:mockito-core:3.9.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:4.2.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
 
-    compileOnly 'org.projectlombok:lombok'
+
+	compileOnly 'org.projectlombok:lombok'
 
 	implementation 'org.springframework:spring-web:5.3.9'
 

@@ -26,6 +26,12 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 @Transactional
 public class MemorySpotServiceTest {
+    @Mock
+    private MemorySpotRepository memorySpotRepository;
+
+    @InjectMocks
+    private MemorySpotService memorySpotService;
+
 
     @Test
     public void testCreateNewMemorySpot() {
@@ -41,17 +47,12 @@ public class MemorySpotServiceTest {
         assertTrue(result);
     }
 
-    @Mock
-    private MemorySpotRepository memorySpotRepository;
 
-    @InjectMocks
-    private MemorySpotService memorySpotService;
 
     @Test
     public void testShowAllMemorySpotPhotos() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        // Given
         Integer memoryID = 1;
         List<MemorySpot> memorySpots = new ArrayList<>();
         MemorySpotId id1 = new MemorySpotId(37.564213, 127.001698, memoryID);
