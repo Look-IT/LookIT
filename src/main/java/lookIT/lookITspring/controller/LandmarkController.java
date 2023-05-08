@@ -40,7 +40,7 @@ public class LandmarkController {
       LandmarkInfoDto landmarkInfo = new LandmarkInfoDto(
           landmark.get().getLandmarkName(),
           landmark.get().getLandInfo(),
-          landmark.get().getFramePath());
+          landmark.get().getFrameUrl());
       return ResponseEntity.ok(landmarkInfo);
     } else {
       return ResponseEntity.notFound().build();

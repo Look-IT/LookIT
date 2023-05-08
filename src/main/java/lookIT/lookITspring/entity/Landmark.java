@@ -10,17 +10,13 @@ public class Landmark {
 
   private String landmarkName;
 
-//  @Column(name = "land_latitude")
   private Double landLatitude;
 
-//  @Column(name = "land_longitude")
   private Double landLongitude;
 
-//  @Column(name = "land_info")
   private String landInfo;
 
-//  @Column(name = "frame_path")
-  private String framePath;
+  private String frameUrl;
 
   public String getLandmarkName() {
     return landmarkName;
@@ -30,7 +26,5 @@ public class Landmark {
     return landInfo;
   }
 
-  public String getFramePath() {
-    return framePath;
-  }
+  public String getFrameUrl() { return frameUrl; }
 }
