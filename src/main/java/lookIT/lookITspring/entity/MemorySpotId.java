@@ -18,13 +18,13 @@ public class MemorySpotId implements Serializable {
     @Column(name = "spotLongitude")
     private Double spotLongitude;
 
-    @Column(name = "memoryID")
-    private Integer memoryID;
+    @Column(name = "memoryId")
+    private Integer memoryId;
 
-    public MemorySpotId(Double spotLatitude, Double spotLongitude, Integer memoryID) {
+    public MemorySpotId(Double spotLatitude, Double spotLongitude, Integer memoryId) {
         this.spotLatitude = spotLatitude;
         this.spotLongitude = spotLongitude;
-        this.memoryID = memoryID;
+        this.memoryId = memoryId;
     }
 
     public Double getSpotLatitude() {

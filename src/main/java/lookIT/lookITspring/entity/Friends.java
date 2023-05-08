@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 public class Friends {
   @Id
   @NotNull
-  private Integer friendID;
+  private Integer friendId;
   @NotNull
-  private String uesrID;
+  private String uesrId;
   @NotNull
   private String status;
 

@@ -1,22 +1,22 @@
 package lookIT.lookITspring.dto;
 
 public class AllLandmarkDto {
-  private Long landmarkID;
+  private Long landmarkId;
   private Double landLatitude;
   private Double landLongitude;
 
-  public AllLandmarkDto(Long landmarkID, Double landLatitude, Double landLongitude) {
-    this.landmarkID = landmarkID;
+  public AllLandmarkDto(Long landmarkId, Double landLatitude, Double landLongitude) {
+    this.landmarkId = landmarkId;
     this.landLatitude = landLatitude;
     this.landLongitude = landLongitude;
   }
 
-  public Long getLandmarkID() {
-    return landmarkID;
+  public Long getLandmarkId() {
+    return landmarkId;
   }
 
-  public void setLandmarkID(Long landmarkID) {
-    this.landmarkID = landmarkID;
+  public void setLandmarkId(Long landmarkId) {
+    this.landmarkId = landmarkId;
   }
 
   public Double getLandLatitude() {

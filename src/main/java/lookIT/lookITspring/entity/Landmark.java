@@ -6,31 +6,25 @@ import javax.persistence.Id;
 @Entity
 public class Landmark {
   @Id
-  private Long landmarkID;
+  private Long landmarkId;
 
-  private String name;
+  private String landmarkName;
 
-//  @Column(name = "land_latitude")
   private Double landLatitude;
 
-//  @Column(name = "land_longitude")
   private Double landLongitude;
 
-//  @Column(name = "land_info")
   private String landInfo;
 
-//  @Column(name = "frame_path")
-  private String framePath;
+  private String frameUrl;
 
-  public String getName() {
-    return name;
+  public String getLandmarkName() {
+    return landmarkName;
   }
 
   public String getLandInfo() {
     return landInfo;
   }
 
-  public String getFramePath() {
-    return framePath;
-  }
+  public String getFrameUrl() { return frameUrl; }
 }
