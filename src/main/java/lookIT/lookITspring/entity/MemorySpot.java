@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Map;
 
 @Entity
-@Table(name = "memoryspot")
+@Table(name = "MemorySpot")
 public class MemorySpot {
 
     @EmbeddedId
