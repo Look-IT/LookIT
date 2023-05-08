@@ -8,7 +8,7 @@ public class Landmark {
   @Id
   private Long landmarkId;
 
-  private String name;
+  private String landmarkName;
 
 //  @Column(name = "land_latitude")
   private Double landLatitude;
@@ -22,8 +22,8 @@ public class Landmark {
 //  @Column(name = "frame_path")
   private String framePath;
 
-  public String getName() {
-    return name;
+  public String getLandmarkName() {
+    return landmarkName;
   }
 
   public String getLandInfo() {

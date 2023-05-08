@@ -38,7 +38,7 @@ public class LandmarkController {
     Optional<Landmark> landmark = landmarkRepository.findById(landmarkID);
     if (landmark.isPresent()) {
       LandmarkInfoDto landmarkInfo = new LandmarkInfoDto(
-          landmark.get().getName(),
+          landmark.get().getLandmarkName(),
           landmark.get().getLandInfo(),
           landmark.get().getFramePath());
       return ResponseEntity.ok(landmarkInfo);

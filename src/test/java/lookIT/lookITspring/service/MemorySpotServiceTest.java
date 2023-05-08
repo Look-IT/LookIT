@@ -33,10 +33,10 @@ public class MemorySpotServiceTest {
 
         Double spotLatitude = 37.12345;
         Double spotLongitude = 127.12345;
-        Integer memoryID = 1;
+        Integer memoryId = 1;
         String imageUrl = "http://example.com/image.jpg";
 
-        boolean result = memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryID, imageUrl);
+        boolean result = memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId, imageUrl);
 
         assertTrue(result);
     }
@@ -52,18 +52,18 @@ public class MemorySpotServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Given
-        Integer memoryID = 1;
+        Integer memoryId = 1;
         List<MemorySpot> memorySpots = new ArrayList<>();
-        MemorySpotId id1 = new MemorySpotId(37.564213, 127.001698, memoryID);
+        MemorySpotId id1 = new MemorySpotId(37.564213, 127.001698, memoryId);
         MemorySpot memorySpot1 = new MemorySpot(id1, "http://example.com/image1.jpg");
-        MemorySpotId id2 = new MemorySpotId(37.565513, 127.002398, memoryID);
+        MemorySpotId id2 = new MemorySpotId(37.565513, 127.002398, memoryId);
         MemorySpot memorySpot2 = new MemorySpot(id2, "http://example.com/image2.jpg");
         memorySpots.add(memorySpot1);
         memorySpots.add(memorySpot2);
 
-        when(memorySpotRepository.findAllById_MemoryID(memoryID)).thenReturn(memorySpots);
+        when(memorySpotRepository.findAllById_MemoryId(memoryId)).thenReturn(memorySpots);
 
-        List<Map<String, Object>> result = memorySpotService.showAllMemorySpotPhotos(memoryID);
+        List<Map<String, Object>> result = memorySpotService.showAllMemorySpotPhotos(memoryId);
 
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("http://example.com/image1.jpg", result.get(0).get("memoryPhoto"));

@@ -40,7 +40,7 @@ public class MemberServiceIntegrationTest {
 
 		//Then
 		Member findMember = memberRepository.findById(saveId).get();
-		assertEquals(member.getTagName(), findMember.getTagName());
+		assertEquals(member.getTagId(), findMember.getTagId());
 	}
 
 	@Test
