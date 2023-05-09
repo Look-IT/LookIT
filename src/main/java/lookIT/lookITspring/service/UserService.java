@@ -1,11 +1,11 @@
 package lookIT.lookITspring.service;
 
 import java.util.Map;
-import lookIT.lookITspring.dto.MemberSignUpRequestDto;
+import lookIT.lookITspring.dto.UserJoinRequestDto;
 
-public interface MemberService {
+public interface UserService {
 
-	public Long signUp(MemberSignUpRequestDto requestDto) throws Exception;
+	public Long join(UserJoinRequestDto requestDto) throws Exception;
 	public String login(Map<String, String> members);
 	public boolean checkIdDuplicate(String tagId);
 }

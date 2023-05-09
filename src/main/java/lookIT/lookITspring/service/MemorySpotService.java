@@ -1,9 +1,12 @@
 package lookIT.lookITspring.service;
 
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lookIT.lookITspring.entity.Memory;
 import lookIT.lookITspring.entity.MemorySpot;
 import lookIT.lookITspring.entity.MemorySpotId;
+import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +21,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
+    private final MemoryRepository memoryRepository;
 
-    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Integer memoryId, String imageUrl) {
+    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl) {
         try {
-            MemorySpotId id = MemorySpotId.builder().memoryId(memoryId).spotLatitude(spotLatitude).spotLongitude(spotLongitude).build();
+            Optional<Memory> memory = memoryRepository.findById(memoryId);
+            MemorySpotId id = MemorySpotId.builder().memory(memory.get()).spotLatitude(spotLatitude).spotLongitude(spotLongitude).build();
             MemorySpot memorySpot = new MemorySpot(id, imageUrl);
             memorySpotRepository.save(memorySpot);
             return true;
@@ -31,9 +36,10 @@ public class MemorySpotService {
         }
     }
 
-    public List<Map<String, Object>> showAllMemorySpotPhotos(Integer memoryId) throws Exception {
+    public List<Map<String, Object>> showAllMemorySpotPhotos(Long memoryId) throws Exception {
         try {
-            List<MemorySpot> memorySpots = memorySpotRepository.findAllById_MemoryId(memoryId);
+            Optional<Memory> memory = memoryRepository.findById(memoryId);
+            List<MemorySpot> memorySpots = memorySpotRepository.findAllById_Memory(memory.get());
             if(memorySpots.isEmpty()) {
                 throw new Exception("No memory spot found for the given memory Id.");
             }

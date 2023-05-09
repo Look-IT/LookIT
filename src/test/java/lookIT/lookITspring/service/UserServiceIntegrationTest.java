@@ -1,14 +1,12 @@
-package lookIT.lookITspring;
+package lookIT.lookITspring.service;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lookIT.lookITspring.dto.MemberSignUpRequestDto;
-import lookIT.lookITspring.entity.Member;
-import lookIT.lookITspring.repository.MemberRepository;
+import lookIT.lookITspring.dto.UserJoinRequestDto;
+import lookIT.lookITspring.entity.User;
+import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.security.JwtProvider;
-import lookIT.lookITspring.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-public class MemberServiceIntegrationTest {
+public class UserServiceIntegrationTest {
 
-	@Autowired MemberService memberService;
-	@Autowired MemberRepository memberRepository;
+	@Autowired
+	UserService userService;
+	@Autowired
+	UserRepository userRepository;
 	@Autowired JwtProvider jwtProvider;
 
 	@Test
@@ -33,14 +33,14 @@ public class MemberServiceIntegrationTest {
 		String password = "12345abc!";
 		String nickName = "abcChocolate";
 
-		MemberSignUpRequestDto member = new MemberSignUpRequestDto(tagName, email, password, nickName);
+		UserJoinRequestDto member = new UserJoinRequestDto(tagName, email, password, nickName);
 
 		//When
-		Long saveId = memberService.signUp(member);
+		Integer saveId = userService.join(member);
 
 		//Then
-		Member findMember = memberRepository.findById(saveId).get();
-		assertEquals(member.getTagId(), findMember.getTagId());
+		User findUser = userRepository.findById(saveId).get();
+		assertEquals(member.getTagId(), findUser.getTagId());
 	}
 
 	@Test
@@ -51,12 +51,12 @@ public class MemberServiceIntegrationTest {
 		String password = "12345abc!";
 		String nickName = "abcChocolate";
 
-		MemberSignUpRequestDto member1 = new MemberSignUpRequestDto(tagName, email, password, nickName);
-		MemberSignUpRequestDto member2 = new MemberSignUpRequestDto(tagName, email, password, nickName);
+		UserJoinRequestDto member1 = new UserJoinRequestDto(tagName, email, password, nickName);
+		UserJoinRequestDto member2 = new UserJoinRequestDto(tagName, email, password, nickName);
 		//When
-		memberService.signUp(member1);
+		userService.join(member1);
 		IllegalStateException e = assertThrows(IllegalStateException.class,
-			() -> memberService.signUp(member2)); // 예외가 발생해야 한다.
+			() -> userService.join(member2)); // 예외가 발생해야 한다.
 
 		assertThat(e.getMessage()).isEqualTo("이미 존재하는 이메일입니다.");
 	}
@@ -69,15 +69,15 @@ public class MemberServiceIntegrationTest {
 		String email = "abc@ajou.ac.kr";
 		String password = "12345abc!";
 		String nickName = "abcChocolate";
-		MemberSignUpRequestDto member1 = new MemberSignUpRequestDto(tagName, email, password, nickName);
-		Long saveId = memberService.signUp(member1);
+		UserJoinRequestDto member1 = new UserJoinRequestDto(tagName, email, password, nickName);
+		Integer saveId = userService.join(member1);
 
 		Map<String, String> member = new HashMap<>();
 		member.put("email", email);
 		member.put("password", password);
 
 		//When
-		String token = memberService.login(member);
+		String token = userService.login(member);
 
 		//Then
 		String findToken = jwtProvider.createToken(email);

@@ -1,14 +1,23 @@
 package lookIT.lookITspring.entity;
 
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-@Builder
+
+
 @Embeddable
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class MemorySpotId implements Serializable {
 
@@ -18,28 +27,7 @@ public class MemorySpotId implements Serializable {
     @Column(name = "spotLongitude")
     private Double spotLongitude;
 
-    @Column(name = "memoryId")
-    private Integer memoryId;
-
-    public MemorySpotId(Double spotLatitude, Double spotLongitude, Integer memoryId) {
-        this.spotLatitude = spotLatitude;
-        this.spotLongitude = spotLongitude;
-        this.memoryId = memoryId;
-    }
-
-    public Double getSpotLatitude() {
-        return spotLatitude;
-    }
-
-    public void setSpotLatitude(Double spotLatitude) {
-        this.spotLatitude = spotLatitude;
-    }
-
-    public Double getSpotLongitude() {
-        return spotLongitude;
-    }
-
-    public void setSpotLongitude(Double spotLongitude) {
-        this.spotLongitude = spotLongitude;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memoryId", nullable = false)
+    private Memory memory;
 }

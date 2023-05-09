@@ -1,24 +1,29 @@
 package lookIT.lookITspring.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Embeddable
 public class InfoTagsId implements Serializable {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "memoryId")
+  private Memory memory;
 
-  @ManyToOne(targetEntity = Memory.class)
-  @JoinColumn
-  private Integer memoryId;
-
+  @Column(name = "info")
   private String info;
-
 }

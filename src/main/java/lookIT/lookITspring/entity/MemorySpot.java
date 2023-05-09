@@ -2,55 +2,23 @@ package lookIT.lookITspring.entity;
 
 import javax.persistence.*;
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "Memoryspot")
+@Table(name = "MemorySpot")
 public class MemorySpot {
 
     @EmbeddedId
     private MemorySpotId id;
 
-    @Column(name = "memoryPhoto", length = 255)
+    @Column(name = "memoryPhoto")
     private String memoryPhoto;
-
-    public MemorySpot() {}
-    public MemorySpot(MemorySpotId id, String memoryPhoto) {
-        this.id = id;
-        this.memoryPhoto = memoryPhoto;
-    }
-
-
-    public MemorySpotId getId() {
-        return id;
-    }
-
-    public void setId(MemorySpotId id) {
-        this.id = id;
-    }
-
-    public Double getSpotLatitude() {
-        return id.getSpotLatitude();
-    }
-
-    public void setSpotLatitude(Double spotLatitude) {
-        id.setSpotLatitude(spotLatitude);
-    }
-
-    public Double getSpotLongitude() {
-        return id.getSpotLongitude();
-    }
-
-    public void setSpotLongitude(Double spotLongitude) {
-        id.setSpotLongitude(spotLongitude);
-    }
-
-
-    public String getMemoryPhoto() {
-        return memoryPhoto;
-    }
-
-    public void setMemoryPhoto(String memoryPhoto) {
-        this.memoryPhoto = memoryPhoto;
-    }
-
 }

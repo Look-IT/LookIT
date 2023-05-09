@@ -1,8 +1,8 @@
 package lookIT.lookITspring.security;
 
 import lombok.RequiredArgsConstructor;
-import lookIT.lookITspring.entity.Member;
-import lookIT.lookITspring.repository.MemberRepository;
+import lookIT.lookITspring.entity.User;
+import lookIT.lookITspring.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,15 +10,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private final MemberRepository memberRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Member member = memberRepository.findByEmail(username).orElseThrow(
+		User user = userRepository.findByEmail(username).orElseThrow(
 			() -> new UsernameNotFoundException("Invalid authentication!")
 		);
 
-		return new CustomUserDetails(member);
+		return new CustomUserDetails(user);
 	}
 }
