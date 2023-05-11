@@ -1,10 +1,9 @@
 package lookIT.lookITspring.entity;
-
 import javax.persistence.*;
-import java.util.Map;
 
 @Entity
 @Table(name = "MemorySpot")
+
 public class MemorySpot {
 
     @EmbeddedId

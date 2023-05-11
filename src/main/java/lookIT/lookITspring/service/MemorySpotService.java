@@ -15,14 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
 @RequiredArgsConstructor
 public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
 
-    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Integer memoryID, String imageUrl) {
+    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Integer memoryId, String imageUrl) {
         try {
-            MemorySpotId id = MemorySpotId.builder().memoryID(memoryID).spotLatitude(spotLatitude).spotLongitude(spotLongitude).build();
+            MemorySpotId id = MemorySpotId.builder().memoryId(memoryId).spotLatitude(spotLatitude).spotLongitude(spotLongitude).build();
             MemorySpot memorySpot = new MemorySpot(id, imageUrl);
             memorySpotRepository.save(memorySpot);
             return true;
@@ -32,11 +31,11 @@ public class MemorySpotService {
         }
     }
 
-    public List<Map<String, Object>> showAllMemorySpotPhotos(Integer memoryID) throws Exception {
+    public List<Map<String, Object>> showAllMemorySpotPhotos(Integer memoryId) throws Exception {
         try {
-            List<MemorySpot> memorySpots = memorySpotRepository.findAllById_MemoryID(memoryID);
+            List<MemorySpot> memorySpots = memorySpotRepository.findAllById_MemoryId(memoryId);
             if(memorySpots.isEmpty()) {
-                throw new Exception("No memory spot found for the given memory ID.");
+                throw new Exception("No memory spot found for the given memory Id.");
             }
 
             List<Map<String, Object>> result = new ArrayList<>();

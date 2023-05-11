@@ -17,7 +17,7 @@ public class MemberSignUpRequestDto {
 
 	@NotBlank(message = "아이디 입력해주세요.")
 	@Size(min=2, message = "아이디가 너무 짧습니다.")
-	private String tagName;
+	private String tagId;
 
 	@NotBlank(message = "이메일을 입력해주세요.")
 	private String email;
@@ -34,7 +34,7 @@ public class MemberSignUpRequestDto {
 	@Builder
 	public Member toEntity(){
 		return Member.builder()
-			.tagName(tagName)
+			.tagId(tagId)
 			.email(email)
 			.password(password)
 			.nickName(nickName)
