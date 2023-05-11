@@ -30,4 +30,5 @@ public class MemorySpotId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memoryId", nullable = false)
     private Memory memory;
+
 }

@@ -6,7 +6,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lookit?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/${DB_NAME}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
@@ -19,7 +19,6 @@ spring:
     format_sql: true
 
     hibernate:
-      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
  #       implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl

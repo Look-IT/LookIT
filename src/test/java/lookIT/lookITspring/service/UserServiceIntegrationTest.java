@@ -36,7 +36,7 @@ public class UserServiceIntegrationTest {
 		UserJoinRequestDto member = new UserJoinRequestDto(tagName, email, password, nickName);
 
 		//When
-		Integer saveId = userService.join(member);
+		Long saveId = userService.join(member);
 
 		//Then
 		User findUser = userRepository.findById(saveId).get();
@@ -70,7 +70,7 @@ public class UserServiceIntegrationTest {
 		String password = "12345abc!";
 		String nickName = "abcChocolate";
 		UserJoinRequestDto member1 = new UserJoinRequestDto(tagName, email, password, nickName);
-		Integer saveId = userService.join(member1);
+		Long saveId = userService.join(member1);
 
 		Map<String, String> member = new HashMap<>();
 		member.put("email", email);

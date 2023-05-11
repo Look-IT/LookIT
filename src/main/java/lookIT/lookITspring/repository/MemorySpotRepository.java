@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface MemorySpotRepository extends JpaRepository<MemorySpot, MemorySpotId> {
     List<MemorySpot> findAllById_Memory(Memory memory);
+
 }

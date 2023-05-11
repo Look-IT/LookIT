@@ -1,7 +1,6 @@
 package lookIT.lookITspring.entity;
-
 import javax.persistence.*;
-import java.util.Map;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
