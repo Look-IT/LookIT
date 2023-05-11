@@ -1,21 +1,21 @@
 package lookIT.lookITspring.security;
 
 import java.util.Collection;
-import lookIT.lookITspring.entity.Member;
+import lookIT.lookITspring.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
 
-	private final Member member;
+	private final User user;
 	private Collection<GrantedAuthority> authorities;
 
-	public CustomUserDetails(Member member) {
-		this.member = member;
+	public CustomUserDetails(User user) {
+		this.user = user;
 	}
 
-	public final Member getMember() {
-		return member;
+	public final User getMember() {
+		return user;
 	}
 
 	@Override
@@ -25,12 +25,12 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return member.getPassword();
+		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getEmail();
+		return user.getEmail();
 	}
 
 	@Override

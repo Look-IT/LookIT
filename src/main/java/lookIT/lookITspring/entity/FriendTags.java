@@ -1,11 +1,7 @@
 package lookIT.lookITspring.entity;
-import javax.persistence.Column;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,11 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Friends")
-public class Friends {
+@Table(name = "FriendTags")
+public class FriendTags {
   @EmbeddedId
-  private FriendsId friendsId;
-
-  @Column(name = "status", nullable = false)
-  private String status;
+  private FriendTagsId friendTagsId;
 }

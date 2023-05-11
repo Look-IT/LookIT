@@ -7,13 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lookIT.lookITspring.entity.Member;
+import lookIT.lookITspring.entity.User;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberSignUpRequestDto {
+public class UserJoinRequestDto {
 
 	@NotBlank(message = "아이디 입력해주세요.")
 	@Size(min=2, message = "아이디가 너무 짧습니다.")
@@ -32,8 +32,8 @@ public class MemberSignUpRequestDto {
 	private String nickName;
 
 	@Builder
-	public Member toEntity(){
-		return Member.builder()
+	public User toEntity(){
+		return User.builder()
 			.tagId(tagId)
 			.email(email)
 			.password(password)

@@ -1,12 +1,13 @@
 package lookIT.lookITspring.entity;
+
+import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +18,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "Friends")
-public class Friends {
-  @EmbeddedId
-  private FriendsId friendsId;
+@Embeddable
+public class InfoTagsId implements Serializable {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "memoryId")
+  private Memory memory;
 
-  @Column(name = "status", nullable = false)
-  private String status;
+  @Column(name = "info")
+  private String info;
 }
