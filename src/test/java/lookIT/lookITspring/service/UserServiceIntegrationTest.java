@@ -18,22 +18,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 public class UserServiceIntegrationTest {
 
-	@Autowired
-	UserService userService;
-	@Autowired
-	UserRepository userRepository;
+	@Autowired UserService userService;
+	@Autowired	UserRepository userRepository;
 	@Autowired JwtProvider jwtProvider;
 
 	@Test
 	public void 회원가입() throws Exception {
 
 		//Given
-		String tagName = "ddd";
+		String tagId = "ddd";
 		String email = "ddd@ajou.ac.kr";
 		String password = "12345abc!";
 		String nickName = "abcChocolate";
 
-		UserJoinRequestDto member = new UserJoinRequestDto(tagName, email, password, nickName);
+		UserJoinRequestDto member = new UserJoinRequestDto(tagId, email, password, nickName);
 
 		//When
 		Long saveId = userService.join(member);

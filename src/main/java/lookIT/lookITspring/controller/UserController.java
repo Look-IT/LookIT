@@ -27,7 +27,6 @@ public class UserController {
 	@PostMapping("/join")
 	@ResponseStatus(HttpStatus.OK)
 	public Long join(@Valid @RequestBody UserJoinRequestDto request) throws Exception {
-		System.out.println(request);
 		return userService.join(request);
 	}
 
