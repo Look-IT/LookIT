@@ -19,7 +19,7 @@ public class MemoryService {
 	private final MemoryRepository memoryRepository;
 	private final LinePathRepository linePathRepository;
 
-	public boolean memoryCreate(MemoryCreateRequestDto requestDto) throws Exception{
+	public Long memoryCreate(MemoryCreateRequestDto requestDto) throws Exception{
 		try{
 			User user = userRepository.findById(requestDto.getUserId()).get();
 			Memory memory = Memory.builder()
@@ -35,9 +35,9 @@ public class MemoryService {
 					.build();
 				LinePath relinePath = linePathRepository.save(linePath);
 			}
+			return rememory.getMemoryId();
 		} catch(Exception e){
-			return false;
+			return new Long(-1);
 		}
-		return true;
 	}
 }

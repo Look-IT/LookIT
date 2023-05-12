@@ -20,7 +20,8 @@ public class MemoryController {
 	private final MemoryService memoryService;
 
 	@PostMapping("/create")
-	public boolean memoryCreate(@Valid @RequestBody MemoryCreateRequestDto request) throws Exception {
+	@ResponseStatus(HttpStatus.OK)
+	public Long memoryCreate(@Valid @RequestBody MemoryCreateRequestDto request) throws Exception {
 		return memoryService.memoryCreate(request);
 	}
 }
