@@ -17,7 +17,6 @@ public class Photo4cutController {
 
     @GetMapping("/4cutphoto")
     public String PhotoFrame(@RequestParam("landmarkId") Integer landmarkId) throws Exception {
-        System.out.println(landmarkId);
         return photo4CutService.getPhotoFrame(landmarkId);
     }
 

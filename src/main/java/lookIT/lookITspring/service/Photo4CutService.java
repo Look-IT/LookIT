@@ -15,9 +15,15 @@ public class Photo4CutService {
     public String getPhotoFrame(long landmarkId) throws Exception {
         try{
             Optional<Landmark> landmark = landmarkRepository.findById(landmarkId);
-            System.out.println(landmark);
-            return landmark.get().getFrameUrl();
-        }catch (Exception e) {
+            if (landmark.isPresent()){
+                String frameUrl = landmark.get().getFrameUrl();
+                return frameUrl;
+            }
+            else {
+                throw new Exception("No landmark found for the given landmarkId.");
+            }
+        }
+        catch (Exception e) {
             throw new Exception("No frameUrl found for the given landmarkId.");
         }
     }
