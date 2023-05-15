@@ -36,6 +36,7 @@ public class User extends BaseTimeEntity {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+
 	public void encodePassword(PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(password);
 	}
