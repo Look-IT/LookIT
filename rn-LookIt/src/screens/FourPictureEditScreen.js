@@ -1,4 +1,4 @@
-//사진 합성용 테스트 스크린
+//사진 합성용 스크린
 
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { BLACK, WHITE } from '../colors';

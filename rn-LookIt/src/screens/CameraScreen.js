@@ -36,6 +36,14 @@ const CameraScreen = () => {
     }
   };
 
+  const toggleCamera = () => {
+    if (type === CameraType.back) {
+      setType(CameraType.front);
+    } else {
+      setType(CameraType.back);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Camera
@@ -44,9 +52,14 @@ const CameraScreen = () => {
         ratio="4:3"
         ref={(ref) => setCamera(ref)}
       ></Camera>
-      <Pressable onPress={takePicture}>
-        <View style={styles.shotButton}></View>
-      </Pressable>
+      <View style={styles.buttonContainer}>
+        <Pressable onPress={takePicture}>
+          <View style={styles.shotButton}></View>
+        </Pressable>
+        <Pressable style={styles.toggleButton} onPress={toggleCamera}>
+          <View></View>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -61,10 +74,24 @@ const styles = StyleSheet.create({
   camera: {
     backgroundColror: BLACK,
   },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 36,
+
+    height: 48,
+    width: '100%',
+  },
   shotButton: {
     width: 48,
     height: 48,
     backgroundColor: PRIMARY.DEFAULT,
+  },
+  toggleButton: {
+    position: 'absolute',
+    right: 20,
+    width: 48,
+    height: 48,
+    backgroundColor: WHITE,
   },
 });
 

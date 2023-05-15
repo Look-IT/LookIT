@@ -2,7 +2,7 @@
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { PRIMARY, WHITE } from '../colors';
+import { BLACK, PRIMARY, WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
@@ -22,9 +22,9 @@ const MainStack = () => {
         contentStyle: { backgroundColor: WHITE },
         headerShown: false,
         headerTitleAlign: 'center',
-        headerTintColor: PRIMARY.DEFAULT,
+        headerTintColor: BLACK,
         headerTitleStyle: {
-          fontWeight: '700',
+          fontWeight: '400',
         },
         headerLeft: HeaderLeftButton,
       }}
@@ -46,7 +46,11 @@ const MainStack = () => {
       <Stack.Screen
         name="FourCutFinalScreen"
         component={FourCutFinalScreen}
-        options={{ headerLeft: HeaderLeftButton }}
+        options={{
+          title: '추억네컷',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
+        }}
       />
     </Stack.Navigator>
   );
