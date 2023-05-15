@@ -1,14 +1,14 @@
 package lookIT.lookITspring.config;
 
-import lookIT.lookITspring.entity.Memory;
 import lookIT.lookITspring.repository.LandmarkRepository;
+import lookIT.lookITspring.repository.LinePathRepository;
 import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import lookIT.lookITspring.security.CustomUserDetailsService;
 import lookIT.lookITspring.security.JwtProvider;
+import lookIT.lookITspring.service.MemoryService;
 import lookIT.lookITspring.service.UserService;
-import lookIT.lookITspring.service.UserServiceImpl;
 import lookIT.lookITspring.service.MemorySpotService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +24,16 @@ public class SpringConfig {
 	private final MemorySpotRepository memorySpotRepository;
 	private final LandmarkRepository landmarkRepository;
 	private final MemoryRepository memoryRepository;
+	private final LinePathRepository linePathRepository;
 
 	public SpringConfig(UserRepository userRepository,
 		MemorySpotRepository memorySpotRepository, LandmarkRepository landmarkRepository,
-		MemoryRepository memoryRepository) {
+		MemoryRepository memoryRepository, LinePathRepository linePathRepository) {
 		this.userRepository = userRepository;
 		this.memorySpotRepository = memorySpotRepository;
 		this.landmarkRepository = landmarkRepository;
 		this.memoryRepository = memoryRepository;
+		this.linePathRepository = linePathRepository;
 	}
 
 	@Bean
@@ -45,7 +47,7 @@ public class SpringConfig {
 
 	@Bean
 	public UserService memberService() {
-		return new UserServiceImpl(userRepository, passwordEncoder(), jwtProvider());
+		return new UserService(userRepository, passwordEncoder(), jwtProvider());
 	}
 
 	@Bean
@@ -56,5 +58,10 @@ public class SpringConfig {
 	@Bean
 	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository, MemoryRepository memoryRepository){
 		return new MemorySpotService(memorySpotRepository, memoryRepository);
+	}
+
+	@Bean
+	public MemoryService memoryService() {
+		return new MemoryService(userRepository, memoryRepository, linePathRepository);
 	}
 }
