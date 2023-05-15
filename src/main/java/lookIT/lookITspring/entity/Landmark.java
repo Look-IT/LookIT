@@ -37,4 +37,12 @@ public class Landmark {
 
   @Column(name = "frameUrl")
   private String frameUrl;
+
+  public void setId(long landmarkId) {
+    this.landmarkId = landmarkId;
+  }
+
+  public void setFrameUrl(String frameUrl) {
+    this.frameUrl = frameUrl;
+  }
 }
