@@ -8,8 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Camera, CameraType } from 'expo-camera';
 
-import CustomBottomSheet from '../components/CustomBottomSheet';
-
 const TestScreen = () => {
   const navigation = useNavigation();
 
@@ -32,7 +30,7 @@ const TestScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Test</Text>
-      <CustomBottomSheet></CustomBottomSheet>
+
       <View style={[styles.buttonContainer, { marginTop: 30 }]}>
         <Button title={'네컷 촬영'} onPress={onGetPermission}></Button>
       </View>

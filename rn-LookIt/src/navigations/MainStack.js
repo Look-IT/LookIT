@@ -8,6 +8,7 @@ import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
 import CameraScreen from '../screens/CameraScreen';
 import FourPictureEditScreen from '../screens/FourPictureEditScreen';
+import FourCutFinalScreen from '../screens/FourCutFinalScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -40,6 +41,11 @@ const MainStack = () => {
       <Stack.Screen
         name="FourPictureEditScreen"
         component={FourPictureEditScreen}
+        options={{ headerLeft: HeaderLeftButton }}
+      />
+      <Stack.Screen
+        name="FourCutFinalScreen"
+        component={FourCutFinalScreen}
         options={{ headerLeft: HeaderLeftButton }}
       />
     </Stack.Navigator>

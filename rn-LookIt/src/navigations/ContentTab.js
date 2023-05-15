@@ -113,8 +113,8 @@ const ContentTab = () => {
           }}
         ></Tab.Screen>
         <Tab.Screen
-          name="테스트용"
-          component={FourPictureEditScreen}
+          name="네컷촬영"
+          component={TestScreen}
           options={{
             backgroundColor: WHITE,
             headerShown: false,
