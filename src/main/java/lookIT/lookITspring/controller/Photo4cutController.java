@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lookIT.lookITspring.entity.Collections;
 import lookIT.lookITspring.service.MemorySpotService;
 import lookIT.lookITspring.service.Photo4CutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/collections")
@@ -64,6 +66,11 @@ public class Photo4cutController {
             return photo4CutService.savePhoto4Cut(landmarkId, userId, imageUrl);
         }
 
+    }
+
+    @GetMapping("")
+    public List<Collections> Memory4Cut(@RequestParam("userId") Long userId) throws Exception {
+        return photo4CutService.getCollectionsByUserId(userId);
     }
 }
 

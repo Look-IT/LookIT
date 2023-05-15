@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,10 @@ public class Photo4CutService {
         collectionsRepository.save(collection);
         return true;
     }
-
+    public List<Collections> getCollectionsByUserId(Long userId) {
+        System.out.println("test");
+        return collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
+    }
 
 }
 
