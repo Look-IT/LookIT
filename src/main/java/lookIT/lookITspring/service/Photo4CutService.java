@@ -52,7 +52,6 @@ public class Photo4CutService {
         return true;
     }
     public List<Collections> getCollectionsByUserId(Long userId) {
-        System.out.println("test");
         return collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
     }
 
