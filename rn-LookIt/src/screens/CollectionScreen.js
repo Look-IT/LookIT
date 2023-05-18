@@ -1,10 +1,26 @@
 //컬렉션 스크린
 
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GRAY, PRIMARY, WHITE } from '../colors';
 import { useState } from 'react';
+import FourCutList from '../components/FourCutList';
 const CollectionScreen = () => {
   const [isLeftPressed, setIsLeftPressed] = useState(true);
+
+  const sampleImage = Image.resolveAssetSource(
+    require('../../assets/Default_Frame.png')
+  ).uri;
+
+  const [fourCut, setFourCut] = useState([
+    { id: '1', uri: sampleImage },
+    { id: '2', uri: sampleImage },
+    { id: '3', uri: sampleImage },
+    { id: '4', uri: sampleImage },
+    { id: '5', uri: sampleImage },
+    { id: '6', uri: sampleImage },
+  ]);
+  const [taggedFourCut, settaggedFourCut] = useState([]);
+
   return (
     <View style={styles.container}>
       <View style={styles.selectContainer}>
@@ -51,6 +67,11 @@ const CollectionScreen = () => {
           </Text>
         </Pressable>
       </View>
+      {isLeftPressed ? (
+        <FourCutList data={fourCut}></FourCutList>
+      ) : (
+        <FourCutList data={taggedFourCut}></FourCutList>
+      )}
     </View>
   );
 };

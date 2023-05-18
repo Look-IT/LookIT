@@ -1,14 +1,19 @@
-//그냥 친구 목록 컴포넌트
+//네컷사진 컴포넌트
 
 import { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { GRAY, BLACK } from '../colors';
 
 const FourCutListItem = memo(({ item, width, height }) => {
   return (
-    <View style={[styles.container, { width: width, height: height }]}></View>
+    <View style={[styles.container, { width: width, height: height }]}>
+      <Image
+        style={{ width: width, height: height }}
+        source={{ uri: item.uri }}
+      ></Image>
+    </View>
   );
 });
 
@@ -25,18 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'black',
-  },
-  nickNameFont: {
-    fontSize: 14,
-    fontWeight: 500,
-    color: BLACK,
-    paddingRight: 8,
-  },
-  idFont: {
-    fontSize: 10,
-    fontWeight: 500,
-    color: GRAY[400],
+    //backgroundColor: 'black',
   },
 });
 
