@@ -14,9 +14,8 @@ import PropTypes from 'prop-types';
 
 import { GRAY, BLACK, WHITE } from '../colors';
 import { Modal } from 'react-native';
-
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Dimensions } from 'react-native';
-import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 
 const FourCutListItem = memo(({ item, width, height }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,19 +39,17 @@ const FourCutListItem = memo(({ item, width, height }) => {
         animationType="fade"
       >
         <Pressable
-          style={[styles.modalContainer, { width: '100%', height: '100%' }]}
+          style={[
+            styles.modalContainer,
+            { width: '100%', height: '100%', backgroundColor: '#00000050' },
+          ]}
           onPress={() => setModalVisible(false)}
         >
           <TouchableHighlight>
-            <ImageZoom
-              minScale={1.0}
-              maxScale={3.0}
-              imageContainerStyle={{
-                width: width * 1.35,
-                height: height * 1.35,
-              }}
-              uri={item.uri}
-            ></ImageZoom>
+            <Image
+              style={{ width: width * 1.35, height: height * 1.35 }}
+              source={{ uri: item.uri }}
+            ></Image>
           </TouchableHighlight>
         </Pressable>
       </Modal>
@@ -76,9 +73,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'black',
   },
   modalContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    flex: 1,
     width: '100%',
     height: '100%',
 
