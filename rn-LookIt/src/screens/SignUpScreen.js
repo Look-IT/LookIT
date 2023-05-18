@@ -45,7 +45,7 @@ const SignUpScreen = () => {
         console.log(response.data);
         setIsLoading(false);
         if (response.data) {
-          navigation.navigate('SighIn');
+          navigation.navigate('SignIn');
         } else {
           throw new Error(
             '회원가입 실패: 서버로부터 잘못된 응답을 받았습니다.'

@@ -1,11 +1,13 @@
 //네컷사진 리스트
 
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import PropTypes from 'prop-types';
 import FourCutListItem from './FourCutListItem';
 import { Dimensions } from 'react-native';
 const FourCutList = ({ data }) => {
   const fourCutwidth = Dimensions.get('window').width * (49 / 100);
+  const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
+  const fourCutSepreatorHeight = fourCutSepreatorWidth;
   const fourCutheight = fourCutwidth * (4 / 3);
 
   return (
@@ -16,13 +18,20 @@ const FourCutList = ({ data }) => {
       horizontal={false}
       numColumns={2}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <FourCutListItem
-          item={item}
-          width={fourCutwidth}
-          height={fourCutheight}
-        />
+      renderItem={({ item, index }) => (
+        <View
+          style={index % 2 == 0 ? { marginRight: fourCutSepreatorWidth } : {}}
+        >
+          <FourCutListItem
+            item={item}
+            width={fourCutwidth}
+            height={fourCutheight}
+          />
+        </View>
       )}
+      ItemSeparatorComponent={
+        <View style={{ height: fourCutSepreatorHeight }}></View>
+      }
     ></FlatList>
   );
 };

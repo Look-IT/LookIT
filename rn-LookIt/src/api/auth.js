@@ -21,7 +21,7 @@ export const signUp = async (url, tagName, email, password, nickName) => {
     method: 'POST',
     url: url,
     data: {
-      tagName: tagName,
+      tagId: tagName,
       email: email,
       password: password,
       nickName: nickName,

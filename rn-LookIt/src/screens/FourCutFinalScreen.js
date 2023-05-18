@@ -1,17 +1,54 @@
 //완성된 추억네컷 스크린
 
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, Alert } from 'react-native';
 import { WHITE } from '../colors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BLACK } from '../colors';
 import Button, { ButtonTypes } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
+import { fourCutPost } from '../api/fourCutApi';
+
 const FourCutFinalScreen = ({ route }) => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false); //로그인 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
 
   useEffect(() => {
     console.log(route.params.uri);
   }, []);
+
+  const onSubmit = async () => {
+    //네컷 사진 완료 버튼 클릭 시 호출되는 함수
+    if (!isLoading) {
+      try {
+        setIsLoading(true);
+
+        const response = await fourCutPost(
+          'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/collections/4cutphoto',
+          route.params.uri
+        );
+
+        setIsLoading(false);
+        if (response.data) {
+          navigation.navigate('ContentTab');
+        } else {
+          console.log(response.data);
+          throw new Error(
+            '사진 생성 실패: 서버로부터 잘못된 응답을 받았습니다.'
+          );
+        }
+      } catch (error) {
+        console.log(error.message);
+        //console.log(error.response);
+        Alert.alert('사진생성 실패', '사진생성이 실패했습니다.', [
+          {
+            text: '확인',
+            style: 'default',
+            onPress: () => setIsLoading(false),
+          },
+        ]);
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -28,6 +65,7 @@ const FourCutFinalScreen = ({ route }) => {
         <Button
           title="완료"
           onPress={() => {
+            onSubmit();
             navigation.navigate('ContentTab');
           }}
           buttonType={ButtonTypes.PRIMARY}

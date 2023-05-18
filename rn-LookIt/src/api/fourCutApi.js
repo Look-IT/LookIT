@@ -26,6 +26,6 @@ export const fourCutGet = async (url) => {
   return await axios({
     method: 'GET',
     url: url,
-    params: { userId: '1' },
+    params: { userId: '3' },
   });
 };
