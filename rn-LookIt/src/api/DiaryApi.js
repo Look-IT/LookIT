@@ -22,7 +22,7 @@ export const fourCutPost = async (url, uri) => {
   });
 };
 
-export const fourCutGet = async (url) => {
+export const diaryListGet = async (url) => {
   return await axios({
     method: 'GET',
     url: url,
