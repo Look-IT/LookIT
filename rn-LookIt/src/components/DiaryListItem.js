@@ -8,16 +8,15 @@ import { GRAY, BLACK, WHITE, PRIMARY } from '../colors';
 import FriendTagButton from './FriendTagButton';
 
 const DiaryListItem = memo(({ item }) => {
+  const date = item.date.split('T');
+
   return (
     <View style={styles.container}>
       <View style={[styles.textContainer, { height: 28, paddingBottom: 8 }]}>
-        <Text style={{ fontSize: 14 }}>{item.date}</Text>
+        <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require('../../assets/main.png')}
-        ></Image>
+        <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
         <View style={styles.friendTag}>
           <FriendTagButton></FriendTagButton>
         </View>
