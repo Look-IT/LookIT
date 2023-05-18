@@ -6,6 +6,7 @@ import { Camera, CameraType } from 'expo-camera';
 import { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ const CameraScreen = () => {
   const [type, setType] = useState(CameraType.back);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const width = Dimensions.get('window').width;
   const height = width * (4 / 3);
@@ -28,11 +30,13 @@ const CameraScreen = () => {
   }, [image]);
 
   const takePicture = async () => {
-    if (camera) {
+    if (camera && !isLoading) {
+      setIsLoading(true);
       const data = await camera.takePictureAsync(null);
       const id = Date.now().toString();
       const newImage = [{ id: id, data: data }, ...image];
       setImage(newImage);
+      setIsLoading(false);
     }
   };
 
@@ -54,10 +58,20 @@ const CameraScreen = () => {
       ></Camera>
       <View style={styles.buttonContainer}>
         <Pressable onPress={takePicture}>
-          <View style={styles.shotButton}></View>
+          <View style={styles.shotButton}>
+            <MaterialCommunityIcons
+              name="camera"
+              size={48}
+              color={WHITE}
+            ></MaterialCommunityIcons>
+          </View>
         </Pressable>
         <Pressable style={styles.toggleButton} onPress={toggleCamera}>
-          <View></View>
+          <MaterialCommunityIcons
+            name="camera-flip-outline"
+            size={48}
+            color={WHITE}
+          ></MaterialCommunityIcons>
         </Pressable>
       </View>
     </View>
@@ -84,14 +98,14 @@ const styles = StyleSheet.create({
   shotButton: {
     width: 48,
     height: 48,
-    backgroundColor: PRIMARY.DEFAULT,
   },
   toggleButton: {
     position: 'absolute',
+    justifyContent: 'center',
+    alignContent: 'center',
     right: 20,
     width: 48,
     height: 48,
-    backgroundColor: WHITE,
   },
 });
 
