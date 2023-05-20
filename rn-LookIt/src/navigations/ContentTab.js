@@ -112,7 +112,7 @@ const ContentTab = () => {
             },
           }}
         ></Tab.Screen>
-        <Tab.Screen
+        {/* <Tab.Screen
           name="네컷촬영"
           component={TestScreen}
           options={{
@@ -132,7 +132,7 @@ const ContentTab = () => {
               );
             },
           }}
-        ></Tab.Screen>
+        ></Tab.Screen> */}
       </Tab.Navigator>
     </>
   );

@@ -17,7 +17,7 @@ const SignInScreen = () => {
   const [isLoading, setIsLoading] = useState(false); //로그인 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
   const passwordRef = useRef(null); //아이디 창에서 엔터 누를 시 자동으로 비밀번호 입력창으로 넘어가기 위한 상태 변수
 
-  const { setUser } = useUserContext();
+  const { setUser, setUserId } = useUserContext();
   const insets = useSafeAreaInsets();
 
   const onSubmit = async () => {
@@ -36,6 +36,7 @@ const SignInScreen = () => {
         setIsLoading(false);
         if (response.data) {
           setUser(email);
+          setUserId(response.data);
         } else {
           console.log(response.data);
           throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');
