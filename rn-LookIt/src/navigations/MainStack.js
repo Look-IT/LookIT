@@ -2,11 +2,13 @@
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { PRIMARY, WHITE } from '../colors';
+import { BLACK, PRIMARY, WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
 import CameraScreen from '../screens/CameraScreen';
+import FourPictureEditScreen from '../screens/FourPictureEditScreen';
+import FourCutFinalScreen from '../screens/FourCutFinalScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -20,9 +22,9 @@ const MainStack = () => {
         contentStyle: { backgroundColor: WHITE },
         headerShown: false,
         headerTitleAlign: 'center',
-        headerTintColor: PRIMARY.DEFAULT,
+        headerTintColor: BLACK,
         headerTitleStyle: {
-          fontWeight: '700',
+          fontWeight: '400',
         },
         headerLeft: HeaderLeftButton,
       }}
@@ -35,6 +37,20 @@ const MainStack = () => {
         name="Camera"
         component={CameraScreen}
         options={{ headerLeft: HeaderLeftButton }}
+      />
+      <Stack.Screen
+        name="FourPictureEditScreen"
+        component={FourPictureEditScreen}
+        options={{ headerLeft: HeaderLeftButton }}
+      />
+      <Stack.Screen
+        name="FourCutFinalScreen"
+        component={FourCutFinalScreen}
+        options={{
+          title: '추억네컷',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
+        }}
       />
     </Stack.Navigator>
   );

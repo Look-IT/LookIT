@@ -6,12 +6,13 @@ import HomeScreen from '../screens/HomeScreen';
 import FriendListScreen from '../screens/FriendListScreen';
 import CollectionScreen from '../screens/CollectionScreen';
 import MyPageScreen from '../screens/MyPageScreen';
+import FourPictureEditScreen from '../screens/FourPictureEditScreen';
 import TestScreen from '../screens/TestScreen';
 import { MainRoutes } from './routes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PRIMARY, WHITE } from '../colors';
 import { Image, StyleSheet } from 'react-native';
-
+import HeaderRightButton from '../components/HeaderRightButton';
 const Tab = createBottomTabNavigator();
 
 const ContentTab = () => {
@@ -94,6 +95,8 @@ const ContentTab = () => {
           component={MyPageScreen}
           options={{
             headerShown: true,
+            headerRight: HeaderRightButton,
+            headerRightContainerStyle: { paddingRight: 16 },
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image
@@ -110,7 +113,7 @@ const ContentTab = () => {
           }}
         ></Tab.Screen>
         <Tab.Screen
-          name="테스트용"
+          name="네컷촬영"
           component={TestScreen}
           options={{
             backgroundColor: WHITE,

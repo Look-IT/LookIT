@@ -30,6 +30,7 @@ const TestScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Test</Text>
+
       <View style={[styles.buttonContainer, { marginTop: 30 }]}>
         <Button title={'네컷 촬영'} onPress={onGetPermission}></Button>
       </View>

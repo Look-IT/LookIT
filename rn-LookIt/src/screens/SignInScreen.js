@@ -28,21 +28,22 @@ const SignInScreen = () => {
         Keyboard.dismiss();
 
         const response = await signIn(
-          'https://reqres.in/api/login',
+          'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/login',
           email,
           password
         );
 
         setIsLoading(false);
-        if (response.data && response.data.token) {
+        if (response.data) {
           setUser(email);
         } else {
+          console.log(response.data);
           throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');
         }
       } catch (error) {
-        console.log(error);
-
-        Alert.alert('로그인 실패', '로그인이 실패했어', [
+        console.log(error.message);
+        //console.log(error.response);
+        Alert.alert('로그인 실패', '로그인이 실패했습니다.', [
           {
             text: '확인',
             style: 'default',

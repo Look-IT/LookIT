@@ -5,18 +5,22 @@ import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { GRAY, BLACK, WHITE, PRIMARY } from '../colors';
+import FriendTagButton from './FriendTagButton';
 
 const DiaryListItem = memo(({ item }) => {
+  const date = item.date.split('T');
+
   return (
     <View style={styles.container}>
       <View style={[styles.textContainer, { height: 28, paddingBottom: 8 }]}>
-        <Text style={{ fontSize: 14 }}>{item.date}</Text>
+        <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
       </View>
-
-      <Image
-        style={styles.imageContainer}
-        source={require('../../assets/main.png')}
-      ></Image>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+        <View style={styles.friendTag}>
+          <FriendTagButton></FriendTagButton>
+        </View>
+      </View>
 
       <View
         style={[
@@ -53,10 +57,20 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
+    width: '100%',
     height: 176,
     resizeMode: 'contain',
   },
-
+  image: {
+    width: '100%',
+    height: 176,
+    resizeMode: 'contain',
+  },
+  friendTag: {
+    position: 'absolute',
+    left: '89.33%',
+    bottom: 8,
+  },
   textContainer: {
     paddingHorizontal: 16,
     flexDirection: 'row',
