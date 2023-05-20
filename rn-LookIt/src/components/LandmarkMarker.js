@@ -2,9 +2,10 @@
 import { Marker } from "react-native-nmap"
 import { View } from "react-native";
 
-import { PRIMARY } from "../colors"
 import { useEffect, useState } from "react";
-import LandmarkInfo from "./LandmarkInfo";
+import LandmarkInfoModal from "./modals/LandmarkInfoModal";
+
+import { landmarkInfo } from "../api/landmarkInfo";
 
 
 
@@ -14,13 +15,48 @@ const LandmarkMarker = ({landmarks}) => {
 
     const [clicked, setClicked] = useState(false);
     const [landmarkId, setLandmarkId] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [landmarkData, setLandmarkData] = useState(null);
 
     useEffect(() => {
       setLandmarkId(landmark.landmarkId);
     }, []);
 
-    console.log("id: " + landmarkId);
+    useEffect(() => {
+      console.log(landmarkData);
+    }, [landmarkData]);
+
+    const onPressInfo = async () => {
+
+      try {
+        const response = await landmarkInfo(
+          'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/main',
+          landmarkId
+        )
+    
+        if (response.data) {
+          console.log(':::: ', response.data);
+          setLandmarkData(response.data);
+          
+        }
+    
+      } catch (error) {
+        console.log(error.messsage);
+      }
+    };
+    
     return (
+      <> 
+        {
+          modalVisible ?
+            <LandmarkInfoModal
+              // visible = {modalVisible}
+              setVisible={() => setModalVisible(false)}
+              landmarkData={landmarkData}
+            />
+          : null
+        }
         <Marker
           key={landmark.landmarkId}
           coordinate={{
@@ -33,7 +69,13 @@ const LandmarkMarker = ({landmarks}) => {
             :
               require('../../assets/Icon_Location-Unselected.png')
           }
+          onClick={() => {
+            setClicked(true);
+            onPressInfo();
+            setModalVisible(true);
+          }}
         />
+      </>
     );    
   })
 };

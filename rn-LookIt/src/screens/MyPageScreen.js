@@ -41,7 +41,7 @@ const MyPageScreen = () => {
     try {
       const response = await diaryListGet(
         'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/memories/list'
-      );
+        );
 
       if (response.data) {
         setDiary(

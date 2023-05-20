@@ -71,6 +71,8 @@ const HomeScreen = () => {
   const [observing, setObserving] = useState(false);
 
   const watchId = useRef(null);
+  const currentWatchId = useRef(null);
+  const [isCurrentWatch, SetIsCurrentWatch] = useState(false);
 
   const navigation = useNavigation();
 
@@ -109,8 +111,6 @@ const HomeScreen = () => {
       stopLocationUpdates();
       setVisibleModal(false);
       setMovePath([]);
-      
-      LandmarkAndMyPositionDistance();
 
       return () => {
         console.log('Screen was unfocused');
@@ -170,6 +170,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     console.log(myPosition);
+    // LandmarkAndMyPositionDistance(landmarks, myPosition);
   }, [myPosition]);
 
   useEffect(() => {
@@ -208,6 +209,44 @@ const HomeScreen = () => {
       }
     )
   }
+
+  const getCurrentLocation = async () =>{
+    const hasPermission = await hasLocationPermission();
+
+    if (!hasPermission) {
+      return;
+    }
+
+    if (currentWatchId.current !== null) {
+      console.log('NOT NULL');
+      Geolocation.clearWatch(currentWatchId.current);
+      currentWatchId.current = null;
+      SetIsCurrentWatch(false);
+      return;
+    }
+
+    SetIsCurrentWatch(true);
+    currentWatchId.current = Geolocation.watchPosition(
+      position => {
+        const positionValue = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        setMyPosition(positionValue);
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: highAccuracy,
+        distanceFilter: 0,
+        interval: 5000,
+        fastestInterval: 2000,
+      },
+    );
+
+    console.log(currentWatchId.current);
+  };
 
   const getLocationUpdates = async () => {
     const hasPermission = await hasLocationPermission();
@@ -326,11 +365,22 @@ const HomeScreen = () => {
           icon={require('../../assets/Icon_Film.png')}
           onPress={onGetPermission}
         />
-        <FloatingButton
-          style={{marginTop: 16}}
-          icon={require('../../assets/Icon_Gps.png')}
-          onPress={getLocation}
-        />
+
+        {
+          !isCurrentWatch ?
+            <FloatingButton
+              style={{marginTop: 16}}
+              icon={require('../../assets/Icon_Gps.png')}
+              onPress={getCurrentLocation}
+            />
+          :
+            <FloatingButton
+              style={{marginTop: 16}}
+              icon={require('../../assets/Icon_Gps-filled.png')}
+              onPress={getCurrentLocation}
+            />
+        }
+
       </View>
     </>
   );
