@@ -7,6 +7,7 @@ import { BLACK } from '../colors';
 import Button, { ButtonTypes } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { fourCutPost } from '../api/fourCutApi';
+import Toast from 'react-native-toast-message';
 
 const FourCutFinalScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -30,6 +31,11 @@ const FourCutFinalScreen = ({ route }) => {
         setIsLoading(false);
         if (response.data) {
           navigation.navigate('ContentTab');
+          Toast.show({
+            type: 'success',
+            text1: '추억네컷이 저장되었습니다.',
+            position: 'bottom',
+          });
         } else {
           console.log(response.data);
           throw new Error(
