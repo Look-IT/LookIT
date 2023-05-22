@@ -59,7 +59,7 @@ const hasLocationPermission = async () => {
 const HomeScreen = () => {
   const { userId } = useUserContext();
 
-  const [myPosition, setMyPosition] = useState({latitude: 38, longitude: 128});
+  const [myPosition, setMyPosition] = useState(null);
   const [movePath, setMovePath] = useState([]);
 
   const [landmarks, setLandmarks] = useState([]);
@@ -99,6 +99,7 @@ const HomeScreen = () => {
       }
     }
     getLandmarks();
+    stopLocationUpdates();
   }, []);
 
   useFocusEffect(
@@ -108,15 +109,22 @@ const HomeScreen = () => {
       // getLocation();
       // stopLocationUpdates();
       setKey(prevKey => prevKey + 1);
-      stopLocationUpdates();
-      setVisibleModal(false);
-      setMovePath([]);
+      // stopLocationUpdates();
+      // setVisibleModal(false);
+      // setMovePath([]);
 
       return () => {
         console.log('Screen was unfocused');
       };
     }, [])
   );
+
+  const memoriesSuccess = () => {
+    setKey(prevKey => prevKey + 1);
+    stopLocationUpdates();
+    setVisibleModal(false);
+    setMovePath([]);
+  }
 
   useEffect(() => {
     getLocation();
@@ -298,6 +306,7 @@ const HomeScreen = () => {
     setVisibleModal(false);
   }
 
+
   return (
     <>
       {
@@ -308,30 +317,41 @@ const HomeScreen = () => {
             movePath={movePath}
             landmarks={landmarks}
             onPressCancel={onPressCancel}
+            onPressSuccess={memoriesSuccess}
           />
         : null        
       }
 
-      <NaverMapView
-        key={key}
-        style={{width:'100%', height:'100%'}}
-        center={{...myPosition, zoom: 16}}
-        zoomControl={false}
-        scaleBar={false}
-      >
-        <LandmarkMarker
-          landmarks={landmarks}
-        />
-        
-        <Marker
-          coordinate={myPosition}
-          image={require('../../assets/Icon_My-Location.png')}
-          width={16}
-          height={16}
-        />
-        
-        <PathLine movePath={movePath}/>
-      </NaverMapView>
+      {
+        myPosition ?
+          <NaverMapView
+            key={key}
+            style={{width:'100%', height:'100%'}}
+            center={{...myPosition, zoom: 16}}
+            zoomControl={false}
+            scaleBar={false}
+          >
+            <LandmarkMarker
+              landmarks={landmarks}
+              keyLoading={() => {
+                // setKey(prevKey => prevKey + 3);
+                console.log('keyLoading')
+              }}
+            />
+            
+            <Marker
+              key={key + 2}
+              coordinate={myPosition}
+              image={require('../../assets/Icon_My-Location.png')}
+              width={16}
+              height={16}
+            />
+            
+            <PathLine movePath={movePath}/>
+          </NaverMapView>
+        : null
+      }
+
 
       
 

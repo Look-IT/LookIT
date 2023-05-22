@@ -36,7 +36,7 @@ const SignInScreen = () => {
         setIsLoading(false);
         if (response.data) {
           setUser(email);
-          setUserId(response.data);
+          setUserId(3);
         } else {
           console.log(response.data);
           throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');

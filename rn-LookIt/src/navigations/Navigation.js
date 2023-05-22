@@ -14,7 +14,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      {user ? <MainStack /> : <MainStack />}
+      {user ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

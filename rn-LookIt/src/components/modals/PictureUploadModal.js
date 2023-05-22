@@ -173,7 +173,7 @@ const PictureUploadModal = ({clicked, onPressCancel, onPressSuccess, spotLatitud
                           {'사진을 1장 선택해 주세요'}
                         </Text>
                         <Image
-                          source={'../../../assets/Icon_Camera.png'}
+                          source={require('../../../assets/Icon_Camera.png')}
                           style={modalStyles.ButtonIconStyle}
                         />
                       </>

@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserContext } from "../../contexts/UserContext";
 import { memoriesCreatePost } from "../../api/memories";
 
-const MemoriesModal = ({clicked, myPosition, movePath, landmarks, onPressCancel}) => {
+const MemoriesModal = ({clicked, myPosition, movePath, landmarks, onPressCancel, onPressSuccess}) => {
   const [visibleModal, setVisibleModal] = useState(false);
   const navigation = useNavigation();
 
@@ -89,7 +89,10 @@ const MemoriesModal = ({clicked, myPosition, movePath, landmarks, onPressCancel}
               />
               <ModalButton
                 text={'생성'}
-                onPress={onPressCreate}
+                onPress={() => {
+                  onPressCreate();
+                  onPressSuccess();
+                }}
               />
             </View>
 

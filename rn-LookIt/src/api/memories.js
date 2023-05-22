@@ -6,7 +6,7 @@ export const memoriesCreatePost = async (url, userId, path) => {
         method: 'POST',
         url: url,
         data: {
-            userId: 4,
+            userId: 3,
             path: path,
         }
     })

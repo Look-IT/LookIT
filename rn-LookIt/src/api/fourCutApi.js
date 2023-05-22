@@ -12,7 +12,7 @@ export const fourCutPost = async (url, uri) => {
   return await axios({
     method: 'POST',
     url: url,
-    params: { landmarkId: '1', userId: '1' },
+    params: { landmarkId: '1', userId: '3' },
     responseType: 'json',
     headers: { 'Content-Type': 'multipart/form-data' },
     transformRequest: (data, headers) => {

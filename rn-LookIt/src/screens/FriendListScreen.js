@@ -38,11 +38,10 @@ const FriendListScreen = ({ navigation, route }) => {
   ]); //보낸 친구 요청 정보를 담은 상태 변수
 
   const [friend, setFriend] = useState([
-    { id: '123', nickName: '임민호' },
+    { id: '123', nickName: '신호근' },
     { id: '223', nickName: '임민호' },
-    { id: '323', nickName: '임민호' },
-    { id: '423', nickName: '임민호' },
-    { id: '523', nickName: '임민호' },
+    { id: '323', nickName: '장희지' },
+    { id: '423', nickName: '최준호' },
   ]); //친구 정보를 담은 상태 변수
 
   const [isBottom, setIsBottom] = useState(false); // 화면 가림 방지 위한 상태변수

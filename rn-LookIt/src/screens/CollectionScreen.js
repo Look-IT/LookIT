@@ -2,14 +2,17 @@
 
 import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import { GRAY, PRIMARY, WHITE } from '../colors';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FourCutList from '../components/FourCutList';
 import { fourCutGet } from '../api/fourCutApi';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
 const CollectionScreen = () => {
   const [isLeftPressed, setIsLeftPressed] = useState(true);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
+
   const fourCutListGet = async () => {
     //네컷 사진 리스트 요청하는 함수
 
@@ -59,6 +62,16 @@ const CollectionScreen = () => {
   useEffect(() => {
     fourCutListGet();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fourCutListGet();
+
+      return () => {
+        console.log('Screen was unfocused');
+      };
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

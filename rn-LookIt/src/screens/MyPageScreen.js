@@ -3,8 +3,9 @@
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { PRIMARY, WHITE } from '../colors';
 import DiaryList from '../components/DiaryList';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { diaryListGet } from '../api/DiaryApi';
+import { useFocusEffect } from '@react-navigation/native';
 const MyPageScreen = () => {
   const [diary, setDiary] = useState([
     /*
@@ -78,6 +79,16 @@ const MyPageScreen = () => {
   useEffect(() => {
     getDiaryList();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getDiaryList();
+
+      return () => {
+        console.log('Screen was unfocused');
+      };
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
