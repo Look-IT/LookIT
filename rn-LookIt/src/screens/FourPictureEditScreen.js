@@ -18,7 +18,7 @@ const FourPictureEditScreen = ({ route }) => {
         console.log('do something with ', uri);
         navigation.navigate('FourCutFinalScreen', { uri });
       });
-    }, 500);
+    },2000);
   }, []);
 
   return (
