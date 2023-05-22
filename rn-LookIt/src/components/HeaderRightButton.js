@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { BLACK, DANGER, GRAY } from '../colors';
 import { useUserContext } from '../contexts/UserContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import Toast from 'react-native-toast-message';
 
 const HeaderRightButton = ({ tintColor }) => {
   const { user, setUser } = useUserContext(); // 현재 로그인 정보 받아오는 상태변수
@@ -24,6 +25,12 @@ const HeaderRightButton = ({ tintColor }) => {
   const onLogout = () => {
     //로그아웃 버튼 클릭시 호출되는 함수
     setUser(null);
+
+    Toast.show({
+      type: 'success',
+      text1: '성공적으로 로그아웃이 되었습니다.',
+      position: 'bottom',
+    });
 
     console.log(user);
   };
