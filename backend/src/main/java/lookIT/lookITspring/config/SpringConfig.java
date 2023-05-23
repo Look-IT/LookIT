@@ -72,8 +72,8 @@ public class SpringConfig {
 	}
 
 	@Bean
-	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository, MemoryRepository memoryRepository){
-		return new MemorySpotService(memorySpotRepository, memoryRepository);
+	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository, MemoryRepository memoryRepository, MemoryPhotoRepository memoryPhotoRepository){
+		return new MemorySpotService(memorySpotRepository, memoryRepository, memoryPhotoRepository);
 	}
 
 	@Bean

@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/memories")
 @RequiredArgsConstructor
-public class S3Controller {
+public class MemorySpotController {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -60,9 +60,11 @@ public class S3Controller {
         }
 
     }
-
+/*
     @GetMapping("/photo")
     public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Long memoryId) throws Exception {
             return memorySpotService.showAllMemorySpotPhotos(memoryId);
     }
+
+ */
 }
