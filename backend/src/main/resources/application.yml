@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: prod
+
+  security:
+    jwt:
+      header: Authorization
+      secret: ${JWT_SECRET}
+      token-validity-in-seconds: 86400
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+
+#    default_batch_fetch_size: 1000
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+  # parameter Binding
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: capstone-lookit
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

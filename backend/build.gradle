@@ -1,0 +1,63 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'lookIT'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	testImplementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.testng:testng:7.1.0'
+
+	testImplementation 'org.mockito:mockito-core:3.9.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.0'
+
+
+	compileOnly 'org.projectlombok:lombok'
+
+	implementation 'org.springframework:spring-web:5.3.9'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
+
+}
+test {
+	useJUnitPlatform()
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}
