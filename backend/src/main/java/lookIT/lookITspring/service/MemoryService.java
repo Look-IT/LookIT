@@ -36,7 +36,7 @@ public class MemoryService {
 	private final InfoTagsRepository infoTagsRepository;
 	private final MemorySpotRepository memorySpotRepository;
 	private final MemoryPhotoRepository memoryPhotoRepository;
-
+/*
 	public Long memoryCreate(MemoryCreateRequestDto requestDto) throws Exception{
 		try{
 			User user = userRepository.findById(requestDto.getUserId()).get();
@@ -58,7 +58,7 @@ public class MemoryService {
 			return new Long(-1);
 		}
 	}
-
+*/
 	public List<MemoryListDto> memoryListInquiry(Long userId){
 		List<Memory> memories = memoryRepository.findByUser_UserId(userId);
 		List<MemoryListDto> result = new ArrayList<>();
