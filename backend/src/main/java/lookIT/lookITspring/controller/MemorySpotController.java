@@ -60,11 +60,11 @@ public class MemorySpotController {
         }
 
     }
-/*
+
     @GetMapping("/photo")
     public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Long memoryId) throws Exception {
             return memorySpotService.showAllMemorySpotPhotos(memoryId);
     }
 
- */
+
 }
