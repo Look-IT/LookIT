@@ -18,32 +18,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+
+
 @RequiredArgsConstructor
 public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
     private final MemoryRepository memoryRepository;
     private final MemoryPhotoRepository memoryPhotoRepository;
-/*
-    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl)  {
-        try {
-            Optional<Memory> memoryOptional = memoryRepository.findById(memoryId);
-            if (memoryOptional.isPresent()){
-                Memory memory = memoryOptional.get();
-                MemorySpot memorySpot = MemorySpot.builder()
-                        .spotLatitude(spotLatitude)
-                        .spotLongitude(spotLongitude)
-                        .memory(memory)
-                        .build();
-                memorySpotRepository.save(memorySpot);
-                return true;
-            }
-            else{
-                throw new IllegalAccessException("Invalid memoryId: " + memoryId);
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-    }*/
+
     public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl) {
         Optional<Memory> memoryOptional = memoryRepository.findById(memoryId);
         if (memoryOptional.isPresent()) {
@@ -67,21 +50,54 @@ public class MemorySpotService {
             throw new IllegalArgumentException("Invalid memoryId: " + memoryId);
         }
     }
-    /*
+
     public List<Map<String, Object>> showAllMemorySpotPhotos(Long memoryId) throws Exception {
         try {
             Optional<Memory> memory = memoryRepository.findById(memoryId);
-            List<MemorySpot> memorySpots = memorySpotRepository.findAllById_Memory(memory.get());
+            List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory.get());
             if(memorySpots.isEmpty()) {
-                throw new Exception("No memory spot found for the given memory Id.");
+                return new ArrayList<>();
             }
 
             List<Map<String, Object>> result = new ArrayList<>();
+            AtomicReference<Double> previousLongitude = new AtomicReference<>(null);
+            AtomicReference<Double> previousLatitude = new AtomicReference<>(null);
+            List<String> spotMemoryPhotos = new ArrayList<String>();
+            Map<String, Object> spot = new HashMap<>();
+
             for (MemorySpot memorySpot : memorySpots) {
-                Map<String, Object> spot = new HashMap<>();
-                spot.put("memoryPhoto", memorySpot.getMemoryPhoto());
-                spot.put("spotLongitude", memorySpot.getId().getSpotLongitude());
-                spot.put("spotLatitude", memorySpot.getId().getSpotLatitude());
+
+                Optional<MemoryPhoto> memoryPhotoOptional = Optional.ofNullable(memoryPhotoRepository.findByMemorySpotSpotId(memorySpot.getSpotId()));
+
+                Double currentLongitude = memorySpot.getSpotLongitude();
+                Double currentLatitude = memorySpot.getSpotLatitude();
+                if (previousLongitude.get() == null || previousLatitude.get() == null) {
+                    previousLongitude.set(currentLongitude);
+                    previousLatitude.set(currentLatitude);
+                    spot.put("spotLongitude", previousLongitude.get());
+                    spot.put("spotLatitude", previousLatitude.get());
+                } else if (!previousLongitude.get().equals(currentLongitude) || !previousLatitude.get().equals(currentLatitude)) {
+                    spot.put("memoryPhotos", spotMemoryPhotos);
+                    result.add(spot);
+
+                    spot = new HashMap<>();
+                    spotMemoryPhotos = new ArrayList<String>();
+
+                    spot.put("spotLongitude", currentLongitude);
+                    spot.put("spotLatitude", currentLatitude);
+
+
+                    previousLongitude.set(currentLongitude);
+                    previousLatitude.set(currentLatitude);
+                }
+                System.out.println(spot);
+                if (memoryPhotoOptional.isPresent()) {
+                    spotMemoryPhotos.add(memoryPhotoOptional.get().getMemoryPhoto());
+                }
+
+            }
+            if (!spot.isEmpty()){
+                spot.put("memoryPhotos", spotMemoryPhotos);
                 result.add(spot);
             }
             return result;
@@ -89,6 +105,6 @@ public class MemorySpotService {
             e.printStackTrace();
             throw e;
         }
-    }*/
+    }
 
 }

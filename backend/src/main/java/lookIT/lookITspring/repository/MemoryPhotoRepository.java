@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemoryPhotoRepository extends JpaRepository<MemoryPhoto, Long> {
 
   List<MemoryPhoto> findAllByMemorySpot(MemorySpot memorySpot);
+
+  MemoryPhoto findByMemorySpotSpotId(Long spotId);
 }
