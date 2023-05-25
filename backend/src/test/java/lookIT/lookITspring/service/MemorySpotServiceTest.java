@@ -2,7 +2,6 @@ package lookIT.lookITspring.service;
 
 import lookIT.lookITspring.entity.Memory;
 import lookIT.lookITspring.entity.MemorySpot;
-import lookIT.lookITspring.entity.MemorySpotId;
 import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 

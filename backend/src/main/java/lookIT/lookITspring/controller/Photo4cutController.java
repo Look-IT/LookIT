@@ -68,8 +68,13 @@ public class Photo4cutController {
     }
 
     @GetMapping("")
-    public List<Collections> Memory4Cut(@RequestParam("userId") Long userId) throws Exception {
+    public List<Collections> MyMemory4Cut(@RequestParam("userId") Long userId) throws Exception {
         return photo4CutService.getCollectionsByUserId(userId);
+    }
+
+    @GetMapping("/{tagId}")
+    public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId) throws Exception {
+        return photo4CutService.getCollectionsByTagId(tagId);
     }
 }
 
