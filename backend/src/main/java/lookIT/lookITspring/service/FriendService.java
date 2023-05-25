@@ -43,6 +43,21 @@ public class FriendService {
     return true;
   }
 
+  public List<FriendListDto> getFriendsRequestList(Long userId){
+    List<Friends> myFriends = friendsRepository.findByFriendsId_Friend_UserId(userId);
+    List<FriendListDto> friendList = new ArrayList<>();
+
+    for(Friends myFriend : myFriends){
+      if(myFriend.getStatus().equals("R")){
+        FriendListDto friendListDto = new FriendListDto(
+            myFriend.getFriendsId().getUser().getTagId(),
+            myFriend.getFriendsId().getUser().getNickName());
+        friendList.add(friendListDto);
+      }
+    }
+    return friendList;
+  }
+
   public boolean friendAccept(Long friendId, Long userId){
     User friend = userRepository.findById(friendId).orElseThrow(() -> new IllegalArgumentException("Invalid friendId"));
     User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));

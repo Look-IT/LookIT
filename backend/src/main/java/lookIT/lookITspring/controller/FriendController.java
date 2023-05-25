@@ -30,6 +30,11 @@ public class FriendController {
     return friendService.friendRequest(friendId, userId);
   }
 
+  @GetMapping("/request")
+  public List<FriendListDto> getFriendRequest(@RequestParam Long userId){
+    return friendService.getFriendsRequestList(userId);
+  }
+
   @PostMapping("/accept")
   @ResponseStatus(HttpStatus.OK)
   public boolean friendAccept(@RequestParam Long friendId, Long userId) throws Exception {
