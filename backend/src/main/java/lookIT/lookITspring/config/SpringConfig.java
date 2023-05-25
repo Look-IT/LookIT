@@ -78,7 +78,7 @@ public class SpringConfig {
 
 	@Bean
 	public MemoryService memoryService() {
-		return new MemoryService(userRepository, memoryRepository, linePathRepository, friendTagsRepository, infoTagsRepository, memorySpotRepository, memoryPhotoRepository);
+		return new MemoryService(userRepository, memoryRepository, linePathRepository, friendTagsRepository, infoTagsRepository, memorySpotRepository, memoryPhotoRepository, jwtProvider());
 	}
 
 	@Bean
@@ -88,7 +88,7 @@ public class SpringConfig {
 
 	@Bean
 	public FriendService friendService() {
-		return new FriendService(userRepository, friendsRepository);
+		return new FriendService(userRepository, friendsRepository, jwtProvider());
 	}
 
 }
