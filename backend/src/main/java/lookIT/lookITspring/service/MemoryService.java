@@ -24,6 +24,7 @@ import lookIT.lookITspring.repository.MemoryPhotoRepository;
 import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import lookIT.lookITspring.repository.UserRepository;
+import lookIT.lookITspring.security.JwtProvider;
 
 @RequiredArgsConstructor
 @Transactional
@@ -36,6 +37,7 @@ public class MemoryService {
 	private final InfoTagsRepository infoTagsRepository;
 	private final MemorySpotRepository memorySpotRepository;
 	private final MemoryPhotoRepository memoryPhotoRepository;
+	private final JwtProvider jwtProvider;
 /*
 	public Long memoryCreate(MemoryCreateRequestDto requestDto) throws Exception{
 		try{
@@ -59,7 +61,8 @@ public class MemoryService {
 		}
 	}
 */
-	public List<MemoryListDto> memoryListInquiry(Long userId){
+	public List<MemoryListDto> memoryListInquiry(String token){
+		Long userId = jwtProvider.getUserId(token);
 		List<Memory> memories = memoryRepository.findByUser_UserId(userId);
 		List<MemoryListDto> result = new ArrayList<>();
 		for (Memory memory : memories) {
