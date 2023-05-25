@@ -1,6 +1,7 @@
 package lookIT.lookITspring.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lookIT.lookITspring.dto.FriendListDto;
 import lookIT.lookITspring.dto.FriendSearchDto;
 import lookIT.lookITspring.service.FriendService;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class FriendController {
   @ResponseStatus(HttpStatus.OK)
   public boolean friendAccept(@RequestParam Long friendId, Long userId) throws Exception {
     return friendService.friendAccept(friendId, userId);
+  }
+
+  @GetMapping("/list")
+  public List<FriendListDto> myFriendList(@RequestParam Long userId){
+    return friendService.getMyfriendList(userId);
   }
 
 }

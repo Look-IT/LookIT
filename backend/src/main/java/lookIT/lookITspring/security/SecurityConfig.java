@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/friends").permitAll()
 			.antMatchers("/friends/request").permitAll()
 			.antMatchers("/friends/accept").permitAll()
+			.antMatchers("/friends/list").permitAll()
 			.anyRequest().authenticated();
 	}
 
