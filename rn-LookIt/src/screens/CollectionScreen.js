@@ -7,6 +7,7 @@ import FourCutList from '../components/FourCutList';
 import { fourCutGet } from '../api/fourCutApi';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
+
 const CollectionScreen = () => {
   const [isLeftPressed, setIsLeftPressed] = useState(true);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
@@ -45,14 +46,6 @@ const CollectionScreen = () => {
     require('../../assets/Default_Frame.png')
   ).uri;
 
-  /* const [fourCut, setFourCut] = useState([
-    { id: '1', uri: sampleImage },
-    { id: '2', uri: sampleImage },
-    { id: '3', uri: sampleImage },
-    { id: '4', uri: sampleImage },
-    { id: '5', uri: sampleImage },
-    { id: '6', uri: sampleImage },
-  ]);*/
   const [fourCut, setFourCut] = useState([]);
   const [taggedFourCut, settaggedFourCut] = useState([]);
 

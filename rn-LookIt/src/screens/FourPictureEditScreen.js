@@ -6,7 +6,8 @@ import ViewShot from 'react-native-view-shot';
 import { useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 const FourPictureEditScreen = ({ route }) => {
-  const { image } = route.params;
+  const { sellectedImage } = route.params;
+  console.log('sellectedImage:' + sellectedImage);
   const ref = useRef();
   const navigation = useNavigation();
 
@@ -36,22 +37,22 @@ const FourPictureEditScreen = ({ route }) => {
           >
             <Image
               style={[styles.fourPicture, { bottom: 51, left: 30 }]}
-              source={{ uri: image[1].data.uri }}
+              source={{ uri: sellectedImage[1].data }}
             ></Image>
 
             <Image
               style={[styles.fourPicture, { top: 206, left: 30 }]}
-              source={{ uri: image[0].data.uri }}
+              source={{ uri: sellectedImage[0].data }}
             ></Image>
 
             <Image
               style={[styles.fourPicture, { top: 55, right: 33 }]}
-              source={{ uri: image[2].data.uri }}
+              source={{ uri: sellectedImage[2].data }}
             ></Image>
 
             <Image
               style={[styles.fourPicture, { bottom: 201, right: 33 }]}
-              source={{ uri: image[3].data.uri }}
+              source={{ uri: sellectedImage[3].data }}
             ></Image>
           </ImageBackground>
         </View>

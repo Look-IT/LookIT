@@ -22,8 +22,8 @@ const CameraScreen = () => {
   useEffect(() => {
     //이미지 개수 바로바로 카운팅해서, 4컷 촬영 시 바로 넘어감.
     console.log(image.length);
-    if (image.length >= 4) {
-      navigation.navigate('FourPictureEditScreen', { image });
+    if (image.length >= 8) {
+      navigation.navigate('FourCutSellectScreen', { image });
 
       console.log(image);
     }
