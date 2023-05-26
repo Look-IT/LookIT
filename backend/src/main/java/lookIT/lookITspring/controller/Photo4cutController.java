@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.Collections;
+import lookIT.lookITspring.security.JwtProvider;
 import lookIT.lookITspring.service.MemorySpotService;
 import lookIT.lookITspring.service.Photo4CutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class Photo4cutController {
 
     @Autowired
     private AmazonS3 s3Client;
+
+    private final JwtProvider jwtProvider;
 
     @PostMapping("/4cutphoto")
     public boolean uploadFile(
@@ -68,13 +71,16 @@ public class Photo4cutController {
     }
 
     @GetMapping("")
-    public List<Collections> MyMemory4Cut(@RequestParam("userId") Long userId) throws Exception {
+    public List<Collections> MyMemory4Cut(@RequestHeader("token") String token) throws Exception {
+        Long userId = jwtProvider.getUserId(token);
+        System.out.println(userId);
         return photo4CutService.getCollectionsByUserId(userId);
     }
-
+/*
     @GetMapping("/{tagId}")
     public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId) throws Exception {
         return photo4CutService.getCollectionsByTagId(tagId);
     }
+    */
 }
 
