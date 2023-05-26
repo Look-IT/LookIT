@@ -54,12 +54,9 @@ public class Photo4CutService {
     public List<Collections> getCollectionsByUserId(Long userId) {
         return collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
     }
-/*
+
     public List<Collections> getCollectionsByTagId(String tagId) {
-        return collectionsRepository.findAllByTagIdOrderByCreateAtDesc(tagId);
+        return collectionsRepository.findAllByUserTagIdOrderByCreateAtDesc(tagId);
     }
-
-
- */
 }
 

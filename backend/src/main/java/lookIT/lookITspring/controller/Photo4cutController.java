@@ -76,11 +76,11 @@ public class Photo4cutController {
         System.out.println(userId);
         return photo4CutService.getCollectionsByUserId(userId);
     }
-/*
+
     @GetMapping("/{tagId}")
     public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId) throws Exception {
         return photo4CutService.getCollectionsByTagId(tagId);
     }
-    */
+
 }
 
