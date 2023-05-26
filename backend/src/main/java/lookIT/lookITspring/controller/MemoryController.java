@@ -33,6 +33,11 @@ public class MemoryController {
   @GetMapping("/list")
   @ResponseBody
   public List<MemoryListDto> getMemoryListById(@RequestHeader("token") String token){
-  return memoryService.memoryListInquiry(token);
+    return memoryService.memoryListInquiry(token);
+  }
+
+  @PostMapping("/friendTag")
+  public String postMemoryFriendTag(@RequestBody String[] friendsList, @RequestParam Long memoryId){
+    return memoryService.memoryFriendTag(friendsList, memoryId);
   }
 }

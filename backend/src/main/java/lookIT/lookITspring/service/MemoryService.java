@@ -11,6 +11,7 @@ import lookIT.lookITspring.dto.LinePathDto;
 import lookIT.lookITspring.dto.MemoryCreateRequestDto;
 import lookIT.lookITspring.dto.MemoryListDto;
 import lookIT.lookITspring.entity.FriendTags;
+import lookIT.lookITspring.entity.FriendTagsId;
 import lookIT.lookITspring.entity.InfoTags;
 import lookIT.lookITspring.entity.LinePath;
 import lookIT.lookITspring.entity.Memory;
@@ -111,5 +112,21 @@ public class MemoryService {
 			infoTagsDtoList.add(new InfoTagsDto(info));
 		}
 		return infoTagsDtoList;
+	}
+
+	public String memoryFriendTag(String[] friendsList, Long memoryId){
+		Memory memory = memoryRepository.findById(memoryId).get();
+
+		if(friendsList.length != 0){
+			for (String friend : friendsList){
+				User tagFriend = userRepository.findByTagId(friend).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+				FriendTagsId friendTagsId = new FriendTagsId(memory, tagFriend);
+				FriendTags friendTags = new FriendTags(friendTagsId);
+				friendTagsRepository.save(friendTags);
+			}
+			return "Friends tagged successfully";
+		} else {
+			return "No friends to tag";
+		}
 	}
 }
