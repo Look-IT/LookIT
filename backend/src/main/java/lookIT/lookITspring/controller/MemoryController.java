@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemoryController {
 
   private final MemoryService memoryService;
-/*
+
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.OK)
-  public Long memoryCreate(@Valid @RequestBody MemoryCreateRequestDto request) throws Exception {
-    return memoryService.memoryCreate(request);
+  public Long memoryCreate(@Valid @RequestHeader String token, @RequestBody MemoryCreateRequestDto request) throws Exception {
+    return memoryService.memoryCreate(token, request);
   }
-*/
+
   @GetMapping("/list")
   @ResponseBody
   public List<MemoryListDto> getMemoryListById(@RequestHeader("token") String token){

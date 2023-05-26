@@ -18,6 +18,5 @@ import lookIT.lookITspring.entity.User;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemoryCreateRequestDto {
-	private Long userId;
 	private List<LinePathDto> path;
 }
