@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 import { GRAY, BLACK, PRIMARY } from '../colors';
 
-const RequestFriendListItem = memo(({ item }) => {
+const SendFriendListItem = memo(({ item }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -20,20 +20,17 @@ const RequestFriendListItem = memo(({ item }) => {
         <Text style={styles.idFont}>#{item.id}</Text>
       </View>
       <View style={styles.textContainer}>
-        <TouchableOpacity style={{ marginRight: 16 }}>
-          <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>
-        </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.idFont}>거절</Text>
+          <Text style={styles.idFont}>취소</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 });
 
-RequestFriendListItem.displayName = 'RequestFriendListItem';
+SendFriendListItem.displayName = 'SendFriendListItem';
 
-RequestFriendListItem.propTypes = {
+SendFriendListItem.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
@@ -66,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestFriendListItem;
+export default SendFriendListItem;

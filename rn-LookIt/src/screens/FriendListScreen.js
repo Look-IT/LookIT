@@ -15,6 +15,7 @@ import InputFab from '../components/InputFab.js';
 import { useEffect, useState } from 'react';
 import FriendList from '../components/FriendList';
 import RequestFriendList from '../components/RequestFriendList';
+import SendFriendList from '../components/SendFriendList';
 //import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 const FriendListScreen = ({ navigation, route }) => {
@@ -114,7 +115,7 @@ const FriendListScreen = ({ navigation, route }) => {
               </View>
             </Pressable>
             {SendListExpand && (
-              <RequestFriendList data={sendFriend}></RequestFriendList>
+              <SendFriendList data={sendFriend}></SendFriendList>
             )}
             <View style={styles.list}>
               <Text style={[styles.text, { fontSize: 10 }]}>친구</Text>
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 48,
     borderTopWidth: 1,
-    borderColor: GRAY.DEFAULT,
+    borderColor: GRAY[200],
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 8,

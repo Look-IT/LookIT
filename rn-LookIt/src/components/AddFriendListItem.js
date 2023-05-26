@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { GRAY, BLACK, PRIMARY } from '../colors';
+import { GRAY, BLACK, PRIMARY, WHITE } from '../colors';
 
-const RequestFriendListItem = memo(({ item }) => {
+const AddFriendListItem = memo(({ item }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -20,20 +20,17 @@ const RequestFriendListItem = memo(({ item }) => {
         <Text style={styles.idFont}>#{item.id}</Text>
       </View>
       <View style={styles.textContainer}>
-        <TouchableOpacity style={{ marginRight: 16 }}>
-          <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.idFont}>거절</Text>
+        <TouchableOpacity style={styles.buttonContainer}>
+          <Text style={styles.buttonFont}>친구 요청</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 });
 
-RequestFriendListItem.displayName = 'RequestFriendListItem';
+AddFriendListItem.displayName = 'AddFriendListItem';
 
-RequestFriendListItem.propTypes = {
+AddFriendListItem.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
@@ -46,7 +43,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-
+  buttonContainer: {
+    backgroundColor: PRIMARY[700],
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 32,
+    width: 81,
+    borderRadius: 8,
+  },
   textContainer: {
     height: 48,
 
@@ -64,6 +68,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: GRAY[400],
   },
+  buttonFont: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: WHITE,
+  },
 });
 
-export default RequestFriendListItem;
+export default AddFriendListItem;

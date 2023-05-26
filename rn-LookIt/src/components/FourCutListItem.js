@@ -22,6 +22,7 @@ const FourCutListItem = memo(({ item, width, height }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const viewWidth = Dimensions.get('window').width;
   const viewHeight = Dimensions.get('window').height;
+
   return (
     <>
       <Pressable onPress={() => setModalVisible(true)}>
@@ -60,7 +61,12 @@ const FourCutListItem = memo(({ item, width, height }) => {
             source={require('../../assets/Icon_Clear.png')}
           ></Image>
         </FourCutFAB>
-        <FourCutFAB style={{ right: 16 }}>
+        <FourCutFAB
+          onPress={() => {
+            downloadAndSaveImage(item.uri);
+          }}
+          style={{ right: 16 }}
+        >
           <Image
             style={styles.image}
             source={require('../../assets/Icon_Download.png')}
