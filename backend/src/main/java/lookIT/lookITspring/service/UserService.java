@@ -20,7 +20,7 @@ public class UserService {
 	private final JwtProvider jwtProvider;
 
 	@Transactional
-	public Long join(UserJoinRequestDto requestDto) throws Exception {
+	public boolean join(UserJoinRequestDto requestDto) throws Exception {
 
 		if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
 			throw new IllegalStateException("이미 존재하는 이메일입니다.");
@@ -29,7 +29,7 @@ public class UserService {
 		User user = userRepository.save(requestDto.toEntity());
 		user.encodePassword(passwordEncoder);
 
-		return user.getUserId();
+		return true;
 	}
 
 	public String login(Map<String, String> members) {

@@ -38,10 +38,11 @@ public class MemoryService {
 	private final MemorySpotRepository memorySpotRepository;
 	private final MemoryPhotoRepository memoryPhotoRepository;
 	private final JwtProvider jwtProvider;
-/*
-	public Long memoryCreate(MemoryCreateRequestDto requestDto) throws Exception{
+
+	public Long memoryCreate(String token, MemoryCreateRequestDto requestDto) throws Exception{
 		try{
-			User user = userRepository.findById(requestDto.getUserId()).get();
+			Long userId = jwtProvider.getUserId(token);
+			User user = userRepository.findById(userId).get();
 			Memory memory = Memory.builder()
 				.user(user)
 				.build();
@@ -60,7 +61,7 @@ public class MemoryService {
 			return new Long(-1);
 		}
 	}
-*/
+
 	public List<MemoryListDto> memoryListInquiry(String token){
 		Long userId = jwtProvider.getUserId(token);
 		List<Memory> memories = memoryRepository.findByUser_UserId(userId);
