@@ -31,15 +31,20 @@ public class FriendController {
     return friendService.friendRequest(tagId, token);
   }
 
-  @GetMapping("/request")
-  public List<FriendListDto> getFriendRequest(@RequestHeader("token") String token){
-    return friendService.getFriendsRequestList(token);
-  }
-
   @PostMapping("/accept")
   @ResponseStatus(HttpStatus.OK)
   public boolean friendAccept(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {
     return friendService.friendAccept(tagId, token);
+  }
+
+  @GetMapping("/request")
+  public List<FriendListDto> getMyRequest(@RequestHeader("token") String token){
+    return friendService.myRequestList(token);
+  }
+
+  @GetMapping("/accept")
+  public List<FriendListDto> getFriendRequest(@RequestHeader("token") String token){
+    return friendService.friendsRequestList(token);
   }
 
   @GetMapping("/list")

@@ -46,7 +46,7 @@ public class FriendService {
     return true;
   }
 
-  public List<FriendListDto> getFriendsRequestList(String token){
+  public List<FriendListDto> friendsRequestList(String token){
     Long userId = jwtProvider.getUserId(token);
     List<Friends> myFriends = friendsRepository.findByFriendsId_Friend_UserId(userId);
     List<FriendListDto> friendList = new ArrayList<>();
@@ -79,10 +79,26 @@ public class FriendService {
     }
   }
 
+  public List<FriendListDto> myRequestList(String token){
+    Long userId = jwtProvider.getUserId(token);
+    List<Friends> myFriends = friendsRepository.findByFriendsId_User_UserId(userId);
+    List<FriendListDto> friendList = new ArrayList<>();
+
+    for(Friends myFriend : myFriends){
+      if(myFriend.getStatus().equals("R")){
+        FriendListDto friendListDto = new FriendListDto(
+            myFriend.getFriendsId().getFriend().getTagId(),
+            myFriend.getFriendsId().getFriend().getNickName());
+        friendList.add(friendListDto);
+      }
+    }
+    return friendList;
+  }
+
   public List<FriendListDto> getMyfriendList(String token){
     Long userId = jwtProvider.getUserId(token);
     List<Friends> myFriends = friendsRepository.findByFriendsId_User_UserId(userId);
-    List<FriendListDto>  friendList = new ArrayList<>();
+    List<FriendListDto> friendList = new ArrayList<>();
 
     for(Friends myFriend : myFriends){
       if(myFriend.getStatus().equals("A")){
