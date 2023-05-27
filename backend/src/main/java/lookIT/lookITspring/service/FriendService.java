@@ -37,6 +37,16 @@ public class FriendService {
     return result;
   }
 
+  public FriendListDto myInfo(String token){
+    Long userId = jwtProvider.getUserId(token);
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    FriendListDto friendListDto = new FriendListDto(
+        user.getTagId(),
+        user.getNickName()
+    );
+    return friendListDto;
+  }
+
   public boolean friendRequest(String tagId, String token) {
     Long userId = jwtProvider.getUserId(token);
     User friend = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
