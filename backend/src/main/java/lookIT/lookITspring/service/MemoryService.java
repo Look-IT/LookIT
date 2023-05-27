@@ -92,6 +92,34 @@ public class MemoryService {
 	}
 
 
+	public List<MemoryListDto> friendMemoryListInquiry(String tagId){
+		List<Memory> memories = memoryRepository.findByUser_tagId(tagId);
+		List<MemoryListDto> result = new ArrayList<>();
+		for (Memory memory : memories) {
+			Long memoryId = memory.getMemoryId();
+			List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory);
+			String memoryPhoto = "";
+
+			if (memorySpots.size()!=0) {
+				MemorySpot memorySpot = memorySpots.get(0);
+				List<MemoryPhoto> memoryPhotos = memoryPhotoRepository.findAllByMemorySpot(memorySpot);
+				if (memoryPhotos.size()!=0) {
+					MemoryPhoto memoryPhotoEntity = memoryPhotos.get(0);
+					memoryPhoto = memoryPhotoEntity.getMemoryPhoto();
+				}
+			}
+
+			LocalDateTime createAt = memory.getCreateAt();
+			List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
+			List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
+
+			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
+			result.add(memoryListDto);
+		}
+		return result;
+	}
+
+
 	private List<FriendTagsDto> getFriendTagsDtoList(Long memoryId) {
 		Memory memory = memoryRepository.findById(memoryId).get();
 		List<FriendTags> friendTagsList = friendTagsRepository.findByFriendTagsId_Memory(memory);
