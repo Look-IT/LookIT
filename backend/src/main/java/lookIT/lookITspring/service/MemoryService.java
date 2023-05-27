@@ -3,6 +3,7 @@ package lookIT.lookITspring.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendTagsDto;
@@ -12,6 +13,7 @@ import lookIT.lookITspring.dto.MemoryCreateRequestDto;
 import lookIT.lookITspring.dto.MemoryListDto;
 import lookIT.lookITspring.entity.FriendTags;
 import lookIT.lookITspring.entity.InfoTags;
+import lookIT.lookITspring.entity.InfoTagsId;
 import lookIT.lookITspring.entity.LinePath;
 import lookIT.lookITspring.entity.Memory;
 import lookIT.lookITspring.entity.MemoryPhoto;
@@ -112,5 +114,18 @@ public class MemoryService {
 			infoTagsDtoList.add(new InfoTagsDto(info));
 		}
 		return infoTagsDtoList;
+	}
+
+	public boolean createInfoTags(Long memoryId, List<Map<String, String>> request) {
+		Memory memory = memoryRepository.findById(memoryId).get();
+		for (Map<String, String> tag :  request){
+			InfoTagsId infoTagsId = InfoTagsId.builder()
+				.memory(memory)
+				.info(tag.get("info"))
+				.build();
+			InfoTags infoTags = InfoTags.builder().infoTagsId(infoTagsId).build();
+			infoTagsRepository.save(infoTags);
+		}
+		return true;
 	}
 }

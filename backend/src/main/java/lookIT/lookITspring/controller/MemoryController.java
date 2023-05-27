@@ -1,6 +1,7 @@
 package lookIT.lookITspring.controller;
 
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.MemoryCreateRequestDto;
@@ -28,6 +29,11 @@ public class MemoryController {
   @ResponseStatus(HttpStatus.OK)
   public Long memoryCreate(@Valid @RequestHeader String token, @RequestBody MemoryCreateRequestDto request) throws Exception {
     return memoryService.memoryCreate(token, request);
+  }
+
+  @PostMapping("/info")
+  public boolean createInfoTags(@RequestParam("memoryId") Long memoryId, @RequestBody List<Map<String, String>> request){
+    return memoryService.createInfoTags(memoryId, request);
   }
 
   @GetMapping("/list")
