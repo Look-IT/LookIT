@@ -7,11 +7,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.Collections;
 import lookIT.lookITspring.security.JwtProvider;
-import lookIT.lookITspring.service.MemorySpotService;
 import lookIT.lookITspring.service.Photo4CutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,11 +74,16 @@ public class Photo4cutController {
         System.out.println(userId);
         return photo4CutService.getCollectionsByUserId(userId);
     }
-/*
+
     @GetMapping("/{tagId}")
     public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId) throws Exception {
         return photo4CutService.getCollectionsByTagId(tagId);
     }
-    */
+
+    @PostMapping("/tag")
+    public String TagPhoto4Cut (@RequestBody String[] friendsList, @RequestParam Long photo4CutId){
+        return photo4CutService.collectionFriendTag(friendsList, photo4CutId);
+    }
+
 }
 

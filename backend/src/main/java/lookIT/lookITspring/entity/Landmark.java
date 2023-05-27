@@ -35,6 +35,9 @@ public class Landmark {
   @Column(name = "landInfo")
   private String landInfo;
 
+  @Column(name = "landmarkAddress")
+  private String landmarkAddress;
+
   @Column(name = "frameUrl")
   private String frameUrl;
 

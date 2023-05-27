@@ -1,25 +1,25 @@
 package lookIT.lookITspring.service;
 
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.*;
 import lookIT.lookITspring.repository.CollectionsRepository;
 import lookIT.lookITspring.repository.LandmarkRepository;
+import lookIT.lookITspring.repository.PhotoTagsRepository;
 import lookIT.lookITspring.repository.UserRepository;
-import org.hibernate.Session;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-@Service
+import java.util.stream.Collectors;
+
+@Transactional
 @RequiredArgsConstructor
 public class Photo4CutService {
     private final LandmarkRepository landmarkRepository;
-
     private final CollectionsRepository collectionsRepository;
-
     private final UserRepository userRepository;
+    private final PhotoTagsRepository photoTagsRepository;
 
     public String getPhotoFrame(long landmarkId) throws Exception {
         try {
@@ -54,12 +54,32 @@ public class Photo4CutService {
     public List<Collections> getCollectionsByUserId(Long userId) {
         return collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
     }
-/*
+
     public List<Collections> getCollectionsByTagId(String tagId) {
-        return collectionsRepository.findAllByTagIdOrderByCreateAtDesc(tagId);
+
+        List<PhotoTags> photoTags = photoTagsRepository.findByTagId(tagId);
+        List<Long> photo4CutIds = photoTags.stream()
+                .map(PhotoTags::getCollections)
+                .map(Collections::getPhoto4CutId)
+                .collect(Collectors.toList());
+        return collectionsRepository.findByPhoto4CutIdInOrderByCreateAtDesc(photo4CutIds);
     }
 
+    public String collectionFriendTag(String[] friendsList, Long photo4CutId){
+        Collections collection = collectionsRepository.findById(photo4CutId).orElseThrow(() -> new IllegalArgumentException("Invalid photo4CutId"));
 
- */
+        if(friendsList.length != 0){
+            for (String friend : friendsList){
+                PhotoTags photoTags = PhotoTags.builder()
+                    .tagId(friend)
+                    .collections(collection)
+                    .build();
+                photoTagsRepository.save(photoTags);
+            }
+            return "Friends tagged successfully to photo4Cut";
+        } else {
+            return "No friends to tag to photo4Cut";
+        }
+    }
 }
 

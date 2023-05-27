@@ -12,6 +12,7 @@ import lookIT.lookITspring.dto.LinePathDto;
 import lookIT.lookITspring.dto.MemoryCreateRequestDto;
 import lookIT.lookITspring.dto.MemoryListDto;
 import lookIT.lookITspring.entity.FriendTags;
+import lookIT.lookITspring.entity.FriendTagsId;
 import lookIT.lookITspring.entity.InfoTags;
 import lookIT.lookITspring.entity.InfoTagsId;
 import lookIT.lookITspring.entity.LinePath;
@@ -92,6 +93,32 @@ public class MemoryService {
 		return result;
 	}
 
+	public List<MemoryListDto> friendMemoryListInquiry(String tagId){
+		List<Memory> memories = memoryRepository.findByUser_tagId(tagId);
+		List<MemoryListDto> result = new ArrayList<>();
+		for (Memory memory : memories) {
+			Long memoryId = memory.getMemoryId();
+			List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory);
+			String memoryPhoto = "";
+
+			if (memorySpots.size()!=0) {
+				MemorySpot memorySpot = memorySpots.get(0);
+				List<MemoryPhoto> memoryPhotos = memoryPhotoRepository.findAllByMemorySpot(memorySpot);
+				if (memoryPhotos.size()!=0) {
+					MemoryPhoto memoryPhotoEntity = memoryPhotos.get(0);
+					memoryPhoto = memoryPhotoEntity.getMemoryPhoto();
+				}
+			}
+
+			LocalDateTime createAt = memory.getCreateAt();
+			List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
+			List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
+
+			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
+			result.add(memoryListDto);
+		}
+		return result;
+	}
 
 	private List<FriendTagsDto> getFriendTagsDtoList(Long memoryId) {
 		Memory memory = memoryRepository.findById(memoryId).get();
@@ -114,6 +141,22 @@ public class MemoryService {
 			infoTagsDtoList.add(new InfoTagsDto(info));
 		}
 		return infoTagsDtoList;
+	}
+
+	public String memoryFriendTag(String[] friendsList, Long memoryId){
+		Memory memory = memoryRepository.findById(memoryId).get();
+
+		if(friendsList.length != 0){
+			for (String friend : friendsList){
+				User tagFriend = userRepository.findByTagId(friend).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+				FriendTagsId friendTagsId = new FriendTagsId(memory, tagFriend);
+				FriendTags friendTags = new FriendTags(friendTagsId);
+				friendTagsRepository.save(friendTags);
+			}
+			return "Friends tagged successfully";
+		} else {
+			return "No friends to tag";
+		}
 	}
 
 	public boolean createInfoTags(Long memoryId, List<Map<String, String>> request) {

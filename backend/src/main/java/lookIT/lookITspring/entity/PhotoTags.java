@@ -24,13 +24,12 @@ import lombok.NoArgsConstructor;
 public class PhotoTags {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tagId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "friendId")
-	private User friend;
+	private Long photoTagId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "photo4CutId")
 	private Collections collections;
+
+	@Column
+	private String tagId;
 }

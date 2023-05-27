@@ -11,6 +11,7 @@ public class LandmarkInfoDto {
   private String landmarkName;
   private String landInfo;
   private String frameUrl;
+  private String landmarkAddress;
 
 }
 

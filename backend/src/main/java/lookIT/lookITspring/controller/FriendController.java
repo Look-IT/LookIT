@@ -25,6 +25,11 @@ public class FriendController {
    return friendService.friendInfoIncludingTagId(tagId);
   }
 
+  @GetMapping("/my")
+  public FriendListDto getMyInfo(@RequestHeader("token") String token){
+    return friendService.myInfo(token);
+  }
+
   @PostMapping("/request")
   @ResponseStatus(HttpStatus.OK)
   public boolean friendRequest(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {

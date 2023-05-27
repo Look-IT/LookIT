@@ -8,4 +8,5 @@ public interface MemoryRepository extends JpaRepository<Memory, Long> {
 
   List<Memory> findByUser_UserId(Long userId);
 
+  List<Memory> findByUser_tagId(String tagId);
 }

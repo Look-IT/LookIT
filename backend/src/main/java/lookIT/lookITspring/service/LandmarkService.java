@@ -34,7 +34,8 @@ public class LandmarkService {
       LandmarkInfoDto landmarkInfo = new LandmarkInfoDto(
           landmark.get().getLandmarkName(),
           landmark.get().getLandInfo(),
-          landmark.get().getFrameUrl());
+          landmark.get().getFrameUrl(),
+          landmark.get().getLandmarkAddress());
       return ResponseEntity.ok(landmarkInfo);
     } else {
       return ResponseEntity.notFound().build();
