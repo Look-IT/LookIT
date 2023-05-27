@@ -36,6 +36,11 @@ public class MemoryController {
     return memoryService.createInfoTags(memoryId, request);
   }
 
+  @GetMapping("/info")
+  public List<Long> searchMemoryByInfoTags(@RequestHeader String info){
+    return memoryService.searchMemoryByInfoTags(info);
+  }
+
   @GetMapping("/list")
   @ResponseBody
   public List<MemoryListDto> getMemoryListById(@RequestHeader("token") String token){

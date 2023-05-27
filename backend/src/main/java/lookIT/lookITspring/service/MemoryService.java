@@ -171,4 +171,13 @@ public class MemoryService {
 		}
 		return true;
 	}
+
+	public List<Long> searchMemoryByInfoTags(String info) {
+		List<InfoTags> infoTagsList = infoTagsRepository.findByInfoTagsIdInfo(info);
+		List<Long> memoryIdList = new ArrayList<>();
+		for(InfoTags infoTag : infoTagsList){
+			memoryIdList.add(infoTag.getInfoTagsId().getMemory().getMemoryId());
+		}
+		return memoryIdList;
+	}
 }
