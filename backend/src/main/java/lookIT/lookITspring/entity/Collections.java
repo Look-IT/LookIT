@@ -30,6 +30,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @Entity
 @Table(name = "Collections")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Collections {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

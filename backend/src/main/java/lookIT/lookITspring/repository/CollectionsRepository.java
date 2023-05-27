@@ -11,7 +11,5 @@ public interface CollectionsRepository extends JpaRepository<Collections, Long> 
     @Query("SELECT c FROM Collections c JOIN c.user u WHERE u.id = :userId ORDER BY c.createAt DESC")
     List<Collections> findAllByUserIdOrderByCreateAtDesc(@Param("userId") Long userId);
 
-    @Query("SELECT c FROM Collections c JOIN c.user u WHERE u.tagId = :tagId ORDER BY c.createAt DESC")
-    List<Collections> findAllByUserTagIdOrderByCreateAtDesc(@Param("tagId") String tagId);
-
+    List<Collections> findByPhoto4CutIdInOrderByCreateAtDesc(List<Long> photo4CutIds);
 }
