@@ -9,6 +9,7 @@ import lookIT.lookITspring.security.JwtProvider;
 import lookIT.lookITspring.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +41,10 @@ public class UserController {
 	@GetMapping("/join/exists")
 	public ResponseEntity<Boolean> checkIdDuplicate(@RequestParam("tagId") String tagId){
 		return ResponseEntity.ok(userService.checkIdDuplicate(tagId));
+	}
+
+	@DeleteMapping("/logout")
+	public boolean logout(@RequestBody Map<String, String> request) {
+		return userService.logout(request.get("token"));
 	}
 }

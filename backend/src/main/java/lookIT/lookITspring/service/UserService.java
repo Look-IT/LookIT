@@ -1,5 +1,8 @@
 package lookIT.lookITspring.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import java.util.Map;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -51,5 +54,10 @@ public class UserService {
 		}catch (Exception e) {
 			return true;
 		}
+	}
+
+	public boolean logout(String token) {
+		jwtProvider.setExpiration(token);
+		return true;
 	}
 }

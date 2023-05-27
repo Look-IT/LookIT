@@ -76,4 +76,16 @@ public class JwtProvider {
 			return false;
 		}
 	}
+
+	public void setExpiration(String jwtToken){
+		Long userPk = getUserId(jwtToken);
+		Claims claims = Jwts.claims().setSubject(Long.toString(userPk)); // JWT payload 에 저장되는 정보단위
+		Date now = new Date();
+		Jwts.builder()
+			.setClaims(claims)
+			.setIssuedAt(now)
+			.setExpiration(new Date(now.getTime()+1000))
+			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.compact();
+	}
 }
