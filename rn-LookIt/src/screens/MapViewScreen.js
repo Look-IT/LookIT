@@ -55,12 +55,12 @@ const MapViewScreen = () => {
         {
           <FloatingButton
             icon={
-              isCurrentWatch
+              isCurrentWatch || isobserving
                 ? require('../../assets/Icon_Gps-filled.png')
                 : require('../../assets/Icon_Gps.png')
             }
             onPress={() => {
-              SetIsCurrentWatch(!isCurrentWatch);
+              !isobserving && SetIsCurrentWatch(!isCurrentWatch);
             }}/>
         }
         
