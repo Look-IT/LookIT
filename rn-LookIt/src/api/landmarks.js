@@ -1,9 +1,21 @@
-import axios from 'axios';
+import { apiClient } from "./apiClient";
 
-export const landmarksGet = async (url) => {
-  
-  return await axios({
-    method: 'GET',
-    url: url,
-  })
+const getLandmarks = async () => {
+  try {
+    const response = await apiClient.get('/main/landmarks');
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
 }
+
+export const callLandmarks = async () => {
+  try {
+    const response = await getLandmarks();
+    return response;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
