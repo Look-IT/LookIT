@@ -1,8 +1,9 @@
 import { Pressable, Text, StyleSheet, Image, View } from "react-native";
 
-import { WHITE } from "../colors";
+import { WHITE } from "../../colors";
 
 const FloatingButton = ({style, icon, onPress}) => {
+
   return (
     <Pressable
       onPress={onPress}
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
+    marginTop: 16,
   },
   ButtonIconStyle: {
     resizeMode: 'contain',
