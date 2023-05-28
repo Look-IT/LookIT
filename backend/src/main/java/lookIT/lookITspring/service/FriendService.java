@@ -5,7 +5,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendListDto;
-import lookIT.lookITspring.dto.FriendSearchDto;
 import lookIT.lookITspring.entity.Friends;
 import lookIT.lookITspring.entity.FriendsId;
 import lookIT.lookITspring.entity.User;
@@ -21,17 +20,16 @@ public class FriendService {
   private final FriendsRepository friendsRepository;
   private final JwtProvider jwtProvider;
 
-  public List<FriendSearchDto> friendInfoIncludingTagId(String tagId) {
+  public List<FriendListDto> friendInfoIncludingTagId(String tagId) {
     List<User> friends = userRepository.findAll();
-    List<FriendSearchDto> result = new ArrayList<>();
+    List<FriendListDto> result = new ArrayList<>();
 
     for (User friend : friends){
       if(friend.getTagId().contains(tagId)) {
-        FriendSearchDto friendSearchDto = new FriendSearchDto(
-            friend.getUserId(),
+        FriendListDto friendListDto = new FriendListDto(
             friend.getTagId(),
             friend.getNickName());
-        result.add(friendSearchDto);
+        result.add(friendListDto);
       }
     }
     return result;

@@ -2,7 +2,6 @@ package lookIT.lookITspring.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendListDto;
-import lookIT.lookITspring.dto.FriendSearchDto;
 import lookIT.lookITspring.service.FriendService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ public class FriendController {
   private final FriendService friendService;
 
   @GetMapping
-  public List<FriendSearchDto> getUserByTagId(@RequestParam String tagId){
+  public List<FriendListDto> getUserByTagId(@RequestParam String tagId){
    return friendService.friendInfoIncludingTagId(tagId);
   }
 
