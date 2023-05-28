@@ -11,7 +11,7 @@ const MemoriesFloatingButton = ({activation, onPress}) => {
   const [shouldTrack, setShouldTrack] = useState(false); // 경로 추적 관리 변수
 
   // 경로 추적 함수
-  useLocationTracking(shouldTrack);
+  useLocationTracking(shouldTrack, true);
 
   return (
     <Pressable

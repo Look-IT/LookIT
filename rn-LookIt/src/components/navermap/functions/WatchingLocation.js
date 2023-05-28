@@ -3,7 +3,7 @@ import { checkMultiplePermissions } from "../../../functions/Permissions"
 import Geolocation from 'react-native-geolocation-service';
 import { useMemoriesContext } from "../../../contexts/MemoriesContext";
 
-export const useLocationTracking = (shouldTrack) => {
+export const useLocationTracking = (shouldTrack, isTrackingSave) => {
   const {setMyLocation, setTrackingLocation } = useMemoriesContext();
   const [watchId, setWatchId] = useState(null);
   
@@ -17,7 +17,7 @@ export const useLocationTracking = (shouldTrack) => {
             longitude: position.coords.longitude
           };
           setMyLocation(positionData);
-          setTrackingLocation(prevLocation => [...prevLocation, positionData]);
+          isTrackingSave && setTrackingLocation(prevLocation => [...prevLocation, positionData]);
         },
         error => {
           console.log(error);
