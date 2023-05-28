@@ -44,29 +44,30 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
               width: '100%',
               padding: 16,
               borderTopWidth: 1,
-              borderTopColor: GRAY['200']
+              borderTopColor: GRAY['200'],
             },
           }}
         >
           {
             landmarkData && (
-              <View>
+              <View style={landmarkInfoStyle.container}>
 
-                <View>
+                <View style={landmarkInfoStyle.textContainer}>
                   <Text style={landmarkInfoStyle.title}>
                     {landmarkData.landmarkName}
                   </Text>
                   <Text style={landmarkInfoStyle.address}>
-                    {"주소주소주소주소주소"}
+                    {"주소주소주소주소주소주소주소주소주소주소"}
                   </Text>
                   <Text style={landmarkInfoStyle.info}>
-                    {landmarkData.landInfo}
+                    {landmarkData.landInfo + landmarkData.landInfo + landmarkData.landInfo}
                   </Text>
                 </View>
 
                 <View>
                   <Image style={landmarkInfoStyle.FrameImage}
-                    source={{ uri: landmarkData.frameUrl }}
+                    // source={{ uri: landmarkData.frameUrl }}
+                    source={require('../../../assets/Default_Frame.png')}
                   />
                 </View>
               
@@ -80,7 +81,11 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
 
 const landmarkInfoStyle = StyleSheet.create({
   container: {
-
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textContainer: {
+    flexShrink: 1,
   },
   title: {
     ...Family.KR_Medium,
@@ -96,7 +101,7 @@ const landmarkInfoStyle = StyleSheet.create({
   },
   info: {
     ...Family.KR_Regular,
-    ...Body.Medium,
+    ...Body.Small,
     color: GRAY['700'],
   },
   FrameImage: {

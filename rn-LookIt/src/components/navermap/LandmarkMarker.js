@@ -10,19 +10,17 @@ const LandmarkMarker = ({landmarks, onClick, selectedLandmark, setSelectedLandma
   
   return landmarks.map(landmark => {
 
+    const size = (
+      selectedLandmark && selectedLandmark === landmark.landmarkId
+        ? 48
+        : 32
+    );
+
     return (
       <Marker
         key={landmark.landmarkId}
-        width={
-          selectedLandmark && selectedLandmark === landmark.landmarkId
-            ? 48
-            : 32
-        }
-        height={
-          selectedLandmark && selectedLandmark === landmark.landmarkId
-            ? 48
-            : 32
-        }
+        width={size}
+        height={size}
         coordinate={{
           latitude: landmark.landLatitude,
           longitude: landmark.landLongitude,
