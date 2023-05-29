@@ -21,8 +21,8 @@ public class FriendController {
   private final FriendService friendService;
 
   @GetMapping
-  public List<FriendListDto> getUserByTagId(@RequestParam String tagId){
-   return friendService.friendInfoIncludingTagId(tagId);
+  public List<FriendListDto> getUserByTagId(@RequestParam String tagId, @RequestHeader("token") String token){
+   return friendService.friendInfoIncludingTagId(tagId, token);
   }
 
   @GetMapping("/my")

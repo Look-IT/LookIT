@@ -20,16 +20,39 @@ public class FriendService {
   private final FriendsRepository friendsRepository;
   private final JwtProvider jwtProvider;
 
-  public List<FriendListDto> friendInfoIncludingTagId(String tagId) {
+  public List<FriendListDto> friendInfoIncludingTagId(String tagId, String token) {
+    Long userId = jwtProvider.getUserId(token);
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
     List<User> friends = userRepository.findAll();
+    List<FriendListDto> myFriendList = getMyfriendList(token);
+    List<FriendListDto> myRequestList = myRequestList(token);
     List<FriendListDto> result = new ArrayList<>();
 
     for (User friend : friends){
-      if(friend.getTagId().contains(tagId)) {
-        FriendListDto friendListDto = new FriendListDto(
-            friend.getTagId(),
-            friend.getNickName());
-        result.add(friendListDto);
+      if(friend.getTagId().contains(tagId) && !friend.getTagId().equals(user.getTagId())) {
+        boolean isMyFriend = false;
+        boolean isMyRequest = false;
+
+        for (FriendListDto myFriend : myFriendList) {
+          if (myFriend.getTagId().equals(friend.getTagId())) {
+            isMyFriend = true;
+            break;
+          }
+        }
+
+        for (FriendListDto myRequest : myRequestList) {
+          if (myRequest.getTagId().equals(friend.getTagId())) {
+            isMyRequest = true;
+            break;
+          }
+        }
+
+        if (!isMyFriend && !isMyRequest) {
+          FriendListDto friendListDto = new FriendListDto(
+              friend.getTagId(),
+              friend.getNickName());
+          result.add(friendListDto);
+        }
       }
     }
     return result;
