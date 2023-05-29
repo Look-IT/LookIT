@@ -42,7 +42,7 @@ public class FriendController {
     return friendService.friendAccept(tagId, token);
   }
 
-  @DeleteMapping("reject")
+  @DeleteMapping("/reject")
   public boolean friendReject(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {
     return friendService.friendReject(tagId, token);
   }
@@ -50,6 +50,11 @@ public class FriendController {
   @GetMapping("/request")
   public List<FriendListDto> getMyRequest(@RequestHeader("token") String token){
     return friendService.myRequestList(token);
+  }
+
+  @DeleteMapping("/request")
+  public boolean friendRequestCancel(@RequestParam String tagId, @RequestHeader("token") String token){
+    return friendService.myRequestCancel(tagId, token);
   }
 
   @GetMapping("/accept")

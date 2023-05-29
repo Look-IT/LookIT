@@ -77,6 +77,21 @@ public class FriendService {
     return true;
   }
 
+  public boolean myRequestCancel(String tagId, String token) {
+    Long userId = jwtProvider.getUserId(token);
+    User user = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+    User friend = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+
+    FriendsId friendsId = new FriendsId(friend, user);
+    Friends checkRequest = friendsRepository.findById(friendsId).orElse(null);
+    if(checkRequest != null && checkRequest.getStatus().equals("R")){
+      friendsRepository.delete(checkRequest);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public List<FriendListDto> friendsRequestList(String token){
     Long userId = jwtProvider.getUserId(token);
     List<Friends> myFriends = friendsRepository.findByFriendsId_Friend_UserId(userId);
