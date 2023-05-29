@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendListDto;
 import lookIT.lookITspring.service.FriendService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -39,6 +40,11 @@ public class FriendController {
   @ResponseStatus(HttpStatus.OK)
   public boolean friendAccept(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {
     return friendService.friendAccept(tagId, token);
+  }
+
+  @DeleteMapping("reject")
+  public boolean friendReject(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {
+    return friendService.friendReject(tagId, token);
   }
 
   @GetMapping("/request")

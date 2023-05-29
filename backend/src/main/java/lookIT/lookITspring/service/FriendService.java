@@ -72,14 +72,30 @@ public class FriendService {
 
   public boolean friendAccept(String tagId, String token){
     Long userId = jwtProvider.getUserId(token);
-    User friend = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
-    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    User user = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+    User friend = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
 
     FriendsId friendsId = new FriendsId(friend, user);
     Friends checkRequest = friendsRepository.findById(friendsId).orElse(null);
     if(checkRequest != null){
       checkRequest.setStatus("A");
       friendsRepository.save(checkRequest);
+      return true;
+    } else {
+      System.out.println("친구 요청이 되지 않은 상태입니다.");
+      return false;
+    }
+  }
+
+  public boolean friendReject(String tagId, String token){
+    Long userId = jwtProvider.getUserId(token);
+    User user = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+    User friend = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+
+    FriendsId friendsId = new FriendsId(friend, user);
+    Friends checkRequest = friendsRepository.findById(friendsId).orElse(null);
+    if(checkRequest != null){
+      friendsRepository.delete(checkRequest);
       return true;
     } else {
       System.out.println("친구 요청이 되지 않은 상태입니다.");
