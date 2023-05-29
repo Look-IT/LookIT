@@ -10,7 +10,7 @@ export const apiClient = axios.create({
 export const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem('@token', token);
-    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    apiClient.defaults.headers.common['token'] = `${token}`;
   } catch (e) {
     console.error('Failed to store token');
   }
