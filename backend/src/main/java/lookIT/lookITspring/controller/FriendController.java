@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendListDto;
 import lookIT.lookITspring.service.FriendService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,8 +21,8 @@ public class FriendController {
   private final FriendService friendService;
 
   @GetMapping
-  public List<FriendListDto> getUserByTagId(@RequestParam String tagId){
-   return friendService.friendInfoIncludingTagId(tagId);
+  public List<FriendListDto> getUserByTagId(@RequestParam String tagId, @RequestHeader("token") String token){
+   return friendService.friendInfoIncludingTagId(tagId, token);
   }
 
   @GetMapping("/my")
@@ -41,9 +42,19 @@ public class FriendController {
     return friendService.friendAccept(tagId, token);
   }
 
+  @DeleteMapping("/reject")
+  public boolean friendReject(@RequestParam String tagId, @RequestHeader("token") String token) throws Exception {
+    return friendService.friendReject(tagId, token);
+  }
+
   @GetMapping("/request")
   public List<FriendListDto> getMyRequest(@RequestHeader("token") String token){
     return friendService.myRequestList(token);
+  }
+
+  @DeleteMapping("/request")
+  public boolean friendRequestCancel(@RequestParam String tagId, @RequestHeader("token") String token){
+    return friendService.myRequestCancel(tagId, token);
   }
 
   @GetMapping("/accept")
