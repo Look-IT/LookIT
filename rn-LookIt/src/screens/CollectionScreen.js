@@ -5,8 +5,9 @@ import { GRAY, PRIMARY, WHITE } from '../colors';
 import { useState } from 'react';
 import FourCutList from '../components/FourCutList';
 import { fourCutGet } from '../api/fourCutApi';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 const CollectionScreen = () => {
   const [isLeftPressed, setIsLeftPressed] = useState(true);
@@ -49,10 +50,14 @@ const CollectionScreen = () => {
   const [fourCut, setFourCut] = useState([]);
   const [taggedFourCut, settaggedFourCut] = useState([]);
 
-  useEffect(() => {
-    fourCutListGet();
-  }, []);
-
+  useFocusEffect(
+    React.useCallback(() => {
+      fourCutListGet();
+      return () => {
+        console.log('Screen unfocused');
+      };
+    }, [])
+  );
   return (
     <View style={styles.container}>
       <View style={styles.selectContainer}>

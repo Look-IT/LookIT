@@ -11,7 +11,7 @@ const AddFriendList = ({ data }) => {
       style={{ flexGrow: 1 }}
       windowSize={1}
       data={data}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.tagId.toString()}
       renderItem={({ item }) => <AddFriendListItem item={item} />}
     ></FlatList>
   );

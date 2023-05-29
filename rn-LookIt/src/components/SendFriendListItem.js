@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 import { GRAY, BLACK, PRIMARY } from '../colors';
 
-const SendFriendListItem = memo(({ item }) => {
+const SendFriendListItem = memo(({ item, reset }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>

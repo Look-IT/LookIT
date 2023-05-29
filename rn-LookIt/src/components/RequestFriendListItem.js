@@ -9,10 +9,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { acceptFriendRequest } from '../api/friendApi';
 
 import { GRAY, BLACK, PRIMARY } from '../colors';
+import { useUserContext } from '../contexts/UserContext';
 
-const RequestFriendListItem = memo(({ item }) => {
+const RequestFriendListItem = memo(({ item, reset }) => {
+  const { user } = useUserContext();
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -20,7 +24,13 @@ const RequestFriendListItem = memo(({ item }) => {
         <Text style={styles.idFont}>#{item.id}</Text>
       </View>
       <View style={styles.textContainer}>
-        <TouchableOpacity style={{ marginRight: 16 }}>
+        <TouchableOpacity
+          style={{ marginRight: 16 }}
+          onPress={() => {
+            acceptFriendRequest(user, item.id);
+            reset(true);
+          }}
+        >
           <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>
         </TouchableOpacity>
         <TouchableOpacity>

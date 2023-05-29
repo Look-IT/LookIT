@@ -6,15 +6,13 @@ import FriendAddInput, {
   KeyboardTypes,
 } from '../components/FriendAddInput';
 import { WHITE } from '../colors';
-import { useState } from 'react';
+import { useState, useEffects } from 'react';
 import AddFriendList from '../components/AddFriendList';
+import { searchFriendList } from '../api/friendApi';
+
 const FriendAddScreen = () => {
   const [friendTagId, setFriendTagId] = useState('');
-  const [AddFriend, setAddFriend] = useState([
-    { id: '123', nickName: '임민호' },
-    { id: '223', nickName: '임민호' },
-    { id: '323', nickName: '임민호' },
-  ]); //검색된 친구 추가 정보를 담은 상태 변수
+  const [AddFriend, setAddFriend] = useState([]); //검색된 친구 추가 정보를 담은 상태 변수
 
   return (
     <View style={styles.container}>
@@ -27,7 +25,9 @@ const FriendAddScreen = () => {
           console.log(friendTagId);
           setFriendTagId(friendTagId.trim());
         }}
-        onSubmitEditing={() => {}}
+        onSubmitEditing={() => {
+          searchFriendList(friendTagId, AddFriend, setAddFriend);
+        }}
         value={friendTagId}
       ></FriendAddInput>
       <View>
