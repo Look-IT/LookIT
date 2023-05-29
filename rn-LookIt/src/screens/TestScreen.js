@@ -24,7 +24,7 @@ const TestScreen = () => {
       return;
     }
     console.log(status);
-    navigation.navigate('Camera');
+    navigation.navigate('Camera', { landmarkId: 1 });
   };
 
   return (

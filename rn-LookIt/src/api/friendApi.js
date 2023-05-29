@@ -67,6 +67,19 @@ export const AcceptFriend = async (user, tagId) => {
   });
 };
 
+export const denyFriend = async (user, tagId) => {
+  return await axios({
+    method: 'DEL',
+    url: 'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/friends/reject',
+    headers: {
+      token: user,
+    },
+    params: {
+      tagId: tagId,
+    },
+  });
+};
+
 export const friendSearch = async (tagId) => {
   return await axios({
     method: 'GET',
@@ -155,6 +168,31 @@ export const acceptFriendRequest = async (user, tagId) => {
     console.log(error.message);
 
     Alert.alert('친구 수락 실패', '친구 수락이 실패했습니다.', [
+      {
+        text: '확인',
+        style: 'default',
+        onPress: () => {},
+      },
+    ]);
+  }
+};
+
+export const denyFriendRequest = async (user, tagId) => {
+  //친구 거절하는 함수
+
+  try {
+    const response = await denyFriend(user, tagId);
+
+    if (response.data) {
+      console.log(response.data);
+    } else {
+      console.log(response.data);
+      throw new Error('친구 거절 실패: 서버로부터 잘못된 응답을 받았습니다.');
+    }
+  } catch (error) {
+    console.log(error.message);
+
+    Alert.alert('친구 거절 실패', '친구 거절이 실패했습니다.', [
       {
         text: '확인',
         style: 'default',

@@ -11,6 +11,8 @@ import FourPictureEditScreen from '../screens/FourPictureEditScreen';
 import FourCutFinalScreen from '../screens/FourCutFinalScreen';
 import FourCutSellectScreen from '../screens/FourCutSellectScreen';
 import FriendAddScreen from '../screens/FriendAddScreen';
+import FourCutFrameScreen from '../screens/FourCutFrameScreen';
+import FourCutTagScreen from '../screens/FourCutTagScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -48,6 +50,24 @@ const MainStack = () => {
       <Stack.Screen
         name="FourCutFinalScreen"
         component={FourCutFinalScreen}
+        options={{
+          title: '추억네컷',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="FourCutFrameScreen"
+        component={FourCutFrameScreen}
+        options={{
+          title: '추억네컷',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="FourCutTagScreen"
+        component={FourCutTagScreen}
         options={{
           title: '추억네컷',
           headerLeft: HeaderLeftButton,

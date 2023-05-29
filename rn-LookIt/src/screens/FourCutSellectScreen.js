@@ -11,7 +11,7 @@ import Toast from 'react-native-toast-message';
 
 const FourCutSellectScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { image } = route.params;
+  const { image, frameUri } = route.params;
 
   const [sellectedImage, setSellectedImage] = useState([]); //선택된 이미지를 저장하는 배열
 
@@ -40,9 +40,6 @@ const FourCutSellectScreen = ({ route }) => {
       setIsPressed(!isPressed);
     }
   };
-
-  //선택 완료 버튼시 호출되는 함수
-  const onSubmit = () => {};
 
   const onLayout = (event) => {
     const { width } = event.nativeEvent.layout;
@@ -86,7 +83,10 @@ const FourCutSellectScreen = ({ route }) => {
           title="완료"
           onPress={() => {
             if (count == 4) {
-              navigation.navigate('FourPictureEditScreen', { sellectedImage });
+              navigation.navigate('FourCutTagScreen', {
+                sellectedImage,
+                frameUri,
+              });
               console.log(sellectedImage);
             } else {
               Toast.show({

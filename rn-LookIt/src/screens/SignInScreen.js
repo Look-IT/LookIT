@@ -144,6 +144,10 @@ const styles = StyleSheet.create({
     height: 48,
     paddingHorizontal: 10,
   },
+  checkBox: {
+    width: 48,
+    height: 48,
+  },
 });
 
 export default SignInScreen;

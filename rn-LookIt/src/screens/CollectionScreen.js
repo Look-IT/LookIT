@@ -8,17 +8,17 @@ import { fourCutGet } from '../api/fourCutApi';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { useUserContext } from '../contexts/UserContext';
 
 const CollectionScreen = () => {
+  const { user } = useUserContext();
   const [isLeftPressed, setIsLeftPressed] = useState(true);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
   const fourCutListGet = async () => {
     //네컷 사진 리스트 요청하는 함수
 
     try {
-      const response = await fourCutGet(
-        'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/collections'
-      );
+      const response = await fourCutGet(user);
 
       if (response.data) {
         setFourCut(

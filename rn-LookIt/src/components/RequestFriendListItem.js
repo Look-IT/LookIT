@@ -1,6 +1,6 @@
 //그냥 친구 목록 컴포넌트
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -16,6 +16,7 @@ import { useUserContext } from '../contexts/UserContext';
 
 const RequestFriendListItem = memo(({ item, reset }) => {
   const { user } = useUserContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -27,8 +28,13 @@ const RequestFriendListItem = memo(({ item, reset }) => {
         <TouchableOpacity
           style={{ marginRight: 16 }}
           onPress={() => {
-            acceptFriendRequest(user, item.id);
-            reset(true);
+            if (!isLoading) {
+              setIsLoading(true);
+              acceptFriendRequest(user, item.id);
+
+              reset(true);
+              setIsLoading(false);
+            }
           }}
         >
           <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>

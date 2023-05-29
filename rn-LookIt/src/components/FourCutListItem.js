@@ -47,11 +47,15 @@ const FourCutListItem = memo(({ item, width, height }) => {
           ]}
           onPress={() => setModalVisible(false)}
         >
-          <TouchableHighlight>
-            <Image
-              style={{ width: width * 1.4, height: height * 1.4 }}
-              source={{ uri: item.uri }}
-            ></Image>
+          <TouchableHighlight
+            style={{ width: width * 1.5, height: height * 1.5 }}
+          >
+            <ReactNativeZoomableView minZoom={1.0} maxZoom={3.0}>
+              <Image
+                style={{ width: width * 1.4, height: height * 1.4 }}
+                source={{ uri: item.uri }}
+              ></Image>
+            </ReactNativeZoomableView>
           </TouchableHighlight>
         </Pressable>
 
@@ -61,7 +65,7 @@ const FourCutListItem = memo(({ item, width, height }) => {
             source={require('../../assets/Icon_Clear.png')}
           ></Image>
         </FourCutFAB>
-        <FourCutFAB
+        {/*<FourCutFAB
           onPress={() => {
             downloadAndSaveImage(item.uri);
           }}
@@ -71,7 +75,7 @@ const FourCutListItem = memo(({ item, width, height }) => {
             style={styles.image}
             source={require('../../assets/Icon_Download.png')}
           ></Image>
-        </FourCutFAB>
+        </FourCutFAB>*/}
       </Modal>
     </>
   );
