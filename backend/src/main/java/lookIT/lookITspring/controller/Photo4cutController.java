@@ -41,8 +41,10 @@ public class Photo4cutController {
     public boolean uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("landmarkId") Long landmarkId,
-            @RequestParam("userId") Long userId
+            @RequestHeader("token") String token
     ) throws IOException {
+        Long userId = jwtProvider.getUserId(token);
+
 
         String fileName = file.getOriginalFilename();
         String folderName = "photo4cut/photo";
