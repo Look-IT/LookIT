@@ -16,7 +16,7 @@ import { BLACK, GRAY, WHITE } from '../colors';
 const FriendTagButton = ({ tagFriend, style }) => {
   const refRBSheet = useRef(); // bottom sheet의 ref 상태 변수
 
-  console.log(tagFriend);
+  // console.log(tagFriend);
 
   return (
     <>
@@ -56,7 +56,7 @@ const FriendTagButton = ({ tagFriend, style }) => {
           <View>
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
               <Text style={styles.text}>태그된 친구목록</Text>
-              {tagFriend.map((item, index) => {
+              {tagFriend?.map((item, index) => {
                 return (
                   <View style={{ width: '100%' }} key={index}>
                     <View style={styles.textContainer}>

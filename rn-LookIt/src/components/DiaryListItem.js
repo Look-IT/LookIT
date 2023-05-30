@@ -16,7 +16,11 @@ const DiaryListItem = memo(({ item }) => {
         <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+        {
+          item.thumbnail &&
+            <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+        }
+
         <View style={styles.friendTag}>
           <FriendTagButton></FriendTagButton>
         </View>
@@ -28,13 +32,29 @@ const DiaryListItem = memo(({ item }) => {
           { height: 24, paddingTop: 8, fontSize: 14 },
         ]}
       >
+        
+        {
+          item.tag.map((tagitems, index) => {
+            const tagitem = Object.entries(tagitems)
+              .map(([_, value]) => value)
+              .join(", ");
+
+            return (
+              <View key={index} style={{ height: 26 }}>
+                <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
+              </View>
+            )
+          })
+        }
+
+        {/* 
         {item.tag.map((tagitem, index) => {
           return (
             <View key={index} style={{ height: 26 }}>
               <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
             </View>
           );
-        })}
+        })} */}
       </View>
     </View>
   );

@@ -1,12 +1,13 @@
-import axios from 'axios';
-import { useUserContext } from '../contexts/UserContext';
+import { apiClient } from "./apiClient";
 
-export const diaryListGet = async (url, user) => {
-  return await axios({
-    method: 'GET',
-    url: url,
-    headers: {
-      token: user,
-    },
-  });
-};
+
+export const getMemoriesList = async () => {
+  const endPoint = '/memories/list';
+
+  try {
+    const response = await apiClient.get(endPoint, {});
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
