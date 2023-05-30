@@ -3,6 +3,7 @@ package lookIT.lookITspring.entity;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,4 +52,7 @@ public class Collections {
 
 	@Column(name = "photo4Cut", nullable = false)
 	private String photo4Cut;
+
+	public void setPhotoTags(List<PhotoTags> matchingTags) {
+	}
 }

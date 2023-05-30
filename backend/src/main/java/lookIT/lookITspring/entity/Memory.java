@@ -3,6 +3,8 @@ package lookIT.lookITspring.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +29,7 @@ public class Memory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
+    @JsonIgnore
     private User user;
 }
 

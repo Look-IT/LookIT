@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +28,9 @@ public class PhotoTags {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long photoTagId;
 
+	@JsonIgnoreProperties({"hibernateLazyInitializer"})
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "photo4CutId")
+	@JoinColumn(name = "photo4CutId", referencedColumnName = "photo4CutId")
 	private Collections collections;
 
 	@Column

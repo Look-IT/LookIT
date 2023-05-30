@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lookIT.lookITspring.entity.LinePath;
 import lookIT.lookITspring.service.MemorySpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,11 @@ public class MemorySpotController {
     @GetMapping("/photo")
     public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Long memoryId) throws Exception {
             return memorySpotService.showAllMemorySpotPhotos(memoryId);
+    }
+
+    @GetMapping("/linePath")
+    public List<LinePath> MemoryLinePath(@RequestParam("memoryId") Long memoryId) throws Exception {
+        return memorySpotService.showAllLinePath(memoryId);
     }
 
 
