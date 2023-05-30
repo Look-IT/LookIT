@@ -7,6 +7,7 @@ export const requestPermissions = async () => {
   const statuses = await checkMultiple([
     PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
     PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+    PERMISSIONS.ANDROID.CAMERA,
   ]);
 
   const deniedPermissions = Object.entries(statuses)

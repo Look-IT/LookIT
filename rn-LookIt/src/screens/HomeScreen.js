@@ -7,7 +7,7 @@ import { PRIMARY } from "../colors";
 import { useLocationTracking } from "../components/navermap/functions/WatchingLocation";
 import { useMemoriesContext } from "../contexts/MemoriesContext";
 import MemoriesModal from "../components/modals/MemoriesModal";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
 
@@ -16,6 +16,7 @@ const HomeScreen = () => {
   const [isobserving, setIsObserving] = useState(false); // 경로 기록 여부 체크
   const [isCurrentWatch, SetIsCurrentWatch] = useState(false); // 내 위치 파악 여부 체크
   const [visibleModal, setVisibleModal] = useState(false);
+  const navigation = useNavigation();
 
   useLocationTracking(isCurrentWatch, false);
 
@@ -64,7 +65,7 @@ const HomeScreen = () => {
             <FloatingButton
               style={{backgroundColor: PRIMARY['700']}}
               icon={require('../../assets/Icon_Film_white.png')}
-              onPress={() => console.log('추억 네컷')} />
+              onPress={() => navigation.navigate('Camera', { landmarkId: 1 })} />
           : null
         }
 
