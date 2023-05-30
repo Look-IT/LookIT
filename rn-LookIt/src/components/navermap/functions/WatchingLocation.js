@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { checkMultiplePermissions } from "../../../functions/Permissions"
 import Geolocation from 'react-native-geolocation-service';
 import { useMemoriesContext } from "../../../contexts/MemoriesContext";
 
@@ -34,7 +33,6 @@ export const useLocationTracking = (shouldTrack, isTrackingSave) => {
     } else if (watchId !== null) {
       Geolocation.clearWatch(watchId);
       setWatchId(null);
-      setTrackingLocation([]);
     }
 
   }, [shouldTrack]);

@@ -1,13 +1,34 @@
-import axios from 'axios';
+import { apiClient } from './apiClient';
 
-export const memoriesCreatePost = async (url, userId, path) => {
+export const postMemoriesCreate = async (trackingLocation) => {
+  const endPoint = '/memories/create';
 
-    return await axios({
-        method: 'POST',
-        url: url,
-        data: {
-            userId: 3,
-            path: path,
-        }
-    })
+  try {
+    const response = await apiClient.post(endPoint, {
+        path: trackingLocation,
+      },
+    );
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const postMemoriesHashtag = async (memoryId, tags) => {
+  const endPoint = '/memories/info';
+
+  try {
+    const response = apiClient.post(endPoint, tags, {
+      params: {
+        memoryId: memoryId,
+      }
+    });
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
 }

@@ -1,131 +1,69 @@
-import { Modal, View, Text, StyleSheet } from "react-native";
-import { BLACK, GRAY, WHITE } from "../../colors";
-import ModalButton from "./ModalButton";
-import { useEffect, useState } from "react";
+import { Modal, StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useUserContext } from "../../contexts/UserContext";
-import { memoriesCreatePost } from "../../api/memories";
+import ModalButton from "./ModalButton";
+import { BLACK, WHITE } from "../../colors";
+import { useMemoriesContext } from "../../contexts/MemoriesContext";
 
-const MemoriesModal = ({clicked, myPosition, movePath, landmarks, onPressCancel, onPressSuccess}) => {
-  const [visibleModal, setVisibleModal] = useState(false);
+const MemoriesModal = ({visibleModal, setVisibleModal}) => {
+
+  const { setTrackingLocation } = useMemoriesContext();
   const navigation = useNavigation();
-
-  const { setMemoryId } = useUserContext();
-
-  useEffect(() => {
-    console.log('movepathModal: ', movePath);
-  }, [movePath])
-
-  useEffect(() => {
-    console.log('landmarks: ', landmarks);
-  }, [landmarks])
-
-  useEffect(() => {
-    console.log('myPosition: ', myPosition);
-  }, [myPosition])
-
-
-  useEffect(() => {
-    setVisibleModal(clicked);
-  }, [clicked]);
-
-  const onPressCreate = async () => {
-    try {
-        const response = await memoriesCreatePost(
-          'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/memories/create',
-          4,
-          movePath,
-        );
-        
-        if (response.data) {
-          console.log(response.data);
-          setMemoryId(response.data);
-        }
-
-    } catch (error) {
-      console.log(error.message);
-    }
-
-    setVisibleModal(false);
-    navigation.navigate('MemoriesCreateScreen', {myPosition, movePath, landmarks});
-  };
 
   return (
     <Modal
-        style={{alignItems: 'center', justifyContent: 'center'}}
-        animationType={'fade'}
-        transparent={true}
-        visible={visibleModal}
-      >
-        <View style={modalStyles.centeredView}>
-          <View style={modalStyles.container}>
+      style={stylesModal.ModalContainer}
+      animationType={'fade'}
+      transparent={true}
+      visible={visibleModal}>
 
-            <View>
-              <Text style={modalStyles.title}>
-                {"추억일지 생성"}
-              </Text>
+      <View style={stylesModal.centeredView}>
+        <View style={stylesModal.container}>
 
-              <View
-                style={{
-                  marginTop: 16,
-                }}
-              >
-                <Text>
-                  {"경로 기록을 중단하고"}
-                </Text>
-                <Text>
-                  {"추억일지를 생성하시겠습니까?"}
-                </Text>
-              </View>
-            </View>
-
+          <View>
+            <Text style={stylesModal.title}>
+              {"추억일지 생성"}
+            </Text>
 
             <View
-              style={modalStyles.modalButtonView}
-            >
-              <ModalButton
-                text={'취소'}
-                onPress={onPressCancel}
-              />
-              <ModalButton
-                text={'생성'}
-                onPress={() => {
-                  onPressCreate();
-                  onPressSuccess();
-                }}
-              />
+              style={{ marginTop: 16 }}>
+
+              <Text>
+                {"경로 기록을 중단하고"}
+              </Text>
+              <Text>
+                {"추억일지를 생성하시겠습니까?"}
+              </Text>
             </View>
+          </View>
+
+          <View style={stylesModal.modalButtonView}>
+
+            <ModalButton
+              text={'취소'}
+              onPress={() => {
+                setVisibleModal(false);
+                setTrackingLocation([]);
+              }}/>
+
+            <ModalButton
+              text={'생성'}
+              onPress={() => {
+                setVisibleModal(false);
+                navigation.navigate('MemoriesCreateScreen');
+              }}/>
 
           </View>
         </View>
-
-      </Modal>
-    // <Modal
-    //   animationType="slide"
-    //   visible={visibleModal}
-    // >
-    //   <View
-    //     style={{
-    //       flex: 1,
-    //       backgroundColor: 'red',
-    //       justifyContent: 'center',
-    //       alignItems: 'center',
-    //     }}
-    //   >
-    //     <View>
-    //       <Text>
-    //         {'TEXT'}
-    //       </Text>
-    //     </View>
-
-    //   </View>
-
-    // </Modal>
-  );
+      </View>
+    </Modal>
+  )
 }
 
-
-const modalStyles = StyleSheet.create({
+const stylesModal = StyleSheet.create({
+  ModalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -150,12 +88,6 @@ const modalStyles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 24,
   },
-  content: {
-    color: GRAY['800'],
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 20,
-  },
-});
+})
 
 export default MemoriesModal;

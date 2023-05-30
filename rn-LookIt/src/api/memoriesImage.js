@@ -1,34 +1,37 @@
 import axios from "axios";
 
-export const memoriesImagePost = async (url, memoryId, spotLatitude, spotLongitude, file) => {
-  
-  const fileName = file.split('/').pop();
+import { useMemoriesContext } from "../contexts/MemoriesContext"
+import { apiClient } from "./apiClient";
 
-  console.log('fileName : ', fileName);
+export const postMemoriesImage = async (memoryId, pictureMarker) => {
+  const endPoint = '/memories/upload';
 
   const formData = new FormData();
   formData.append(
     'file',
     {
-      uri: file,
+      uri: pictureMarker.uri,
+      name: 'image',
       type: 'image/png',
-      name: fileName,
     }
   )
 
-  return await axios({
-    method: 'POST',
-    url: url,
-    params: {
-      memoryId: memoryId,
-      spotLatitude: spotLatitude,
-      spotLongitude: spotLongitude,
-    },
-    responseType: 'json',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    transformRequest: (data, headers) => {
-      return formData;
-    },
-    data: formData,
-  });
-};
+  try {
+    const response = await apiClient.post(endPoint, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      params: {
+        memoryId: memoryId,
+        spotLatitude: pictureMarker.latitude,
+        spotLongitude: pictureMarker.longitude,
+      },
+      responseType: 'json',
+    });
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}

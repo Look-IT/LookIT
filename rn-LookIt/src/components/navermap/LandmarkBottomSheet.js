@@ -16,17 +16,10 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
     }
     
     getLandmarkInfo(landmarkId)
-      .then(landmarkData => {
-        console.log(landmarkData);
-        setLandmarkData(landmarkData);
-      })
+      .then(landmarkData => setLandmarkData(landmarkData))
       .catch(error => console.error(error));
 
   }, [landmarkId]);
-
-  useEffect(() => {
-    console.log(landmarkData);
-  }, [landmarkData]);
 
   return (
     <RBSheet
@@ -46,8 +39,8 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
               borderTopWidth: 1,
               borderTopColor: GRAY['200'],
             },
-          }}
-        >
+          }}>
+
           {
             landmarkData && (
               <View style={landmarkInfoStyle.container}>
@@ -66,11 +59,8 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
 
                 <View>
                   <Image style={landmarkInfoStyle.FrameImage}
-                    // source={{ uri: landmarkData.frameUrl }}
-                    source={require('../../../assets/Default_Frame.png')}
-                  />
+                    source={{ uri: landmarkData.frameUrl }}/>
                 </View>
-              
               </View>
             )
           }

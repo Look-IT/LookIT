@@ -1,7 +1,6 @@
 import { Path } from "react-native-nmap";
 import { useMemoriesContext } from "../../contexts/MemoriesContext";
 import { PRIMARY } from "../../colors";
-import { View } from "react-native";
 
 const TrackingLine = () => {
   const { trackingLocation } = useMemoriesContext();

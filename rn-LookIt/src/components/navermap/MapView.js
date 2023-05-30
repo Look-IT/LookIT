@@ -1,7 +1,5 @@
-import NaverMapView, { Marker } from "react-native-nmap"
+import NaverMapView from "react-native-nmap"
 
-import { Text, View } from "react-native";
-import Button from "../Button";
 import { getCurrentLocation } from "./functions/GetLocation";
 import React, { useEffect, useRef, useState } from "react";
 import { callLandmarks } from "../../api/landmarks";
@@ -11,16 +9,20 @@ import LandmarkMarker from "./LandmarkMarker";
 import LandmarkBottomSheet from "./LandmarkBottomSheet";
 import { useMemoriesContext } from "../../contexts/MemoriesContext";
 import TrackingLine from "./TrackingLine";
+import PictureMarker from "./PictureMarker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import PictureUploadModal from "../modals/PictureUploadModal";
 
-const MapView = ({}) => {
+const MapView = ({onPressMap = () => {}}) => {
 
-  const { myLocation, setMyLocation, trackingLocation } = useMemoriesContext();
+  const { myLocation, setMyLocation, trackingLocation, pictureMarker } = useMemoriesContext();
 
-  // const [myLocation, setMyLocation] = useState(null);
   const [landmarks, setLandmarks] = useState(null);
   const [selectedLandmark, setSelectedLandmark] = useState(null);
   const refRBSheet = useRef();
 
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [selectedPictureMarker, setSelectedPictureMarker] = useState(null);
 
   const fetchData = async () => {
     getCurrentLocation()
@@ -29,40 +31,30 @@ const MapView = ({}) => {
 
     const fetchedLandmarks = await callLandmarks();
     setLandmarks(fetchedLandmarks);
-  }
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+    // 삭제 필요
+    const value = await AsyncStorage.getItem('@token');
+    console.log('token: ', value);
+
+  }
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('focus');
       fetchData();
-
     }, [])
   )
-
-  // 삭제 필요
-  useEffect(() => {
-    console.log("MY LOCATION: ", myLocation);
-    setMyLocation(myLocation);
-  }, [myLocation]);
 
   // 삭제 필요
   useEffect(() => {
     console.log("TRACKING LOCATION: ", trackingLocation);
   }, [trackingLocation]);
 
-  // // 삭제 필요
-  // useEffect(() => {
-  //   console.log("MY LANDMARKS: ", landmarks);
-  // }, [landmarks]);
-
-  // // 삭제 필요
-  // useEffect(() => {
-  //   console.log("SELECTEDLANDMARK: ", selectedLandmark);
-  // }, [selectedLandmark]);
+  useEffect(() => {
+    console.log("Picture Marker; ", selectedPictureMarker);
+    selectedPictureMarker !== null
+      ? setVisibleModal(true)
+      : setVisibleModal(false);
+  }, [selectedPictureMarker]);
 
   return (
     <>
@@ -74,7 +66,11 @@ const MapView = ({}) => {
             zoomControl={false}
             scaleBar={false}
             useTextureView={true}
-          >
+            onMapClick={(event) => {
+              onPressMap(event);
+              setSelectedPictureMarker(pictureMarker.length)
+            }}>
+            
             <MyLocationMarker/>
 
             {
@@ -91,16 +87,26 @@ const MapView = ({}) => {
             
             <TrackingLine/>
 
+            <PictureMarker
+              selectedPictureMarker={selectedPictureMarker}
+              setSelectedPictureMarker={setSelectedPictureMarker}/>
+            
+
           </NaverMapView>
         )
       }
+
       <LandmarkBottomSheet 
         landmarkId={selectedLandmark}
         refRBSheet={refRBSheet}
         setSelectedLandmark={setSelectedLandmark}/>
+      
+      <PictureUploadModal
+        visibleModal={visibleModal}
+        selectedPictureMarker={selectedPictureMarker}
+        setSelectedPictureMarker={setSelectedPictureMarker}/>
     </>
-
-    )
+  )
 }
 
 export default MapView;
