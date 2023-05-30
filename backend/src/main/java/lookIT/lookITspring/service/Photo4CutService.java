@@ -1,5 +1,6 @@
 package lookIT.lookITspring.service;
 
+import java.util.HashMap;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.*;
@@ -86,5 +87,21 @@ public class Photo4CutService {
             return "No friends to tag to photo4Cut";
         }
     }
+
+	public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
+        Collections collections = collectionsRepository.findById(photo4CutId).get();
+        List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutId);
+        List<Map<String, String>> friendList= new ArrayList<>();
+
+        for(PhotoTags friend : photoTags){
+            String tagId = friend.getTagId();
+            User user = userRepository.findByTagId(tagId).get();
+            Map<String, String> friendMap = new HashMap<>();
+            friendMap.put("nickName", user.getNickName());
+            friendMap.put("tagId", user.getTagId());
+            friendList.add(friendMap);
+        }
+        return friendList;
+	}
 }
 
