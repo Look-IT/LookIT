@@ -5,6 +5,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import Toast from 'react-native-toast-message';
 import { BaseToast } from 'react-native-toast-message';
 import { GRAY, WHITE } from './colors';
+import { MemoriesProvider } from './contexts/MemoriesContext';
 
 const toastConfig = {
   /*
@@ -39,9 +40,11 @@ const App = () => {
   return (
     <ActionSheetProvider>
       <UserProvider>
-        <StatusBar style="dark" />
-        <Navigation />
-        <Toast config={toastConfig}></Toast>
+        <MemoriesProvider>
+          <StatusBar style="dark" />
+          <Navigation />
+          <Toast config={toastConfig}></Toast>
+        </MemoriesProvider>
       </UserProvider>
     </ActionSheetProvider>
   );
