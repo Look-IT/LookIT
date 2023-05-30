@@ -16,7 +16,7 @@ import { getLandmarkAndMyPositionDistance } from "../../functions/getLandmarkAnd
 const MapView = ({
   children,
   onPressMap = () => {},
-  setNearLandmark = () =>{}}) => {
+  setLandmarkId = () =>{}}) => {
 
   const { myLocation, setMyLocation, trackingLocation } = useMemoriesContext();
 
@@ -25,12 +25,22 @@ const MapView = ({
   const refRBSheet = useRef();
 
   const getDistance = () => {
-    landmarks?.map(landmark => {
-      const data = myLocation && getLandmarkAndMyPositionDistance(landmark, myLocation);
-      data < 0.2
-        ? setNearLandmark(landmark.landmarkId)
-        : setNearLandmark(null);
+    const landmarkDistance = landmarks?.map(landmark => {
+      const distance = myLocation && getLandmarkAndMyPositionDistance(landmark, myLocation);
+      const data = {
+        id: landmark.landmarkId,
+        distance: distance,
+      };
+      return data;
     })
+
+    const landmarkId = landmarkDistance?.reduce((min, obj) => 
+      obj.distance < min.distance ? obj : min
+    ).id;
+
+    landmarkId
+      ? setLandmarkId(landmarkId)
+      : setLandmarkId(null);
   }
 
   useEffect(() => {

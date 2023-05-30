@@ -18,7 +18,7 @@ const HomeScreen = () => {
   const [visibleModal, setVisibleModal] = useState(false);
   const navigation = useNavigation();
 
-  const [ nearLandmark, setNearLandmark ] = useState(null);
+  const [ landmarkId, setLandmarkId ] = useState(null);
 
   useLocationTracking(isCurrentWatch, false);
 
@@ -32,8 +32,8 @@ const HomeScreen = () => {
   )
 
   useEffect(() => {
-    console.log('nearLandMark: ', nearLandmark);
-  }, [nearLandmark]);
+    console.log('landmarkId: ', landmarkId);
+  }, [landmarkId]);
 
   return (
     <View style={styles.ViewContainer}>
@@ -46,7 +46,7 @@ const HomeScreen = () => {
         )
       }
 
-      <MapView setNearLandmark={setNearLandmark}/>
+      <MapView setLandmarkId={setLandmarkId}/>
 
       <MemoriesFloatingButton
         activation={isobserving}
@@ -67,11 +67,11 @@ const HomeScreen = () => {
         style={styles.FloatingBox}>
 
         {
-          isobserving && nearLandmark ?
+          isobserving && landmarkId ?
             <FloatingButton
               style={{backgroundColor: PRIMARY['700']}}
               icon={require('../../assets/Icon_Film_white.png')}
-              onPress={() => navigation.navigate('Camera', { landmarkId: 1 })} />
+              onPress={() => navigation.navigate('Camera', { landmarkId: landmarkId })} />
           : null
         }
 
