@@ -57,4 +57,11 @@ public class MemoryController {
   public String postMemoryFriendTag(@RequestBody String[] friendsList, @RequestParam Long memoryId){
     return memoryService.memoryFriendTag(friendsList, memoryId);
   }
+
+  @GetMapping("/taggedFriendList")
+  @ResponseBody
+  public List<Map<String, String>> getTaggedFriendListByMemoryId(@RequestParam Long memoryId){
+    return memoryService.getTaggedFriendListByMemoryId(memoryId);
+  }
+
 }

@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/memories/create").permitAll()
 			.antMatchers("/memories/info").permitAll()
 			.antMatchers("/memories/list").permitAll()
+			.antMatchers("/memories/taggedFriendList").permitAll()
 			.antMatchers("/main").permitAll()
 			.antMatchers("/main/landmarks").permitAll()
 			.antMatchers("/collections/4cutphoto").permitAll()
