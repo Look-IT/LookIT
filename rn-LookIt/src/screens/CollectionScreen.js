@@ -5,7 +5,7 @@ import { GRAY, PRIMARY, WHITE } from '../colors';
 import React, { useState } from 'react';
 import FourCutList from '../components/FourCutList';
 import { fourCutGet } from '../api/fourCutApi';
-import React, { useEffect } from 'react';
+
 import { Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUserContext } from '../contexts/UserContext';
