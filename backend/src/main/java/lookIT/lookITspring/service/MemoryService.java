@@ -62,8 +62,7 @@ public class MemoryService {
 			}
 			return rememory.getMemoryId();
 		} catch(Exception e){
-			throw e;
-			//return new Long(-1);
+			return new Long(-1);
 		}
 	}
 
