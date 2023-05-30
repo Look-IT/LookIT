@@ -1,114 +1,71 @@
-import { useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, ToastAndroid } from "react-native";
-import NaverMapView, { Marker } from "react-native-nmap";
-import Button, { ButtonTypes } from "../components/Button";
-import LandmarkMarker from "../components/LandmarkMarker";
-import PathLine from "../components/PathLine";
+import { View, StyleSheet } from "react-native";
+import { useMemoriesContext } from "../contexts/MemoriesContext";
 import { useEffect, useState } from "react";
+import MapView from "../components/navermap/MapView";
+import Button from "../components/buttons/Button";
+import { useNavigation } from "@react-navigation/native";
 import PictureUploadModal from "../components/modals/PictureUploadModal";
-import MemoriesMarker from "../components/MemoriesMarker";
+import PictureMarker from "../components/navermap/PictureMarker";
 
-const MemoriesCreateScreen = ({ route }) => {
+const MemoriesCreateScreen = ({}) => {
+  const { setPictureMarker, pictureMarker } = useMemoriesContext();
   const navigation = useNavigation();
 
-  const [currentClickLocation, setcurrentClickLocation] = useState(null);
-  const [myMarkerLocation, setMyMarkerLocation] = useState([]);
-
-
-  useEffect(() => {
-    console.log('createScreen myPosition: ',  route.params.myPosition);
-    console.log('createScreen movePath: ',  route.params.movePath);
-    console.log('createScreen landmarks: ',  route.params.landmarks);
-  }, []);
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [selectedPictureMarker, setSelectedPictureMarker] = useState(null);
 
   useEffect(() => {
-    console.log('currentClickLocation', currentClickLocation);
-  }, [currentClickLocation]);
-
-  useEffect(() => {
-    console.log('myMarkerLocation', myMarkerLocation);
-  }, [myMarkerLocation]);
-
-  const onPressSuccess = () => {
-    setMyMarkerLocation(prevMyMarkerLocation => [...prevMyMarkerLocation, currentClickLocation]);
-  }
+    console.log("Picture Marker; ", selectedPictureMarker);
+    selectedPictureMarker !== null
+      ? setVisibleModal(true)
+      : setVisibleModal(false);
+  }, [selectedPictureMarker]);
 
   return (
-    <>
-      <View
-        style={[styles.buttonContainer, {
-          position: 'absolute',
-          zIndex: 3,
-        }]}
-      >
+    <View style={styles.ViewContainer}>
+
+      <MapView
+        onPressMap={(event) => {
+          const locationData = {
+            id: pictureMarker.length,
+            latitude: event.latitude,
+            longitude: event.longitude,
+            uri: null
+          };
+          setPictureMarker(prevData => [...prevData, locationData]);
+          setSelectedPictureMarker(pictureMarker.length);
+        }}>
+
+          <PictureMarker
+            selectedPictureMarker={selectedPictureMarker}
+            setSelectedPictureMarker={setSelectedPictureMarker}/>
+
+        </MapView>
+
+      <View style={styles.buttonContainer}>
         <Button
           title="다음"
-          onPress={() => {
-            navigation.popToTop();
-            ToastAndroid.show(
-              '추억 일지가 생성되었습니다.',
-              ToastAndroid.LONG,
-            );
-          }}
-        />
+          onPress={() => navigation.navigate('MemoriesInfoTagScreen')}/>
       </View>
-      <NaverMapView
-        style={{width:'100%', height:'100%'}}
-        zoomControl={false}
-        scaleBar={false}
-        center={{...route.params.myPosition, zoom: 16}}
-        onMapClick={e => {
-          setcurrentClickLocation({
-            'latitude': e.latitude,
-            'longitude': e.longitude,
-          });
-        }}
-      >
-        
-        {
-          currentClickLocation ?
-          <>
-            <PictureUploadModal
-              onPressCancel={() => setcurrentClickLocation(null)}
-              onPressSuccess={onPressSuccess}
-              spotLatitude={currentClickLocation.latitude}
-              spotLongitude={currentClickLocation.longitude}
-            />
-            <Marker
-              coordinate={currentClickLocation}
-              image={require('../../assets/Icon_Location-2-Selected.png')}
-              width={48}
-              height={48}
-            />
-          </>
-          : null
-        }
 
-        <MemoriesMarker myMarkerLocation={myMarkerLocation}/>
-
-        
-        <Marker
-          coordinate={route.params.myPosition}
-          image={require('../../assets/Icon_My-Location.png')}
-          width={16}
-          height={16}
-        />
-
-        <LandmarkMarker landmarks={route.params.landmarks} />
-        <PathLine movePath={route.params.movePath} />
-
-      </NaverMapView>
-    </>
-  );
-};
+      <PictureUploadModal
+        visibleModal={visibleModal}
+        selectedPictureMarker={selectedPictureMarker}
+        setSelectedPictureMarker={setSelectedPictureMarker}/>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
+  ViewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonContainer: {
     width: '100%',
-    height: 48,
     position: 'absolute',
     bottom: 24,
-    zIndex: 10,
     paddingHorizontal: 10,
   }
 })
