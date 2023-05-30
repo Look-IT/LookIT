@@ -17,11 +17,11 @@ const TagFriendListItem = memo(({ item, taggedFriend, setTaggedFriend }) => {
     if (toggle == true) {
       setTaggedFriend((prev) => [
         ...prev,
-        { nickName: item.nickName, id: item.id },
+        { nickName: item.nickName, tagId: item.id },
       ]);
     } else {
       setTaggedFriend((prev) => {
-        return prev.filter((obj) => obj.id != item.id);
+        return prev.filter((obj) => obj.tagId != item.id);
       });
     }
   }, [toggle]);

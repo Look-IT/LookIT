@@ -6,7 +6,7 @@ import ViewShot from 'react-native-view-shot';
 import { useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 const FourPictureEditScreen = ({ route }) => {
-  const { sellectedImage, frameUri, taggedFriend } = route.params;
+  const { sellectedImage, frameUri, taggedFriend, landmarkId } = route.params;
   console.log('sellectedImage:' + sellectedImage);
   const ref = useRef();
   const navigation = useNavigation();
@@ -17,7 +17,11 @@ const FourPictureEditScreen = ({ route }) => {
     setTimeout(() => {
       ref.current.capture().then((uri) => {
         console.log('do something with ', uri);
-        navigation.navigate('FourCutFinalScreen', { uri, taggedFriend });
+        navigation.navigate('FourCutFinalScreen', {
+          uri,
+          taggedFriend,
+          landmarkId,
+        });
       });
     }, 2000);
   }, []);

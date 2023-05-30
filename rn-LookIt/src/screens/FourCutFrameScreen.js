@@ -68,7 +68,11 @@ const FourCutFrameScreen = ({ route }) => {
         <Button
           title="다음"
           onPress={() => {
-            navigation.navigate('FourCutSellectScreen', { image, frameUri });
+            navigation.navigate('FourCutSellectScreen', {
+              image,
+              frameUri,
+              landmarkId,
+            });
           }}
           buttonType={ButtonTypes.PRIMARY}
         ></Button>

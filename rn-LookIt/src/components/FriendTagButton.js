@@ -61,7 +61,7 @@ const FriendTagButton = ({ tagFriend, style }) => {
                   <View style={{ width: '100%' }} key={index}>
                     <View style={styles.textContainer}>
                       <Text style={styles.nickNameFont}>{item.nickName}</Text>
-                      <Text style={styles.idFont}>#{item.id}</Text>
+                      <Text style={styles.idFont}>#{item.tagId}</Text>
                     </View>
                   </View>
                 );
