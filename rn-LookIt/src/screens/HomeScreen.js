@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native"
 import MapView from "../components/navermap/MapView";
-import React, { useEffect, useRef, useState } from "react";
-import { checkMultiplePermissions } from "../functions/Permissions";
+import React, { useState } from "react";
 import MemoriesFloatingButton from "../components/buttons/memoriesFloatingButton";
 import FloatingButton from "../components/buttons/FloatingButton";
 import { PRIMARY } from "../colors";
@@ -19,10 +18,6 @@ const HomeScreen = () => {
   const [visibleModal, setVisibleModal] = useState(false);
 
   useLocationTracking(isCurrentWatch, false);
-
-  useEffect(() => {
-    checkMultiplePermissions();
-  }, []);
 
   useFocusEffect(
     React.useCallback(() => {

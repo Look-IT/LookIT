@@ -1,7 +1,7 @@
 import NaverMapView from "react-native-nmap"
 
 import { getCurrentLocation } from "./functions/GetLocation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { callLandmarks } from "../../api/landmarks";
 import MyLocationMarker from "./MyLocationMarker";
 import { useFocusEffect } from "@react-navigation/native";
@@ -12,6 +12,7 @@ import TrackingLine from "./TrackingLine";
 import PictureMarker from "./PictureMarker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PictureUploadModal from "../modals/PictureUploadModal";
+import { requestPermissions } from "../../functions/Permissions";
 
 const MapView = ({onPressMap = () => {}}) => {
 
@@ -39,8 +40,19 @@ const MapView = ({onPressMap = () => {}}) => {
   }
 
   useFocusEffect(
-    React.useCallback(() => {
-      fetchData();
+    useCallback(() => {
+      const runPermission = async () =>{
+        try {
+          await requestPermissions();
+          console.log('END');
+      
+          fetchData();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      runPermission();
+      
     }, [])
   )
 

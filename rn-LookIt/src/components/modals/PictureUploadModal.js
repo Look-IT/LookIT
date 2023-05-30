@@ -3,7 +3,7 @@ import { GRAY, WHITE } from "../../colors";
 import { Family, Label, Title } from "../../styles/fonts";
 import ModalButton from "./ModalButton";
 import { useMemoriesContext } from "../../contexts/MemoriesContext";
-import { checkMultiplePermissions } from "../../functions/Permissions";
+import { requestPermissions } from "../../functions/Permissions";
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,7 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
   }, [imageUri]);
 
   const onPressPictureUpload = async () => {
-    checkMultiplePermissions();
+    await requestPermissions();
 
     console.log('이미지 선택 중');
     let response = await ImagePicker.launchImageLibraryAsync({
