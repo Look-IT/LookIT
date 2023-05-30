@@ -4,16 +4,18 @@ import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import { GRAY, PRIMARY, WHITE } from '../colors';
 import { useState } from 'react';
 import FourCutList from '../components/FourCutList';
-import { fourCutGet } from '../api/fourCutApi';
+import { fourCutGet, taggedFourCutGet } from '../api/fourCutApi';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUserContext } from '../contexts/UserContext';
+import { getMyInfo } from '../api/friendApi';
 
 const CollectionScreen = () => {
   const { user } = useUserContext();
   const [isLeftPressed, setIsLeftPressed] = useState(true);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
+  const [myAccount, setMyAccount] = useState({}); //내 계정 정보를 담은 상태 변수
   const fourCutListGet = async () => {
     //네컷 사진 리스트 요청하는 함수
 
@@ -43,20 +45,55 @@ const CollectionScreen = () => {
       ]);
     }
   };
+
+  const taggedFourCutListGet = async (myTagId) => {
+    //네컷 사진 리스트 요청하는 함수
+
+    try {
+      const response = await taggedFourCutGet(myTagId);
+
+      if (response.data) {
+        setTaggedFourCut(
+          response.data.map((fourCutObj) => {
+            return { id: fourCutObj.photo4CutId, uri: fourCutObj.photo4Cut };
+          })
+        );
+        console.log(fourCut);
+      } else {
+        console.log(response.data);
+        throw new Error(
+          '태그사진 조회 실패: 서버로부터 잘못된 응답을 받았습니다.'
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+      //console.log(error.response);
+      Alert.alert('태그사진조회 실패', '사진 조회가 실패했습니다.', [
+        {
+          text: '확인',
+          style: 'default',
+          onPress: () => {},
+        },
+      ]);
+    }
+  };
   const sampleImage = Image.resolveAssetSource(
     require('../../assets/Default_Frame.png')
   ).uri;
 
   const [fourCut, setFourCut] = useState([]);
-  const [taggedFourCut, settaggedFourCut] = useState([]);
+  const [taggedFourCut, setTaggedFourCut] = useState([]);
 
   useFocusEffect(
     React.useCallback(() => {
       fourCutListGet();
+      taggedFourCutListGet(myAccount.tagId);
+      getMyInfo(user, myAccount, setMyAccount);
+      console.log(myAccount.tagId);
       return () => {
         console.log('Screen unfocused');
       };
-    }, [])
+    }, [isLeftPressed])
   );
   return (
     <View style={styles.container}>

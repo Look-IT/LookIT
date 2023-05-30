@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { BLACK } from '../colors';
 import Button, { ButtonTypes } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { fourCutPost } from '../api/fourCutApi';
+import { fourCutPost, setFourCutTag } from '../api/fourCutApi';
 import Toast from 'react-native-toast-message';
 import { useUserContext } from '../contexts/UserContext';
 import FriendTagButton from '../components/FriendTagButton';
@@ -15,11 +15,12 @@ const FourCutFinalScreen = ({ route }) => {
   const { user } = useUserContext();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false); //로그인 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
-  const { uri, taggedFriend } = route.params;
+  const { uri, taggedFriend, landmarkId } = route.params;
+  const tagArray = taggedFriend.map((obj) => obj.tagId);
 
   useEffect(() => {
     console.log(uri);
-    console.log('tag:' + taggedFriend);
+    console.log(tagArray);
   }, []);
 
   const onSubmit = async () => {
@@ -28,10 +29,13 @@ const FourCutFinalScreen = ({ route }) => {
       try {
         setIsLoading(true);
 
-        const response = await fourCutPost(user, 1, uri);
+        const response = await fourCutPost(user, landmarkId, uri);
 
         setIsLoading(false);
         if (response.data) {
+          console.log('4cutid:' + response.data);
+          const photo4CutId = response.data;
+          await setFourCutTag(photo4CutId, tagArray);
           navigation.navigate('ContentTab');
           Toast.show({
             type: 'success',

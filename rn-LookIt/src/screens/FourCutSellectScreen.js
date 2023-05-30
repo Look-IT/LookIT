@@ -11,7 +11,7 @@ import Toast from 'react-native-toast-message';
 
 const FourCutSellectScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { image, frameUri } = route.params;
+  const { image, frameUri, landmarkId } = route.params;
 
   const [sellectedImage, setSellectedImage] = useState([]); //선택된 이미지를 저장하는 배열
 
@@ -54,13 +54,6 @@ const FourCutSellectScreen = ({ route }) => {
         <Text style={styles.textStyle}>4장을 선택해 주세요.</Text>
       </View>
       <View style={styles.pictureContainer} onLayout={onLayout}>
-        <Image
-          style={{
-            width: (width * 3) / 10,
-            height: (width * 4) / 10,
-          }}
-          source={require('../../assets/Info_Frame.png')}
-        ></Image>
         {image.map((obj) => {
           //console.log(obj.data.uri);
 
@@ -77,6 +70,13 @@ const FourCutSellectScreen = ({ route }) => {
             ></FourCutSellectImage>
           );
         })}
+        <Image
+          style={{
+            width: (width * 3) / 10,
+            height: (width * 4) / 10,
+          }}
+          source={require('../../assets/Info_Frame.png')}
+        ></Image>
       </View>
       <View style={styles.buttonContainer}>
         <Button
@@ -86,6 +86,7 @@ const FourCutSellectScreen = ({ route }) => {
               navigation.navigate('FourCutTagScreen', {
                 sellectedImage,
                 frameUri,
+                landmarkId,
               });
               console.log(sellectedImage);
             } else {
@@ -121,9 +122,9 @@ const styles = StyleSheet.create({
 
   pictureContainer: {
     width: '100%',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap-reverse',
     justifyContent: 'space-evenly',
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     //backgroundColor: GRAY.DEFAULT,
   },
 

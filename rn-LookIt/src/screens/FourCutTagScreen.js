@@ -13,7 +13,7 @@ import { getFriendList, myFriendListGet } from '../api/friendApi';
 import TagFriendList from '../components/TagFriendList';
 
 const FourCutTagScreen = ({ route }) => {
-  const { sellectedImage, frameUri } = route.params;
+  const { sellectedImage, frameUri, landmarkId } = route.params;
   const { user } = useUserContext();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false); // 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
@@ -45,6 +45,7 @@ const FourCutTagScreen = ({ route }) => {
               sellectedImage,
               frameUri,
               taggedFriend,
+              landmarkId,
             });
           }}
           buttonType={ButtonTypes.PRIMARY}
