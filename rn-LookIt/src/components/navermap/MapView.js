@@ -9,21 +9,16 @@ import LandmarkMarker from "./LandmarkMarker";
 import LandmarkBottomSheet from "./LandmarkBottomSheet";
 import { useMemoriesContext } from "../../contexts/MemoriesContext";
 import TrackingLine from "./TrackingLine";
-import PictureMarker from "./PictureMarker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import PictureUploadModal from "../modals/PictureUploadModal";
 import { requestPermissions } from "../../functions/Permissions";
 
-const MapView = ({onPressMap = () => {}}) => {
+const MapView = ({children, onPressMap = () => {}}) => {
 
-  const { myLocation, setMyLocation, trackingLocation, pictureMarker } = useMemoriesContext();
+  const { myLocation, setMyLocation, trackingLocation } = useMemoriesContext();
 
   const [landmarks, setLandmarks] = useState(null);
   const [selectedLandmark, setSelectedLandmark] = useState(null);
   const refRBSheet = useRef();
-
-  const [visibleModal, setVisibleModal] = useState(false);
-  const [selectedPictureMarker, setSelectedPictureMarker] = useState(null);
 
   const fetchData = async () => {
     getCurrentLocation()
@@ -61,13 +56,6 @@ const MapView = ({onPressMap = () => {}}) => {
     console.log("TRACKING LOCATION: ", trackingLocation);
   }, [trackingLocation]);
 
-  useEffect(() => {
-    console.log("Picture Marker; ", selectedPictureMarker);
-    selectedPictureMarker !== null
-      ? setVisibleModal(true)
-      : setVisibleModal(false);
-  }, [selectedPictureMarker]);
-
   return (
     <>
       {
@@ -80,7 +68,6 @@ const MapView = ({onPressMap = () => {}}) => {
             useTextureView={true}
             onMapClick={(event) => {
               onPressMap(event);
-              setSelectedPictureMarker(pictureMarker.length)
             }}>
             
             <MyLocationMarker/>
@@ -99,10 +86,7 @@ const MapView = ({onPressMap = () => {}}) => {
             
             <TrackingLine/>
 
-            <PictureMarker
-              selectedPictureMarker={selectedPictureMarker}
-              setSelectedPictureMarker={setSelectedPictureMarker}/>
-            
+            {children}
 
           </NaverMapView>
         )
@@ -112,11 +96,6 @@ const MapView = ({onPressMap = () => {}}) => {
         landmarkId={selectedLandmark}
         refRBSheet={refRBSheet}
         setSelectedLandmark={setSelectedLandmark}/>
-      
-      <PictureUploadModal
-        visibleModal={visibleModal}
-        selectedPictureMarker={selectedPictureMarker}
-        setSelectedPictureMarker={setSelectedPictureMarker}/>
     </>
   )
 }
