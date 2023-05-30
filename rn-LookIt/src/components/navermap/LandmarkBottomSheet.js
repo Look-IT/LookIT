@@ -50,10 +50,10 @@ const LandmarkBottomSheet = ({landmarkId, refRBSheet, setSelectedLandmark}) => {
                     {landmarkData.landmarkName}
                   </Text>
                   <Text style={landmarkInfoStyle.address}>
-                    {"주소주소주소주소주소주소주소주소주소주소"}
+                    {landmarkData.landmarkAddress}
                   </Text>
                   <Text style={landmarkInfoStyle.info}>
-                    {landmarkData.landInfo + landmarkData.landInfo + landmarkData.landInfo}
+                    {landmarkData.landInfo}
                   </Text>
                 </View>
 
