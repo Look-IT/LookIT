@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { fourCutPost } from '../api/fourCutApi';
 import Toast from 'react-native-toast-message';
 import { useUserContext } from '../contexts/UserContext';
+import FriendTagButton from '../components/FriendTagButton';
 
 const FourCutFinalScreen = ({ route }) => {
   const { user } = useUserContext();
@@ -18,6 +19,7 @@ const FourCutFinalScreen = ({ route }) => {
 
   useEffect(() => {
     console.log(uri);
+    console.log('tag:' + taggedFriend);
   }, []);
 
   const onSubmit = async () => {
@@ -62,8 +64,16 @@ const FourCutFinalScreen = ({ route }) => {
         <Text style={styles.textStyle}>완성된 추억네컷을</Text>
         <Text style={styles.textStyle}>확인해 보세요.</Text>
       </View>
-
-      <Image style={{ width: 256, height: 379 }} source={{ uri: uri }}></Image>
+      <View>
+        <Image
+          style={{ width: 256, height: 379 }}
+          source={{ uri: uri }}
+        ></Image>
+        <FriendTagButton
+          style={{ position: 'absolute', bottom: 8, right: 8 }}
+          tagFriend={taggedFriend}
+        ></FriendTagButton>
+      </View>
       <View style={styles.buttonContainer}>
         <Button
           title="완료"

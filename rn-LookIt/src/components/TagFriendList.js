@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import TagFriendListItem from './TagFriendListItem';
 
-const TagFriendList = ({ data, setTaggedFriend }) => {
+const TagFriendList = ({ data, taggedFriend, setTaggedFriend }) => {
   return (
     <FlatList
       style={{ flexGrow: 1 }}
@@ -12,7 +12,11 @@ const TagFriendList = ({ data, setTaggedFriend }) => {
       data={data}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <TagFriendListItem item={item} setTaggedFriend={setTaggedFriend} />
+        <TagFriendListItem
+          item={item}
+          setTaggedFriend={setTaggedFriend}
+          taggedFriend={taggedFriend}
+        />
       )}
     ></FlatList>
   );

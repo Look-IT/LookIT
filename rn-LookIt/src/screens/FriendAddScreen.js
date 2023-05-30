@@ -9,8 +9,10 @@ import { WHITE } from '../colors';
 import { useState, useEffects } from 'react';
 import AddFriendList from '../components/AddFriendList';
 import { searchFriendList } from '../api/friendApi';
+import { useUserContext } from '../contexts/UserContext';
 
 const FriendAddScreen = () => {
+  const { user } = useUserContext();
   const [friendTagId, setFriendTagId] = useState('');
   const [AddFriend, setAddFriend] = useState([]); //검색된 친구 추가 정보를 담은 상태 변수
 
@@ -26,7 +28,7 @@ const FriendAddScreen = () => {
           setFriendTagId(friendTagId.trim());
         }}
         onSubmitEditing={() => {
-          searchFriendList(friendTagId, AddFriend, setAddFriend);
+          searchFriendList(user, friendTagId, AddFriend, setAddFriend);
         }}
         value={friendTagId}
       ></FriendAddInput>

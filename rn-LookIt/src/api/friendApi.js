@@ -80,12 +80,15 @@ export const denyFriend = async (user, tagId) => {
   });
 };
 
-export const friendSearch = async (tagId) => {
+export const friendSearch = async (user, tagId) => {
   return await axios({
     method: 'GET',
     url: 'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/friends',
     params: {
       tagId: tagId,
+    },
+    headers: {
+      token: user,
     },
   });
 };
@@ -202,11 +205,11 @@ export const denyFriendRequest = async (user, tagId) => {
   }
 };
 
-export const searchFriendList = async (tagId, data, setData) => {
+export const searchFriendList = async (user, tagId, data, setData) => {
   //친구 검색하는 함수
 
   try {
-    const response = await friendSearch(tagId);
+    const response = await friendSearch(user, tagId);
 
     if (response.data) {
       setData(response.data);

@@ -1,6 +1,6 @@
 //태그 친구 목록 컴포넌트
 
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -8,8 +8,23 @@ import { GRAY, BLACK, PRIMARY } from '../colors';
 import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
 
-const TagFriendListItem = memo(({ item, setTaggedFriend }) => {
+const TagFriendListItem = memo(({ item, taggedFriend, setTaggedFriend }) => {
   const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {
+    console.log('toggle:' + toggle);
+
+    if (toggle == true) {
+      setTaggedFriend((prev) => [
+        ...prev,
+        { nickName: item.nickName, id: item.id },
+      ]);
+    } else {
+      setTaggedFriend((prev) => {
+        return prev.filter((obj) => obj.id != item.id);
+      });
+    }
+  }, [toggle]);
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -19,15 +34,6 @@ const TagFriendListItem = memo(({ item, setTaggedFriend }) => {
           value={toggle}
           color={toggle ? PRIMARY.DEFAULT : GRAY.DEFAULT}
           onValueChange={setToggle}
-          onChange={() => {
-            if (toggle === true) {
-              setTaggedFriend((prev) => [...prev, item.id]);
-            } else {
-              setTaggedFriend((prev) => {
-                return prev.filter((id) => id != item.id);
-              });
-            }
-          }}
         ></Checkbox>
         <Text style={styles.nickNameFont}>{item.nickName}</Text>
       </View>

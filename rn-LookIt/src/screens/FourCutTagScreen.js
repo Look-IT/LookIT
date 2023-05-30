@@ -33,6 +33,7 @@ const FourCutTagScreen = ({ route }) => {
       <View>
         <TagFriendList
           data={friend}
+          taggedFriend={taggedFriend}
           setTaggedFriend={setTaggedFriend}
         ></TagFriendList>
       </View>
