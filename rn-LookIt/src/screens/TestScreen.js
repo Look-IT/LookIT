@@ -2,7 +2,7 @@
 
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { WHITE } from '../colors';
-import Button from '../components/Button';
+import Button from '../components/buttons/Button';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
