@@ -6,48 +6,43 @@ import { useEffect, useState } from 'react';
 import { BLACK } from '../colors';
 import Button, { ButtonTypes } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { fourCutPost } from '../api/fourCutApi';
+import { fourCutFrameGet } from '../api/fourCutApi';
 import Toast from 'react-native-toast-message';
 import { useUserContext } from '../contexts/UserContext';
-import FriendTagButton from '../components/FriendTagButton';
 
-const FourCutFinalScreen = ({ route }) => {
+const FourCutFrameScreen = ({ route }) => {
+  const { image, landmarkId } = route.params;
   const { user } = useUserContext();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false); //로그인 클릭 시, 서버와 통신하는 동안 중복 요청을 방지하는 상태 변수
-  const { uri, taggedFriend } = route.params;
+  const [frameUri, setFrameUri] = useState('default');
 
   useEffect(() => {
-    console.log(uri);
-    console.log('tag:' + taggedFriend);
+    getFrame();
   }, []);
 
-  const onSubmit = async () => {
-    //네컷 사진 완료 버튼 클릭 시 호출되는 함수
+  const getFrame = async () => {
+    //네컷 사진 프레임 얻어오는 함수
     if (!isLoading) {
       try {
         setIsLoading(true);
 
-        const response = await fourCutPost(user, 1, uri);
+        const response = await fourCutFrameGet(landmarkId);
 
         setIsLoading(false);
         if (response.data) {
-          navigation.navigate('ContentTab');
-          Toast.show({
-            type: 'success',
-            text1: '추억네컷이 저장되었습니다.',
-            position: 'bottom',
-          });
+          setFrameUri(response.data);
+          console.log('frameUri : ' + frameUri);
         } else {
           console.log(response.data);
           throw new Error(
-            '사진 생성 실패: 서버로부터 잘못된 응답을 받았습니다.'
+            '프레임 조회 실패: 서버로부터 잘못된 응답을 받았습니다.'
           );
         }
       } catch (error) {
         console.log(error.message);
-        //console.log(error.response);
-        Alert.alert('사진생성 실패', '사진생성이 실패했습니다.', [
+
+        Alert.alert('프레임 조회 실패', '프레임 조회가 실패했습니다.', [
           {
             text: '확인',
             style: 'default',
@@ -61,25 +56,19 @@ const FourCutFinalScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.textStyle}>완성된 추억네컷을</Text>
-        <Text style={styles.textStyle}>확인해 보세요.</Text>
+        <Text style={styles.textStyle}>프레임을</Text>
+        <Text style={styles.textStyle}>선택해 주세요.</Text>
       </View>
-      <View>
-        <Image
-          style={{ width: 256, height: 379 }}
-          source={{ uri: uri }}
-        ></Image>
-        <FriendTagButton
-          style={{ position: 'absolute', bottom: 8, right: 8 }}
-          tagFriend={taggedFriend}
-        ></FriendTagButton>
-      </View>
+
+      <Image
+        style={{ width: 200, height: 296 }}
+        source={{ uri: frameUri }}
+      ></Image>
       <View style={styles.buttonContainer}>
         <Button
-          title="완료"
+          title="다음"
           onPress={() => {
-            onSubmit();
-            navigation.navigate('ContentTab');
+            navigation.navigate('FourCutSellectScreen', { image, frameUri });
           }}
           buttonType={ButtonTypes.PRIMARY}
         ></Button>
@@ -124,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FourCutFinalScreen;
+export default FourCutFrameScreen;

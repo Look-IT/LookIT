@@ -5,11 +5,13 @@ import { GRAY, PRIMARY, WHITE } from '../colors';
 import React, { useState } from 'react';
 import FourCutList from '../components/FourCutList';
 import { fourCutGet } from '../api/fourCutApi';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { useUserContext } from '../contexts/UserContext';
 
 const CollectionScreen = () => {
+  const { user } = useUserContext();
   const [isLeftPressed, setIsLeftPressed] = useState(true);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
 
@@ -17,9 +19,7 @@ const CollectionScreen = () => {
     //네컷 사진 리스트 요청하는 함수
 
     try {
-      const response = await fourCutGet(
-        'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/collections'
-      );
+      const response = await fourCutGet(user);
 
       if (response.data) {
         setFourCut(
@@ -48,31 +48,17 @@ const CollectionScreen = () => {
     require('../../assets/Default_Frame.png')
   ).uri;
 
-  /* const [fourCut, setFourCut] = useState([
-    { id: '1', uri: sampleImage },
-    { id: '2', uri: sampleImage },
-    { id: '3', uri: sampleImage },
-    { id: '4', uri: sampleImage },
-    { id: '5', uri: sampleImage },
-    { id: '6', uri: sampleImage },
-  ]);*/
   const [fourCut, setFourCut] = useState([]);
   const [taggedFourCut, settaggedFourCut] = useState([]);
-
-  useEffect(() => {
-    fourCutListGet();
-  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       fourCutListGet();
-
       return () => {
-        console.log('Screen was unfocused');
+        console.log('Screen unfocused');
       };
     }, [])
   );
-
   return (
     <View style={styles.container}>
       <View style={styles.selectContainer}>

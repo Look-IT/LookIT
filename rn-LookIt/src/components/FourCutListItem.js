@@ -16,11 +16,13 @@ import { GRAY, BLACK, WHITE } from '../colors';
 import { Modal } from 'react-native';
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Dimensions } from 'react-native';
+import FourCutFAB from './FourCutFAB';
 
 const FourCutListItem = memo(({ item, width, height }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const viewWidth = Dimensions.get('window').width;
   const viewHeight = Dimensions.get('window').height;
+
   return (
     <>
       <Pressable onPress={() => setModalVisible(true)}>
@@ -45,13 +47,35 @@ const FourCutListItem = memo(({ item, width, height }) => {
           ]}
           onPress={() => setModalVisible(false)}
         >
-          <TouchableHighlight>
-            <Image
-              style={{ width: width * 1.35, height: height * 1.35 }}
-              source={{ uri: item.uri }}
-            ></Image>
+          <TouchableHighlight
+            style={{ width: width * 1.5, height: height * 1.5 }}
+          >
+            <ReactNativeZoomableView minZoom={1.0} maxZoom={3.0}>
+              <Image
+                style={{ width: width * 1.4, height: height * 1.4 }}
+                source={{ uri: item.uri }}
+              ></Image>
+            </ReactNativeZoomableView>
           </TouchableHighlight>
         </Pressable>
+
+        <FourCutFAB onPress={() => setModalVisible(false)} style={{ left: 16 }}>
+          <Image
+            style={styles.image}
+            source={require('../../assets/Icon_Clear.png')}
+          ></Image>
+        </FourCutFAB>
+        {/*<FourCutFAB
+          onPress={() => {
+            downloadAndSaveImage(item.uri);
+          }}
+          style={{ right: 16 }}
+        >
+          <Image
+            style={styles.image}
+            source={require('../../assets/Icon_Download.png')}
+          ></Image>
+        </FourCutFAB>*/}
       </Modal>
     </>
   );
@@ -80,6 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image: { width: 24, height: 24, tintColor: WHITE },
 });
 
 export default FourCutListItem;

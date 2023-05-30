@@ -35,8 +35,8 @@ const SignInScreen = () => {
 
         setIsLoading(false);
         if (response.data) {
-          setUser(email);
-          setUserId(3);
+          setUser(response.data);
+          console.log(response.data);
         } else {
           console.log(response.data);
           throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');
@@ -143,6 +143,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 48,
     paddingHorizontal: 10,
+  },
+  checkBox: {
+    width: 48,
+    height: 48,
   },
 });
 

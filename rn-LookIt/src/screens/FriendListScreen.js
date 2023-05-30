@@ -12,43 +12,40 @@ import { GRAY, WHITE } from '../colors';
 import ExpandButton from '../components/ExpandButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import InputFab from '../components/InputFab.js';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FriendList from '../components/FriendList';
 import RequestFriendList from '../components/RequestFriendList';
+import SendFriendList from '../components/SendFriendList';
+import { useFocusEffect } from '@react-navigation/native';
+import {
+  getMyInfo,
+  myFriendListGet,
+  mySendFriendListGet,
+  myReceiveFriendListGet,
+  getFriendList,
+} from '../api/friendApi';
+import { useUserContext } from '../contexts/UserContext';
 //import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 const FriendListScreen = ({ navigation, route }) => {
+  const { user } = useUserContext();
   const { bottom } = useSafeAreaInsets(); //기기별 화면 아래쪽 가려지는 것 방지를 위한 상태변수
 
-  const [myAccount, setMyAccount] = useState({
-    myNickName: '김효진',
-    myId: '4545',
-  }); //내 계정 정보를 담은 상태 변수
+  const [myAccount, setMyAccount] = useState({}); //내 계정 정보를 담은 상태 변수
 
-  const [receiveFriend, setReceiveFriend] = useState([
-    { id: '123', nickName: '임민호' },
-    { id: '223', nickName: '임민호' },
-    { id: '323', nickName: '임민호' },
-  ]); //받은 친구 요청 정보를 담은 상태 변수
+  const [receiveFriend, setReceiveFriend] = useState([]); //받은 친구 요청 정보를 담은 상태 변수
 
-  const [sendFriend, setSendFriend] = useState([
-    { id: '123', nickName: '임민호' },
-    { id: '223', nickName: '임민호' },
-    { id: '323', nickName: '임민호' },
-  ]); //보낸 친구 요청 정보를 담은 상태 변수
+  const [sendFriend, setSendFriend] = useState([]); //보낸 친구 요청 정보를 담은 상태 변수
 
-  const [friend, setFriend] = useState([
-    { id: '123', nickName: '신호근' },
-    { id: '223', nickName: '임민호' },
-    { id: '323', nickName: '장희지' },
-    { id: '423', nickName: '최준호' },
-  ]); //친구 정보를 담은 상태 변수
+  const [friend, setFriend] = useState([]); //친구 정보를 담은 상태 변수
 
   const [isBottom, setIsBottom] = useState(false); // 화면 가림 방지 위한 상태변수
 
   const [ReceiveListExpand, setReceiveListExpand] = useState(false); // 받은 친구 요청 리스트 확장 / 축소 관련 상태 변수
   const [SendListExpand, setSendListExpand] = useState(false); // 보낸 친구 요청 리스트 확장 / 축소 관련 상태 변수
   const [FriendListExpand, setFriendListExpand] = useState(false); // 친구 리스트 확장 / 축소 관련 상태 변수
+
+  const [resetList, setResetList] = useState(false);
 
   const onPressExpand = (whatTypeExpand) => {
     // 각 리스트 터치시 확장 / 축소 변수를 컨트롤 하는 함수
@@ -70,6 +67,25 @@ const FriendListScreen = ({ navigation, route }) => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setResetList(false);
+      getFriendList(user, friend, setFriend, myFriendListGet);
+      getFriendList(
+        user,
+        receiveFriend,
+        setReceiveFriend,
+        myReceiveFriendListGet
+      );
+      getFriendList(user, sendFriend, setSendFriend, mySendFriendListGet);
+      getMyInfo(user, myAccount, setMyAccount);
+
+      return () => {
+        console.log('Screen unfocused');
+      };
+    }, [resetList])
+  );
+
   return (
     <View style={[styles.container, { paddingHorizontal: 16 }]}>
       <FriendList
@@ -85,10 +101,10 @@ const FriendListScreen = ({ navigation, route }) => {
               }}
             >
               <Text style={[styles.text, { fontSize: 14 }]}>
-                {myAccount.myNickName}
+                {myAccount.nickName}
               </Text>
               <Text style={[styles.text, { fontSize: 10, color: GRAY[400] }]}>
-                #{myAccount.myId}
+                #{myAccount.tagId}
               </Text>
             </View>
 
@@ -101,7 +117,10 @@ const FriendListScreen = ({ navigation, route }) => {
               </View>
             </Pressable>
             {ReceiveListExpand && (
-              <RequestFriendList data={receiveFriend}></RequestFriendList>
+              <RequestFriendList
+                data={receiveFriend}
+                reset={setResetList}
+              ></RequestFriendList>
             )}
 
             <Pressable onPress={() => onPressExpand('SendListExpand')}>
@@ -113,7 +132,10 @@ const FriendListScreen = ({ navigation, route }) => {
               </View>
             </Pressable>
             {SendListExpand && (
-              <RequestFriendList data={sendFriend}></RequestFriendList>
+              <SendFriendList
+                data={sendFriend}
+                reset={setResetList}
+              ></SendFriendList>
             )}
             <View style={styles.list}>
               <Text style={[styles.text, { fontSize: 10 }]}>친구</Text>
@@ -132,7 +154,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 48,
     borderTopWidth: 1,
-    borderColor: GRAY.DEFAULT,
+    borderColor: GRAY[200],
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 8,

@@ -3,10 +3,12 @@
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { PRIMARY, WHITE } from '../colors';
 import DiaryList from '../components/DiaryList';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { diaryListGet } from '../api/DiaryApi';
+import { useUserContext } from '../contexts/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 const MyPageScreen = () => {
+  const { user } = useUserContext();
   const [diary, setDiary] = useState([
     /*
     {
@@ -41,8 +43,9 @@ const MyPageScreen = () => {
 
     try {
       const response = await diaryListGet(
-        'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/memories/list'
-        );
+        'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/memories/list',
+        user
+      );
 
       if (response.data) {
         setDiary(
@@ -76,9 +79,15 @@ const MyPageScreen = () => {
     }
   };
 
-  useEffect(() => {
-    getDiaryList();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getDiaryList();
+
+      return () => {
+        console.log('Screen unfocused');
+      };
+    }, [])
+  );
 
   useFocusEffect(
     React.useCallback(() => {

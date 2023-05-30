@@ -13,6 +13,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PRIMARY, WHITE } from '../colors';
 import { Image, StyleSheet } from 'react-native';
 import HeaderRightButton from '../components/HeaderRightButton';
+import FriendHeaderRightButton from '../components/FriendHeaderRightButton';
 const Tab = createBottomTabNavigator();
 
 const ContentTab = () => {
@@ -55,6 +56,8 @@ const ContentTab = () => {
           component={FriendListScreen}
           options={{
             headerShown: true,
+            headerRight: FriendHeaderRightButton,
+            headerRightContainerStyle: { paddingRight: 16 },
             tabBarIcon: (props) => {
               return props.focused ? (
                 <Image

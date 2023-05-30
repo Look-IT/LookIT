@@ -55,7 +55,7 @@ const HeaderRightButton = ({ tintColor }) => {
             backgroundColor: '#00000045',
           },
           draggableIcon: {
-            backgroundColor: GRAY[700],
+            backgroundColor: GRAY[300],
           },
           container: {
             width: '100%',

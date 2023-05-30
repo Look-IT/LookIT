@@ -1,6 +1,6 @@
 //그냥 친구 목록 컴포넌트
 
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -9,15 +9,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { acceptFriendRequest } from '../api/friendApi';
 
 import { GRAY, BLACK, PRIMARY } from '../colors';
-import { useUserContext } from '../contexts/UserContext';
 
-const RequestFriendListItem = memo(({ item, reset }) => {
-  const { user } = useUserContext();
-  const [isLoading, setIsLoading] = useState(false);
-
+const SendFriendListItem = memo(({ item, reset }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -25,31 +20,17 @@ const RequestFriendListItem = memo(({ item, reset }) => {
         <Text style={styles.idFont}>#{item.id}</Text>
       </View>
       <View style={styles.textContainer}>
-        <TouchableOpacity
-          style={{ marginRight: 16 }}
-          onPress={() => {
-            if (!isLoading) {
-              setIsLoading(true);
-              acceptFriendRequest(user, item.id);
-
-              reset(true);
-              setIsLoading(false);
-            }
-          }}
-        >
-          <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>
-        </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.idFont}>거절</Text>
+          <Text style={styles.idFont}>취소</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 });
 
-RequestFriendListItem.displayName = 'RequestFriendListItem';
+SendFriendListItem.displayName = 'SendFriendListItem';
 
-RequestFriendListItem.propTypes = {
+SendFriendListItem.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
@@ -82,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestFriendListItem;
+export default SendFriendListItem;

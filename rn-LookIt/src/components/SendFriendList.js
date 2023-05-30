@@ -2,9 +2,9 @@
 
 import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import RequestFriendListItem from './RequestFriendListItem';
+import SendFriendListItem from './SendFriendListItem';
 
-const RequestFriendList = ({ data, ListHeaderComponent, reset }) => {
+const SendFriendList = ({ data, ListHeaderComponent, reset }) => {
   return (
     <FlatList
       style={{ flexGrow: 1 }}
@@ -12,15 +12,15 @@ const RequestFriendList = ({ data, ListHeaderComponent, reset }) => {
       data={data}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <RequestFriendListItem item={item} reset={reset} />
+        <SendFriendListItem item={item} reset={reset} />
       )}
       ListHeaderComponent={ListHeaderComponent}
     ></FlatList>
   );
 };
 
-RequestFriendList.propTypes = {
+SendFriendList.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default RequestFriendList;
+export default SendFriendList;
