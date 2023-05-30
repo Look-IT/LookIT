@@ -40,14 +40,14 @@ public class SpringConfig {
 	private final FriendsRepository friendsRepository;
 	private final MemoryPhotoRepository memoryPhotoRepository;
 	private final PhotoTagsRepository photoTagsRepository;
-	private final CollectionsRepository	collectionsRepository;
+	private final CollectionsRepository collectionsRepository;
 
 	public SpringConfig(UserRepository userRepository,
-		MemorySpotRepository memorySpotRepository, LandmarkRepository landmarkRepository,
-		MemoryRepository memoryRepository, LinePathRepository linePathRepository,
-			FriendTagsRepository friendTagsRepository, InfoTagsRepository infoTagsRepository,
-			FriendsRepository friendsRepository, MemoryPhotoRepository memoryPhotoRepository,
-			PhotoTagsRepository photoTagsRepository, CollectionsRepository collectionsRepository) {
+						MemorySpotRepository memorySpotRepository, LandmarkRepository landmarkRepository,
+						MemoryRepository memoryRepository, LinePathRepository linePathRepository,
+						FriendTagsRepository friendTagsRepository, InfoTagsRepository infoTagsRepository,
+						FriendsRepository friendsRepository, MemoryPhotoRepository memoryPhotoRepository,
+						PhotoTagsRepository photoTagsRepository, CollectionsRepository collectionsRepository) {
 
 		this.userRepository = userRepository;
 		this.memorySpotRepository = memorySpotRepository;
@@ -60,15 +60,15 @@ public class SpringConfig {
 		this.memoryPhotoRepository = memoryPhotoRepository;
 		this.photoTagsRepository = photoTagsRepository;
 		this.collectionsRepository = collectionsRepository;
-
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean JwtProvider jwtProvider(){
+	@Bean
+	public JwtProvider jwtProvider() {
 		return new JwtProvider(customUserDetailsService());
 	}
 
@@ -78,13 +78,13 @@ public class SpringConfig {
 	}
 
 	@Bean
-	public CustomUserDetailsService customUserDetailsService(){
+	public CustomUserDetailsService customUserDetailsService() {
 		return new CustomUserDetailsService(userRepository);
 	}
 
 	@Bean
-	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository, MemoryRepository memoryRepository, MemoryPhotoRepository memoryPhotoRepository){
-		return new MemorySpotService(memorySpotRepository, memoryRepository, memoryPhotoRepository);
+	public MemorySpotService memorySpotService(MemorySpotRepository memorySpotRepository, MemoryRepository memoryRepository, MemoryPhotoRepository memoryPhotoRepository, LinePathRepository linePathRepository) {
+		return new MemorySpotService(memorySpotRepository, memoryRepository, memoryPhotoRepository, linePathRepository);
 	}
 
 	@Bean
@@ -106,5 +106,4 @@ public class SpringConfig {
 	public Photo4CutService photo4CutService() {
 		return new Photo4CutService(landmarkRepository, collectionsRepository, userRepository, photoTagsRepository);
 	}
-
 }

@@ -9,7 +9,9 @@ import lookIT.lookITspring.repository.PhotoTagsRepository;
 import lookIT.lookITspring.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,13 +37,12 @@ public class Photo4CutService {
         }
     }
 
-    public boolean savePhoto4Cut(Long landmarkId, Long userId, String imageUrl) {
+    public Long savePhoto4Cut(Long landmarkId, Long userId, String imageUrl) {
         Landmark landmark = landmarkRepository.findById(landmarkId)
                 .orElseThrow(() -> new IllegalArgumentException("landmark not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
         Collections collection = Collections.builder()
-                .photo4CutId((long) (Math.random() * 1000))
                 .createAt(LocalDateTime.now())
                 .user(user)
                 .landmark(landmark)
@@ -49,11 +50,59 @@ public class Photo4CutService {
                 .build();
 
         collectionsRepository.save(collection);
-        return true;
+        return collection.getPhoto4CutId();
     }
+
     public List<Collections> getCollectionsByUserId(Long userId) {
-        return collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
+        List<Collections> collections = collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
+
+        List<Long> photo4CutIds = collections.stream()
+                .map(Collections::getPhoto4CutId)
+                .collect(Collectors.toList());
+
+        for (Collections collection : collections) {
+            List<PhotoTags> matchingTags = photoTagsRepository.findByCollectionsPhoto4CutId(collection.getPhoto4CutId());
+            collection.setPhotoTags(matchingTags);
+        }
+
+        return collections;
     }
+
+
+    /*
+public List<CollectionsWithPhotoTags> getCollectionsByUserId(Long userId) {
+    List<Collections> collections = collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
+
+    List<Long> photo4CutIds = collections.stream()
+            .map(Collections::getPhoto4CutId)
+            .collect(Collectors.toList());
+
+    List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutIds);
+
+    Map<Long, List<PhotoTags>> photoTagsMap = new HashMap<>();
+    for (PhotoTags photoTag : photoTags) {
+        Long photo4CutId = photoTag.getCollections().getPhoto4CutId();
+        List<PhotoTags> tagsList = photoTagsMap.getOrDefault(photo4CutId, new ArrayList<>());
+        tagsList.add(photoTag);
+        photoTagsMap.put(photo4CutId, tagsList);
+    }
+
+    List<CollectionsWithPhotoTags> collectionsWithPhotoTagsList = new ArrayList<>();
+    for (Collections collection : collections) {
+        Long photo4CutId = collection.getPhoto4CutId();
+        List<PhotoTags> matchingTags = photoTagsMap.getOrDefault(photo4CutId, Collections.emptyList());
+
+        CollectionsWithPhotoTags collectionWithPhotoTags = new CollectionsWithPhotoTags(collection);
+        collectionWithPhotoTags.setPhotoTags(matchingTags);
+
+        collectionsWithPhotoTagsList.add(collectionWithPhotoTags);
+    }
+
+    return collectionsWithPhotoTagsList;
+}
+*/
+
+
 
     public List<Collections> getCollectionsByTagId(String tagId) {
 

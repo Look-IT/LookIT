@@ -3,9 +3,11 @@ package lookIT.lookITspring.service;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lookIT.lookITspring.entity.LinePath;
 import lookIT.lookITspring.entity.Memory;
 import lookIT.lookITspring.entity.MemoryPhoto;
 import lookIT.lookITspring.entity.MemorySpot;
+import lookIT.lookITspring.repository.LinePathRepository;
 import lookIT.lookITspring.repository.MemoryPhotoRepository;
 import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
@@ -26,7 +28,7 @@ public class MemorySpotService {
     private final MemorySpotRepository memorySpotRepository;
     private final MemoryRepository memoryRepository;
     private final MemoryPhotoRepository memoryPhotoRepository;
-
+    private final LinePathRepository linePathRepository;
     public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl) {
         Optional<Memory> memoryOptional = memoryRepository.findById(memoryId);
         if (memoryOptional.isPresent()) {
@@ -100,11 +102,19 @@ public class MemorySpotService {
                 spot.put("memoryPhotos", spotMemoryPhotos);
                 result.add(spot);
             }
+
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public List<LinePath> showAllLinePath(Long memoryId){
+        Memory memory = memoryRepository.findById(memoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memoryId"));
+
+        return linePathRepository.findByMemory(memory);
     }
 
 }

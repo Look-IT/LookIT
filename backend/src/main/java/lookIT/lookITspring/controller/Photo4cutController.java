@@ -38,7 +38,7 @@ public class Photo4cutController {
     private final JwtProvider jwtProvider;
 
     @PostMapping("/4cutphoto")
-    public boolean uploadFile(
+    public Long uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("landmarkId") Long landmarkId,
             @RequestHeader("token") String token
@@ -62,7 +62,7 @@ public class Photo4cutController {
         String imageUrl = s3Client.getUrl(bucket, key).toString();
         if (imageUrl == null) {
             System.out.println("S3 Err - s3Client is null");
-            return false;
+            throw new Error("S3 Err - s3Client is null");
         }
         else{
             return photo4CutService.savePhoto4Cut(landmarkId, userId, imageUrl);
@@ -73,7 +73,6 @@ public class Photo4cutController {
     @GetMapping("")
     public List<Collections> MyMemory4Cut(@RequestHeader("token") String token) throws Exception {
         Long userId = jwtProvider.getUserId(token);
-        System.out.println(userId);
         return photo4CutService.getCollectionsByUserId(userId);
     }
 
