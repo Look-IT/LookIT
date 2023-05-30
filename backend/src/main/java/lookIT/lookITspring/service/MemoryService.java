@@ -2,6 +2,7 @@ package lookIT.lookITspring.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.transaction.Transactional;
@@ -90,6 +91,9 @@ public class MemoryService {
 		MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
 		result.add(memoryListDto);
 		}
+
+		Collections.reverse(result);
+
 		return result;
 	}
 
@@ -117,6 +121,9 @@ public class MemoryService {
 			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
 			result.add(memoryListDto);
 		}
+
+		Collections.reverse(result);
+
 		return result;
 	}
 
