@@ -17,7 +17,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          time-zone: Asia/Seoul
+          time_zone: Asia/Seoul
 
 
 #    default_batch_fetch_size: 1000
