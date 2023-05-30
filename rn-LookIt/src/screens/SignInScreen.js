@@ -4,12 +4,13 @@ import { Image, StyleSheet, View, Keyboard, Alert } from 'react-native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import SafeInputView from '../components/SafeInputView.js';
 import { useRef, useEffect, useState } from 'react';
-import Button, { ButtonTypes } from '../components/Button';
+import Button, { ButtonTypes } from '../components/buttons/Button';
 import { signIn } from '../api/auth';
 import PropTypes from 'prop-types';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { storeToken } from '../api/apiClient';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(''); //이메일 상태 변수
@@ -23,35 +24,27 @@ const SignInScreen = () => {
   const onSubmit = async () => {
     //로그인 버튼 클릭 시 호출되는 함수
     if (!isLoading && !disabled) {
-      try {
-        setIsLoading(true);
-        Keyboard.dismiss();
 
-        const response = await signIn(
-          'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/login',
-          email,
-          password
-        );
+      setIsLoading(true);
+      Keyboard.dismiss();
 
-        setIsLoading(false);
-        if (response.data) {
-          setUser(response.data);
-          console.log(response.data);
-        } else {
-          console.log(response.data);
-          throw new Error('로그인 실패: 서버로부터 잘못된 응답을 받았습니다.');
-        }
-      } catch (error) {
-        console.log(error.message);
-        //console.log(error.response);
-        Alert.alert('로그인 실패', '로그인이 실패했습니다.', [
-          {
-            text: '확인',
-            style: 'default',
-            onPress: () => setIsLoading(false),
-          },
-        ]);
-      }
+      signIn(email, password)
+        .then(response => {
+          setIsLoading(false);
+          setUser(response);
+          storeToken(response);
+        })
+        .catch(error => {
+          console.log(error.message);
+
+          Alert.alert('로그인 실패', '로그인을 실패하였습니다.', [
+            {
+              text: '확인',
+              style: 'default',
+              onPress: () => setIsLoading(false),
+            },
+          ])
+        })
     }
   };
 
