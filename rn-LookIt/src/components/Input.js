@@ -66,7 +66,7 @@ Input.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: {  
     width: '100%',
     paddingHorizontal: 20,
     marginVertical: 8,

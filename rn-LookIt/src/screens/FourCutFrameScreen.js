@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, Alert } from 'react-native';
 import { WHITE } from '../colors';
 import { useEffect, useState } from 'react';
 import { BLACK } from '../colors';
-import Button, { ButtonTypes } from '../components/Button';
+import Button, { ButtonTypes } from '../components/buttons/Button';
 import { useNavigation } from '@react-navigation/native';
 import { fourCutFrameGet } from '../api/fourCutApi';
 import Toast from 'react-native-toast-message';
