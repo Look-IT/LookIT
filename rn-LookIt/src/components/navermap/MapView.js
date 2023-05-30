@@ -11,8 +11,12 @@ import { useMemoriesContext } from "../../contexts/MemoriesContext";
 import TrackingLine from "./TrackingLine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { requestPermissions } from "../../functions/Permissions";
+import { getLandmarkAndMyPositionDistance } from "../../functions/getLandmarkAndMyPositionDistance";
 
-const MapView = ({children, onPressMap = () => {}}) => {
+const MapView = ({
+  children,
+  onPressMap = () => {},
+  setNearLandmark = () =>{}}) => {
 
   const { myLocation, setMyLocation, trackingLocation } = useMemoriesContext();
 
@@ -20,18 +24,31 @@ const MapView = ({children, onPressMap = () => {}}) => {
   const [selectedLandmark, setSelectedLandmark] = useState(null);
   const refRBSheet = useRef();
 
+  const getDistance = () => {
+    landmarks?.map(landmark => {
+      const data = myLocation && getLandmarkAndMyPositionDistance(landmark, myLocation);
+      data < 0.2
+        ? setNearLandmark(landmark.landmarkId)
+        : setNearLandmark(null);
+    })
+  }
+
+  useEffect(() => {
+    getDistance();
+  }, [myLocation]);
+
   const fetchData = async () => {
+    const fetchedLandmarks = await callLandmarks();
+    setLandmarks(fetchedLandmarks);
+    
     getCurrentLocation()
       .then(location => setMyLocation(location))
       .catch(error => console.log(error));
 
-    const fetchedLandmarks = await callLandmarks();
-    setLandmarks(fetchedLandmarks);
 
     // 삭제 필요
     const value = await AsyncStorage.getItem('@token');
     console.log('token: ', value);
-
   }
 
   useFocusEffect(

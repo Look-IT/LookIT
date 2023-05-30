@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native"
 import MapView from "../components/navermap/MapView";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MemoriesFloatingButton from "../components/buttons/memoriesFloatingButton";
 import FloatingButton from "../components/buttons/FloatingButton";
 import { PRIMARY } from "../colors";
@@ -18,6 +18,8 @@ const HomeScreen = () => {
   const [visibleModal, setVisibleModal] = useState(false);
   const navigation = useNavigation();
 
+  const [ nearLandmark, setNearLandmark ] = useState(null);
+
   useLocationTracking(isCurrentWatch, false);
 
   useFocusEffect(
@@ -28,6 +30,10 @@ const HomeScreen = () => {
       setTags([]);
     }, [])
   )
+
+  useEffect(() => {
+    console.log('nearLandMark: ', nearLandmark);
+  }, [nearLandmark]);
 
   return (
     <View style={styles.ViewContainer}>
@@ -40,7 +46,7 @@ const HomeScreen = () => {
         )
       }
 
-      <MapView />
+      <MapView setNearLandmark={setNearLandmark}/>
 
       <MemoriesFloatingButton
         activation={isobserving}
@@ -61,7 +67,7 @@ const HomeScreen = () => {
         style={styles.FloatingBox}>
 
         {
-          isobserving ?
+          isobserving && nearLandmark ?
             <FloatingButton
               style={{backgroundColor: PRIMARY['700']}}
               icon={require('../../assets/Icon_Film_white.png')}
