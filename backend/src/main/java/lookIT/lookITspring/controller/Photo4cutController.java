@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/collections")
@@ -86,5 +87,10 @@ public class Photo4cutController {
         return photo4CutService.collectionFriendTag(friendsList, photo4CutId);
     }
 
+    @GetMapping("/taggedFriendList")
+    @ResponseBody
+    public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(@RequestParam Long photo4CutId){
+        return photo4CutService.getTaggedFriendListByPhoto4CutIdId(photo4CutId);
+    }
 }
 

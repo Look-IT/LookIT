@@ -1,5 +1,6 @@
 package lookIT.lookITspring.service;
 
+import java.util.HashMap;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.*;
@@ -56,52 +57,8 @@ public class Photo4CutService {
     public List<Collections> getCollectionsByUserId(Long userId) {
         List<Collections> collections = collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
 
-        List<Long> photo4CutIds = collections.stream()
-                .map(Collections::getPhoto4CutId)
-                .collect(Collectors.toList());
-
-        for (Collections collection : collections) {
-            List<PhotoTags> matchingTags = photoTagsRepository.findByCollectionsPhoto4CutId(collection.getPhoto4CutId());
-            collection.setPhotoTags(matchingTags);
-        }
-
         return collections;
     }
-
-
-    /*
-public List<CollectionsWithPhotoTags> getCollectionsByUserId(Long userId) {
-    List<Collections> collections = collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId);
-
-    List<Long> photo4CutIds = collections.stream()
-            .map(Collections::getPhoto4CutId)
-            .collect(Collectors.toList());
-
-    List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutIds);
-
-    Map<Long, List<PhotoTags>> photoTagsMap = new HashMap<>();
-    for (PhotoTags photoTag : photoTags) {
-        Long photo4CutId = photoTag.getCollections().getPhoto4CutId();
-        List<PhotoTags> tagsList = photoTagsMap.getOrDefault(photo4CutId, new ArrayList<>());
-        tagsList.add(photoTag);
-        photoTagsMap.put(photo4CutId, tagsList);
-    }
-
-    List<CollectionsWithPhotoTags> collectionsWithPhotoTagsList = new ArrayList<>();
-    for (Collections collection : collections) {
-        Long photo4CutId = collection.getPhoto4CutId();
-        List<PhotoTags> matchingTags = photoTagsMap.getOrDefault(photo4CutId, Collections.emptyList());
-
-        CollectionsWithPhotoTags collectionWithPhotoTags = new CollectionsWithPhotoTags(collection);
-        collectionWithPhotoTags.setPhotoTags(matchingTags);
-
-        collectionsWithPhotoTagsList.add(collectionWithPhotoTags);
-    }
-
-    return collectionsWithPhotoTagsList;
-}
-*/
-
 
 
     public List<Collections> getCollectionsByTagId(String tagId) {
@@ -130,5 +87,21 @@ public List<CollectionsWithPhotoTags> getCollectionsByUserId(Long userId) {
             return "No friends to tag to photo4Cut";
         }
     }
+
+	public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
+        Collections collections = collectionsRepository.findById(photo4CutId).get();
+        List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutId);
+        List<Map<String, String>> friendList= new ArrayList<>();
+
+        for(PhotoTags friend : photoTags){
+            String tagId = friend.getTagId();
+            User user = userRepository.findByTagId(tagId).get();
+            Map<String, String> friendMap = new HashMap<>();
+            friendMap.put("nickName", user.getNickName());
+            friendMap.put("tagId", user.getTagId());
+            friendList.add(friendMap);
+        }
+        return friendList;
+	}
 }
 

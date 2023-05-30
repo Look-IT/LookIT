@@ -53,6 +53,4 @@ public class Collections {
 	@Column(name = "photo4Cut", nullable = false)
 	private String photo4Cut;
 
-	public void setPhotoTags(List<PhotoTags> matchingTags) {
-	}
 }

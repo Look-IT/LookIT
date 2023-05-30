@@ -2,6 +2,7 @@ package lookIT.lookITspring.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.transaction.Transactional;
@@ -61,7 +62,8 @@ public class MemoryService {
 			}
 			return rememory.getMemoryId();
 		} catch(Exception e){
-			return new Long(-1);
+			throw e;
+			//return new Long(-1);
 		}
 	}
 
@@ -179,5 +181,21 @@ public class MemoryService {
 			memoryIdList.add(infoTag.getInfoTagsId().getMemory().getMemoryId());
 		}
 		return memoryIdList;
+	}
+
+	public List<Map<String, String>> getTaggedFriendListByMemoryId(Long memoryId) {
+		Memory memory = memoryRepository.findById(memoryId).get();
+		List<FriendTags> friendTags = friendTagsRepository.findByFriendTagsId_Memory(memory);
+		List<Map<String, String>> friendList= new ArrayList<>();
+
+		for(FriendTags friend : friendTags){
+			Long userId = friend.getFriendTagsId().getUser().getUserId();
+			User user = userRepository.findById(userId).get();
+			Map<String, String> friendMap = new HashMap<>();
+			friendMap.put("nickName", user.getNickName());
+			friendMap.put("tagId", user.getTagId());
+			friendList.add(friendMap);
+		}
+		return friendList;
 	}
 }
