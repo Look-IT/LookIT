@@ -19,6 +19,12 @@ spring:
         jdbc:
           time_zone: Asia/Seoul
 
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 10MB
+
+
 
 #    default_batch_fetch_size: 1000
 
