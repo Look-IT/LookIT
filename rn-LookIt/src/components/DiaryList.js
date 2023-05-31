@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import DiaryListItem from './DiaryListItem';
 
 const DiaryList = ({ data }) => {
+
   return (
     <FlatList
       style={{ flexGrow: 1 }}

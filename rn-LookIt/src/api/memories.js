@@ -32,3 +32,35 @@ export const postMemoriesHashtag = async (memoryId, tags) => {
     throw error;
   }
 }
+
+export const getMemoriesPhoto = async (memoryId) => {
+  const endPoint = '/memories/photo';
+
+  try {
+    const response = apiClient.get(endPoint, {
+      params: {
+        memoryId: memoryId,
+      }
+    })
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const getMemoriesPath = async (memoryId) => {
+  const endPoint = '/memories/linePath';
+
+  try {
+    const response = apiClient.get(endPoint, {
+      params: {
+        memoryId: memoryId,
+      }
+    })
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

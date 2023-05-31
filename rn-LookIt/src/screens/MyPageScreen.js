@@ -6,11 +6,11 @@ import DiaryList from '../components/DiaryList';
 import React, { useState } from 'react';
 import { getMemoriesList } from '../api/DiaryApi';
 import { useFocusEffect } from '@react-navigation/native';
+import { getMemoriesPhoto } from '../api/memories';
 const MyPageScreen = () => {
 
   const [diary, setDiary] = useState([]);
-
-
+  
   const getDiaryList = async () => {
     //네컷 사진 리스트 요청하는 함수
 

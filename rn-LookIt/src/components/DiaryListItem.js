@@ -1,64 +1,81 @@
 //그냥 친구 목록 컴포넌트
 
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { GRAY, BLACK, WHITE, PRIMARY } from '../colors';
+import { GRAY, WHITE, PRIMARY } from '../colors';
 import FriendTagButton from './FriendTagButton';
+import { useNavigation } from '@react-navigation/core';
 
-const DiaryListItem = memo(({ item }) => {
+const DiaryListItem = ({ item }) => {
   const date = item.date.split('T');
 
+  const navigation = useNavigation();
+  const [memoryId, setMemoryId] = useState(null);
+
+  handleMemoriesView = () => {
+    setMemoryId(item.id);
+  }
+  
+  useEffect(() => {
+    memoryId && navigation.navigate('MemoriesViewScreen', { memoryId });
+    setMemoryId(null);
+  }, [memoryId]);
+
   return (
-    <View style={styles.container}>
-      <View style={[styles.textContainer, { height: 28, paddingBottom: 8 }]}>
-        <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
-      </View>
-      <View style={styles.imageContainer}>
-        {
-          item.thumbnail &&
-            <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
-        }
+    <Pressable
+      onPress={handleMemoriesView}>
 
-        <View style={styles.friendTag}>
-          <FriendTagButton></FriendTagButton>
+      <View style={styles.container}>
+        <View style={[styles.textContainer, { height: 28, paddingBottom: 8 }]}>
+          <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
         </View>
-      </View>
+        <View style={styles.imageContainer}>
+          {
+            item.thumbnail &&
+              <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+          }
 
-      <View
-        style={[
-          styles.textContainer,
-          { height: 24, paddingTop: 8, fontSize: 14 },
-        ]}
-      >
-        
-        {
-          item.tag.map((tagitems, index) => {
-            const tagitem = Object.entries(tagitems)
-              .map(([_, value]) => value)
-              .join(", ");
+          <View style={styles.friendTag}>
+            <FriendTagButton></FriendTagButton>
+          </View>
+        </View>
 
+        <View
+          style={[
+            styles.textContainer,
+            { height: 24, paddingTop: 8, fontSize: 14 },
+          ]}
+        >
+          
+          {
+            item.tag.map((tagitems, index) => {
+              const tagitem = Object.entries(tagitems)
+                .map(([_, value]) => value)
+                .join(", ");
+
+              return (
+                <View key={index} style={{ height: 26 }}>
+                  <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
+                </View>
+              )
+            })
+          }
+
+          {/* 
+          {item.tag.map((tagitem, index) => {
             return (
               <View key={index} style={{ height: 26 }}>
                 <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
               </View>
-            )
-          })
-        }
-
-        {/* 
-        {item.tag.map((tagitem, index) => {
-          return (
-            <View key={index} style={{ height: 26 }}>
-              <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
-            </View>
-          );
-        })} */}
+            );
+          })} */}
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
-});
+};
 
 DiaryListItem.displayName = 'DiaryListItem';
 
