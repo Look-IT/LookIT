@@ -3,7 +3,7 @@
     "name": "추억일지",
     "displayName": "추억일지",
     "slug": "rn-LookIt",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +27,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.rnLookIt",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": "1.0.1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
