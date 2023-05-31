@@ -28,34 +28,34 @@ const HomeScreen = () => {
   useLocationTracking(isCurrentWatch, false);
 
   // TODO: 삭제 요망
-  useEffect(() => {
-    console.log('USER: ', user);
-  }, [user]);
-  const fetchData = async () => {
+  // useEffect(() => {
+  //   console.log('USER: ', user);
+  // }, [user]);
+  // const fetchData = async () => {
 
-    const value = await AsyncStorage.getItem('@token');
-    return value;
-  }
+  //   const value = await AsyncStorage.getItem('@token');
+  //   return value;
+  // }
 
-  useEffect(() => {
-    !isobserving && setTrackingLocation([]);
-  }, [isobserving]);
+  // useEffect(() => {
+  //   !isobserving && setTrackingLocation([]);
+  // }, [isobserving]);
 
   useFocusEffect(
     React.useCallback(() => {
       setMemoryId(null);
-      !trackingLocation && setIsObserving(true);
+      // !trackingLocation && setIsObserving(true);
       // !isobserving && setTrackingLocation([]);
       setPictureMarker([]);
       setTags([]);
 
       // TODO:  삭제 요망
-      fetchData()
-        .then(response => {
-          setUser(response);
-          storeToken(response);
-        })
-        .catch(error => console.log(error));
+      // fetchData()
+      //   .then(response => {
+      //     setUser(response);
+      //     storeToken(response);
+      //   })
+      //   .catch(error => console.log(error));
     }, [])
   )
 

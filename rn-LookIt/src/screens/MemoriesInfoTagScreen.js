@@ -3,7 +3,7 @@ import { Body, Family, Headline } from "../styles/fonts";
 import TagInput from "../components/TagInput";
 import { useCallback, useEffect, useState } from "react";
 import Button from "../components/buttons/Button";
-import { SECONDARY, WHITE } from "../colors";
+import { PRIMARY, WHITE } from "../colors";
 import HashTag from "../components/HashTag";
 import { useMemoriesContext } from "../contexts/MemoriesContext";
 import { useNavigation } from "@react-navigation/native";
@@ -94,7 +94,7 @@ const MemoriesInfoTagScreen = () => {
           <Pressable
             style={({ pressed }) => [
               styles.addButtonContainer,
-              pressed && { backgroundColor: SECONDARY['300']}
+              pressed && { backgroundColor: PRIMARY['300']}
             ]}
             onPress={handleTagSubmit}>
             <Text style={styles.addButtonText}>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: SECONDARY['500'],
+    backgroundColor: PRIMARY['500'],
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 4,
