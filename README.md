@@ -29,7 +29,7 @@
 
 
 * 이 프로젝트의 구현은 다음과 같은 환경에서 수행되었음.
-|------|-----|
+| ------ | ----- |
 |   프론트엔드  | React Native |  
 |   백엔드    |    Spring Boot  |    
 | 서버 |  Cloud Type |
@@ -38,7 +38,11 @@
 
 ## 기술 스택
 
+![깃 기술스택](https://github.com/Look-IT/LookIT/assets/71146988/9f87ed7f-5d0b-4c46-b656-aea515a72a20)
 
 ## 소프트웨어 아키텍처 및 알고리즘
+
+![깃 아키텍쳐 이미지](https://github.com/Look-IT/LookIT/assets/71146988/3c74e8c0-5c48-4a0f-aaef-804b3a694ee5)
+
 
 
