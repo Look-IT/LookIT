@@ -66,6 +66,6 @@
 
 ## 활용 기술
 ### S3
-![aws s3](https://capstone-lookit.s3.ap-northeast-2.amazonaws.com/photo4cut/photo/lookit_s3.png)
+![스크린샷 2023-06-02 222857](https://github.com/Look-IT/LookIT/assets/76723045/4e155b2c-0869-49f6-b687-6e7ff5bb11db)
 
 **추억일지 핀에 업로드한 사진**들과 랜드마크들의 **네 컷 프레임**, 유저들의 **추억네컷**을 aws s3에 저장하고 있다.
