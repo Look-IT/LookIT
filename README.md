@@ -50,8 +50,7 @@
 
 <br>
 
-![기술스택](https://github.com/Look-IT/LookIT/assets/48748249/1c14653b-184d-4219-977d-b8ba8552c111)
-
+![기술스택](https://github.com/Look-IT/LookIT/assets/48748249/0a5bb560-cb2a-430b-b433-aa6c4c27c567)
 
 <br>
 
