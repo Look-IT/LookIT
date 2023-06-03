@@ -9,7 +9,7 @@
 |   임민호    |    19학번  |    프론트엔드, 디자인       |
 |   신호근     |    15학번  |    프론트엔드        |
 |   장희지|    20학번  |    백엔드        |
-|   최준호    |    18번  |    백엔드      |
+|   최준호    |    18학번  |    백엔드      |
 
 <br>
 
@@ -50,14 +50,15 @@
 
 <br>
 
-![깃 기술스택](https://github.com/Look-IT/LookIT/assets/71146988/9f87ed7f-5d0b-4c46-b656-aea515a72a20)
+![기술스택](https://github.com/Look-IT/LookIT/assets/48748249/1c14653b-184d-4219-977d-b8ba8552c111)
+
 
 <br>
 
 ## **소프트웨어 아키텍처 및 알고리즘**
 <br>
 
-![깃 아키텍쳐 이미지](https://github.com/Look-IT/LookIT/assets/71146988/3c74e8c0-5c48-4a0f-aaef-804b3a694ee5)
+![아키텍쳐](https://github.com/Look-IT/LookIT/assets/48748249/ab76170e-3566-4b1f-8dd7-22d690299647)
 
 <br>
 
