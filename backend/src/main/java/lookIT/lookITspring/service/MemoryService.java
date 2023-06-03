@@ -215,4 +215,26 @@ public class MemoryService {
 		infoTagsRepository.deleteById(infoTagsId);
 		return true;
 	}
+
+	public void deleteLinePath(Memory memory){
+		linePathRepository.deleteAllByMemory(memory);
+	}
+
+	public boolean deleteMemory(String token, Map<String, String> request) {
+		Memory memory = memoryRepository.findById(Long.parseLong(request.get("memoryId"))).get();
+		deleteLinePath(memory);
+		/**
+		 * 다른 팀원들
+		 * 추억일지 핀 삭제
+		 * 추억일지 핀 사진 삭제
+		 * 추억일지 친구 태그 삭제
+		 */
+		// 추억일지 정보 태그 삭제
+		Map<String, String> infoId = new HashMap<>();
+		infoTagsRepository.deleteAllByInfoTagsIdMemory(memory);
+
+		// 추억일지 삭제
+		memoryRepository.delete(memory);
+		return true;
+	}
 }

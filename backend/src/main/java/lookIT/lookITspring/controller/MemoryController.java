@@ -69,4 +69,9 @@ public class MemoryController {
     return memoryService.getTaggedFriendListByMemoryId(memoryId);
   }
 
+  @PostMapping("/delete")
+  public boolean deleteMemory(@RequestHeader String token, @RequestBody Map<String, String> request){
+    return memoryService.deleteMemory(token, request);
+  }
+
 }
