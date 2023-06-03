@@ -41,6 +41,11 @@ public class MemoryController {
     return memoryService.searchMemoryByInfoTags(info);
   }
 
+  @PostMapping("/info/delete")
+  public boolean deleteInfoTag(@RequestBody Map<String, String> infoId){
+    return memoryService.deleteInfoTag(infoId);
+  }
+
   @GetMapping("/list")
   @ResponseBody
   public List<MemoryListDto> getMemoryListById(@RequestHeader("token") String token){

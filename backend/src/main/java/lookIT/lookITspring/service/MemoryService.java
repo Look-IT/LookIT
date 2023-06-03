@@ -204,4 +204,15 @@ public class MemoryService {
 		}
 		return friendList;
 	}
+
+	public boolean deleteInfoTag(Map<String, String> infoId) {
+		Long memoryId = Long.parseLong(infoId.get("memoryId"));
+		Memory memory = memoryRepository.findById(memoryId).get();
+		InfoTagsId infoTagsId = InfoTagsId.builder()
+			.memory(memory)
+			.info(infoId.get("info"))
+			.build();
+		infoTagsRepository.deleteById(infoTagsId);
+		return true;
+	}
 }
