@@ -83,7 +83,7 @@ public class Photo4cutController {
     }
 
     @PostMapping("/tag")
-    public String TagPhoto4Cut (@RequestBody String[] friendsList, @RequestParam Long photo4CutId){
+    public String TagPhoto4Cut(@RequestBody String[] friendsList, @RequestParam Long photo4CutId){
         return photo4CutService.collectionFriendTag(friendsList, photo4CutId);
     }
 
@@ -91,6 +91,11 @@ public class Photo4cutController {
     @ResponseBody
     public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(@RequestParam Long photo4CutId){
         return photo4CutService.getTaggedFriendListByPhoto4CutIdId(photo4CutId);
+    }
+
+    @DeleteMapping("/4CutPhotoDelete")
+    public boolean deleteTag(@RequestParam Long photo4CutId){
+        return photo4CutService.Photo4CutDelete(photo4CutId);
     }
 }
 

@@ -88,7 +88,12 @@ public class Photo4CutService {
         }
     }
 
-	public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
+    public boolean collectionFriendTagDelete(Long photo4CutId){
+        photoTagsRepository.deleteByCollectionsPhoto4CutId(photo4CutId);
+        return true;
+    }
+
+    public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
         Collections collections = collectionsRepository.findById(photo4CutId).get();
         List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutId);
         List<Map<String, String>> friendList= new ArrayList<>();
@@ -102,6 +107,16 @@ public class Photo4CutService {
             friendList.add(friendMap);
         }
         return friendList;
-	}
+    }
+
+    public boolean Photo4CutDelete(Long photo4CutId){
+        collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제
+        /**
+        * 
+        * 추억네컷 사진 삭제
+        *
+        */
+        return true;
+    }
 }
 
