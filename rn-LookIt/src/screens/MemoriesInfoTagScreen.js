@@ -29,12 +29,12 @@ const MemoriesInfoTagScreen = () => {
   useEffect(() => {
     if (memoryId !== null) {
       console.log('SAVE START : ', memoryId);
-      
-      const promisess = pictureMarker.map(marker => postMemoriesImage(memoryId, marker));
-      Promise.all(promisess)
-        .then(response => {
-          console.log('IMAGE UPLOAD SUCCESS: ', response);
-        })
+
+      const promises = pictureMarker.flatMap(marker => {
+        marker.uri.map(uri => postMemoriesImage(memoryId, marker, uri));
+      });
+      Promise.all(promises)
+        .then(response => console.log('IMAGE UPLOAD SUCCESS'))
         .catch(error => console.error('IMAGE: ', error));
 
       postMemoriesHashtag(memoryId, tags)

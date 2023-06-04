@@ -30,7 +30,7 @@ const MemoriesCreateScreen = ({}) => {
             id: pictureMarker.length,
             latitude: event.latitude,
             longitude: event.longitude,
-            uri: null
+            uri: []
           };
           setPictureMarker(prevData => [...prevData, locationData]);
           setSelectedPictureMarker(pictureMarker.length);
