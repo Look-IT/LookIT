@@ -2,12 +2,16 @@ package lookIT.lookITspring.service;
 
 import java.util.HashMap;
 import javax.transaction.Transactional;
+
+import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.*;
 import lookIT.lookITspring.repository.CollectionsRepository;
 import lookIT.lookITspring.repository.LandmarkRepository;
 import lookIT.lookITspring.repository.PhotoTagsRepository;
 import lookIT.lookITspring.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +28,12 @@ public class Photo4CutService {
     private final UserRepository userRepository;
     private final PhotoTagsRepository photoTagsRepository;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Autowired
+    private AmazonS3 s3Client;
+
     public String getPhotoFrame(long landmarkId) throws Exception {
         try {
             Optional<Landmark> landmark = landmarkRepository.findById(landmarkId);
@@ -38,7 +48,7 @@ public class Photo4CutService {
         }
     }
 
-    public Long savePhoto4Cut(Long landmarkId, Long userId, String imageUrl) {
+    public Long savePhoto4Cut(Long landmarkId, Long userId, String imageUrl, String key) {
         Landmark landmark = landmarkRepository.findById(landmarkId)
                 .orElseThrow(() -> new IllegalArgumentException("landmark not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -48,6 +58,7 @@ public class Photo4CutService {
                 .user(user)
                 .landmark(landmark)
                 .photo4Cut(imageUrl)
+                .photo4CutKey(key)
                 .build();
 
         collectionsRepository.save(collection);
@@ -108,13 +119,34 @@ public class Photo4CutService {
         return friendList;
     }
 
+    private void deletePhotoFromS3(String key){
+        try{
+            boolean isS3Object = s3Client.doesObjectExist(bucket, key);
+            if (isS3Object){
+                s3Client.deleteObject(bucket,key);
+            }else{
+                throw new Exception("S3 object does not exist for the given key.");
+            }
+        }catch(Exception e){
+            throw new RuntimeException("Failed - Delete S3 file",e);
+        }
+    }
+
     public boolean Photo4CutDelete(Long photo4CutId){
-        collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제
-        /**
-        * 
-        * 추억네컷 사진 삭제
-        *
-        */
+        try{
+            Optional<Collections> collectionOptional = collectionsRepository.findById(photo4CutId);
+            Collections collection = collectionOptional.orElseThrow(() -> new Exception("No collection found for the given photo4CutId."));
+            String photo4CutKey = collection.getPhoto4CutKey();
+
+            deletePhotoFromS3(photo4CutKey);
+            collectionsRepository.delete(collection);
+
+            collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
         return true;
     }
 }
