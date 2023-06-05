@@ -10,4 +10,5 @@ public interface FriendTagsRepository extends JpaRepository<FriendTags, FriendTa
 
   List<FriendTags> findByFriendTagsId_Memory(Memory memory);
 
+  void deleteByFriendTagsId(FriendTagsId friendTagsId);
 }
