@@ -18,6 +18,9 @@ public class MemoryPhoto {
     @Column
     private String memoryPhoto;
 
+    @Column
+    private String memoryPhotoKey;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spotId", nullable = false)
     private MemorySpot memorySpot;
