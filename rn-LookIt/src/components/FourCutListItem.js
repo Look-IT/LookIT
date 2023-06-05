@@ -2,6 +2,7 @@
 
 import { memo, useState } from 'react';
 import {
+  Alert,
   Pressable,
   StyleSheet,
   Text,
@@ -19,12 +20,14 @@ import { Dimensions } from 'react-native';
 import FourCutFAB from './FourCutFAB';
 import FriendTagButton from './FriendTagButton';
 import { getFourCutTag } from '../api/fourCutApi';
+import { saveImageToGallery } from '../functions/saveImage';
 
 const FourCutListItem = memo(({ item, width, height }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const viewWidth = Dimensions.get('window').width;
   const viewHeight = Dimensions.get('window').height;
   const [tag, setTag] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -83,9 +86,14 @@ const FourCutListItem = memo(({ item, width, height }) => {
             source={require('../../assets/Icon_Clear.png')}
           ></Image>
         </FourCutFAB>
-        {/*<FourCutFAB
+        <FourCutFAB
           onPress={() => {
-            downloadAndSaveImage(item.uri);
+            if (!isLoading) {
+              setIsLoading(true);
+              saveImageToGallery(item.uri);
+
+              setIsLoading(false);
+            }
           }}
           style={{ right: 16 }}
         >
@@ -93,7 +101,7 @@ const FourCutListItem = memo(({ item, width, height }) => {
             style={styles.image}
             source={require('../../assets/Icon_Download.png')}
           ></Image>
-        </FourCutFAB>*/}
+        </FourCutFAB>
       </Modal>
     </>
   );

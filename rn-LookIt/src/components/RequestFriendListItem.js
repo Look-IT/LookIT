@@ -13,6 +13,7 @@ import { acceptFriendRequest } from '../api/friendApi';
 
 import { GRAY, BLACK, PRIMARY } from '../colors';
 import { useUserContext } from '../contexts/UserContext';
+import { denyFriendRequest } from '../api/friendApi';
 
 const RequestFriendListItem = memo(({ item, reset }) => {
   const { user } = useUserContext();
@@ -39,7 +40,17 @@ const RequestFriendListItem = memo(({ item, reset }) => {
         >
           <Text style={[styles.idFont, { color: PRIMARY[700] }]}>수락</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (!isLoading) {
+              setIsLoading(true);
+              denyFriendRequest(user, item.id);
+
+              reset(true);
+              setIsLoading(false);
+            }
+          }}
+        >
           <Text style={styles.idFont}>거절</Text>
         </TouchableOpacity>
       </View>
