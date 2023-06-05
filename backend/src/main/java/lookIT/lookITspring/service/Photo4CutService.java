@@ -136,12 +136,13 @@ public class Photo4CutService {
         try{
             Optional<Collections> collectionOptional = collectionsRepository.findById(photo4CutId);
             Collections collection = collectionOptional.orElseThrow(() -> new Exception("No collection found for the given photo4CutId."));
-            String photo4CutKey = collection.getPhoto4CutKey();
 
+            collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제
+
+            String photo4CutKey = collection.getPhoto4CutKey();
             deletePhotoFromS3(photo4CutKey);
             collectionsRepository.delete(collection);
 
-            collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
