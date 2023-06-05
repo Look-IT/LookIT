@@ -220,8 +220,19 @@ public class MemoryService {
 		linePathRepository.deleteAllByMemory(memory);
 	}
 
-	public boolean deleteMemory(String token, Map<String, String> request) {
-		Memory memory = memoryRepository.findById(Long.parseLong(request.get("memoryId"))).get();
+	public void deleteFriendTag(Long memoryId){
+		Memory memory = memoryRepository.findById(memoryId).get();
+		List<FriendTags> friendTags = friendTagsRepository.findByFriendTagsId_Memory(memory);
+		for(FriendTags friend : friendTags) {
+			Long userId = friend.getFriendTagsId().getUser().getUserId();
+			User user = userRepository.findById(userId).get();
+			FriendTagsId friendTagsId = new FriendTagsId(memory, user);
+			friendTagsRepository.deleteByFriendTagsId(friendTagsId);
+		}
+	}
+
+	public boolean deleteMemory(String token, Long memoryId) {
+		Memory memory = memoryRepository.findById(memoryId).get();
 		deleteLinePath(memory);
 		/**
 		 * 다른 팀원들
@@ -229,6 +240,9 @@ public class MemoryService {
 		 * 추억일지 핀 사진 삭제
 		 * 추억일지 친구 태그 삭제
 		 */
+		// 추억일지 친구 태그 삭제
+		deleteFriendTag(memoryId);
+
 		// 추억일지 정보 태그 삭제
 		Map<String, String> infoId = new HashMap<>();
 		infoTagsRepository.deleteAllByInfoTagsIdMemory(memory);

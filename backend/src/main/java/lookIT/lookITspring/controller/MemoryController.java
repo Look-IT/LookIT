@@ -70,8 +70,8 @@ public class MemoryController {
   }
 
   @PostMapping("/delete")
-  public boolean deleteMemory(@RequestHeader String token, @RequestBody Map<String, String> request){
-    return memoryService.deleteMemory(token, request);
+  public boolean deleteMemory(@RequestHeader String token, @RequestParam Long memoryId){
+    return memoryService.deleteMemory(token, memoryId);
   }
 
 }

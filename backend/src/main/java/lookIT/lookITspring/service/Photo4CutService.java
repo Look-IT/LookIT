@@ -88,9 +88,8 @@ public class Photo4CutService {
         }
     }
 
-    public boolean collectionFriendTagDelete(Long photo4CutId){
+    public void collectionFriendTagDelete(Long photo4CutId){
         photoTagsRepository.deleteByCollectionsPhoto4CutId(photo4CutId);
-        return true;
     }
 
     public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
