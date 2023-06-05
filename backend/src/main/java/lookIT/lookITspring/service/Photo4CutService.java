@@ -100,7 +100,8 @@ public class Photo4CutService {
     }
 
     public void collectionFriendTagDelete(Long photo4CutId){
-        photoTagsRepository.deleteByCollectionsPhoto4CutId(photo4CutId);
+        List<PhotoTags> photoTags = photoTagsRepository.findByCollectionsPhoto4CutId(photo4CutId);
+        photoTagsRepository.deleteAll(photoTags);
     }
 
     public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(Long photo4CutId) {
