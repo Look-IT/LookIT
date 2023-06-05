@@ -41,6 +41,11 @@ public class MemoryController {
     return memoryService.searchMemoryByInfoTags(info);
   }
 
+  @PostMapping("/info/delete")
+  public boolean deleteInfoTag(@RequestBody Map<String, String> infoId){
+    return memoryService.deleteInfoTag(infoId);
+  }
+
   @GetMapping("/list")
   @ResponseBody
   public List<MemoryListDto> getMemoryListById(@RequestHeader("token") String token){
@@ -62,6 +67,11 @@ public class MemoryController {
   @ResponseBody
   public List<Map<String, String>> getTaggedFriendListByMemoryId(@RequestParam Long memoryId){
     return memoryService.getTaggedFriendListByMemoryId(memoryId);
+  }
+
+  @PostMapping("/delete")
+  public boolean deleteMemory(@RequestHeader String token, @RequestParam Long memoryId){
+    return memoryService.deleteMemory(token, memoryId);
   }
 
 }

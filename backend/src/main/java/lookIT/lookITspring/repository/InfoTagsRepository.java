@@ -10,4 +10,5 @@ public interface InfoTagsRepository extends JpaRepository<InfoTags, InfoTagsId> 
 
   List<InfoTags> findByInfoTagsIdMemory(Memory memory);
   List<InfoTags> findByInfoTagsIdInfo(String info);
+  void deleteAllByInfoTagsIdMemory(Memory memory);
 }

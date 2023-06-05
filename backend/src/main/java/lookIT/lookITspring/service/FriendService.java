@@ -79,8 +79,8 @@ public class FriendService {
 
   public boolean myRequestCancel(String tagId, String token) {
     Long userId = jwtProvider.getUserId(token);
-    User user = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
-    User friend = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    User friend = userRepository.findByTagId(tagId).orElseThrow(() -> new IllegalArgumentException("Invalid tagId"));
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
 
     FriendsId friendsId = new FriendsId(friend, user);
     Friends checkRequest = friendsRepository.findById(friendsId).orElse(null);

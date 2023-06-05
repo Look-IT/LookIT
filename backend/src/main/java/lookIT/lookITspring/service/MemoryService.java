@@ -204,4 +204,51 @@ public class MemoryService {
 		}
 		return friendList;
 	}
+
+	public boolean deleteInfoTag(Map<String, String> infoId) {
+		Long memoryId = Long.parseLong(infoId.get("memoryId"));
+		Memory memory = memoryRepository.findById(memoryId).get();
+		InfoTagsId infoTagsId = InfoTagsId.builder()
+			.memory(memory)
+			.info(infoId.get("info"))
+			.build();
+		infoTagsRepository.deleteById(infoTagsId);
+		return true;
+	}
+
+	public void deleteLinePath(Memory memory){
+		linePathRepository.deleteAllByMemory(memory);
+	}
+
+	public void deleteFriendTag(Long memoryId){
+		Memory memory = memoryRepository.findById(memoryId).get();
+		List<FriendTags> friendTags = friendTagsRepository.findByFriendTagsId_Memory(memory);
+		for(FriendTags friend : friendTags) {
+			Long userId = friend.getFriendTagsId().getUser().getUserId();
+			User user = userRepository.findById(userId).get();
+			FriendTagsId friendTagsId = new FriendTagsId(memory, user);
+			friendTagsRepository.deleteByFriendTagsId(friendTagsId);
+		}
+	}
+
+	public boolean deleteMemory(String token, Long memoryId) {
+		Memory memory = memoryRepository.findById(memoryId).get();
+		deleteLinePath(memory);
+		/**
+		 * 다른 팀원들
+		 * 추억일지 핀 삭제
+		 * 추억일지 핀 사진 삭제
+		 * 추억일지 친구 태그 삭제
+		 */
+		// 추억일지 친구 태그 삭제
+		deleteFriendTag(memoryId);
+
+		// 추억일지 정보 태그 삭제
+		Map<String, String> infoId = new HashMap<>();
+		infoTagsRepository.deleteAllByInfoTagsIdMemory(memory);
+
+		// 추억일지 삭제
+		memoryRepository.delete(memory);
+		return true;
+	}
 }
