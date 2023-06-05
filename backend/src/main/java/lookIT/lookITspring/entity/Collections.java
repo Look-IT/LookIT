@@ -53,4 +53,7 @@ public class Collections {
 	@Column(name = "photo4Cut", nullable = false)
 	private String photo4Cut;
 
+	@Column(nullable = false)
+	private String photo4CutKey;
+
 }

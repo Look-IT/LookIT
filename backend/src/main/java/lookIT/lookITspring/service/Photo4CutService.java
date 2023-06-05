@@ -38,7 +38,7 @@ public class Photo4CutService {
         }
     }
 
-    public Long savePhoto4Cut(Long landmarkId, Long userId, String imageUrl) {
+    public Long savePhoto4Cut(Long landmarkId, Long userId, String imageUrl, String key) {
         Landmark landmark = landmarkRepository.findById(landmarkId)
                 .orElseThrow(() -> new IllegalArgumentException("landmark not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -48,6 +48,7 @@ public class Photo4CutService {
                 .user(user)
                 .landmark(landmark)
                 .photo4Cut(imageUrl)
+                .photo4CutKey(key)
                 .build();
 
         collectionsRepository.save(collection);
@@ -107,6 +108,7 @@ public class Photo4CutService {
         }
         return friendList;
     }
+
 
     public boolean Photo4CutDelete(Long photo4CutId){
         collectionFriendTagDelete(photo4CutId); //추억네컷 친구 태그 삭제

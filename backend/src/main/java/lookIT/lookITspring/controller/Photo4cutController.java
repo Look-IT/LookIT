@@ -66,7 +66,7 @@ public class Photo4cutController {
             throw new Error("S3 Err - s3Client is null");
         }
         else{
-            return photo4CutService.savePhoto4Cut(landmarkId, userId, imageUrl);
+            return photo4CutService.savePhoto4Cut(landmarkId, userId, imageUrl, key);
         }
 
     }
