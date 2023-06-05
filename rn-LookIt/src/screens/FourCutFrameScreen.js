@@ -57,7 +57,7 @@ const FourCutFrameScreen = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.textStyle}>프레임을</Text>
-        <Text style={styles.textStyle}>선택해 주세요.</Text>
+        <Text style={styles.textStyle}>확인해 주세요.</Text>
       </View>
 
       <Image

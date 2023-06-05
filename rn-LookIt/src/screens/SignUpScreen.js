@@ -4,9 +4,9 @@ import { Keyboard, StyleSheet, Text, View, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useEffect, useState } from 'react';
-import Button, { ButtonTypes } from '../components/buttons/Button';
+import Button, { ButtonTypes } from '../components/Button';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { signUp } from '../api/auth';
+import { idUniqueCheck, signUp } from '../api/auth';
 import TextButton from '../components/TextButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -14,7 +14,7 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
   const { top, bottom } = useSafeAreaInsets(); //화면 위아래 겹치거나 잘리는 경우 방지를 위한 상태변수
 
-  const [tagName, setTagName] = useState(''); //아이디 저장
+  const [tagId, setTagId] = useState(''); //아이디 저장
   const [email, setEmail] = useState(''); //이메일 저장
   const [password, setPassword] = useState(''); //패스워드 저장
   const [nickName, setNickName] = useState(''); //닉네임 저장
@@ -24,8 +24,8 @@ const SignUpScreen = () => {
   const [disabled, setDisabled] = useState(true); //입력 덜 된채로 버튼 클릭 방지
 
   useEffect(() => {
-    setDisabled(!email || !password || !tagName || !nickName || !idConfirm);
-  }, [email, password, tagName, nickName, idConfirm]);
+    setDisabled(!email || !password || !tagId || !nickName || !idConfirm);
+  }, [email, password, tagId, nickName, idConfirm]);
 
   const onSubmit = async () => {
     //회원가입 버튼 클릭시 호출되는 함수
@@ -33,11 +33,11 @@ const SignUpScreen = () => {
     if (!disabled && !isLoading) {
       try {
         setIsLoading(true);
-        console.log(tagName, email, password, nickName);
+        console.log(tagId, email, password, nickName);
 
         const response = await signUp(
           'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/join',
-          tagName,
+          tagId,
           email,
           password,
           nickName
@@ -54,13 +54,17 @@ const SignUpScreen = () => {
       } catch (error) {
         console.log(error);
 
-        Alert.alert('회원가입 실패', '회원가입이 실패했습니다.', [
-          {
-            text: '확인',
-            style: 'default',
-            onPress: () => setIsLoading(false),
-          },
-        ]);
+        Alert.alert(
+          '회원가입 실패',
+          '이메일 형식과\n비밀번호 규칙을 체크해주세요.',
+          [
+            {
+              text: '확인',
+              style: 'default',
+              onPress: () => setIsLoading(false),
+            },
+          ]
+        );
       }
     }
   };
@@ -68,7 +72,7 @@ const SignUpScreen = () => {
   const onIdConfirm = () => {
     //아이디 중복 확인 버튼 클릭시 호출되는 함수
 
-    setIdConfirm(true);
+    idUniqueCheck(tagId, setIdConfirm, setIsLoading, isLoading);
     console.log(idConfirm);
   };
   return (
@@ -81,8 +85,8 @@ const SignUpScreen = () => {
             <Input
               title={'아이디'}
               placeholder="아이디를 입력해주세요."
-              value={tagName}
-              onChangeText={(tagName) => setTagName(tagName.trim())}
+              value={tagId}
+              onChangeText={(tagId) => setTagId(tagId.trim())}
               returnKeyType={ReturnKeyTypes.NEXT}
               KeyboardType={KeyboardTypes.DEFAULT}
             ></Input>
@@ -102,7 +106,7 @@ const SignUpScreen = () => {
         <View style={{ paddingBottom: 30 }}></View>
         <Input
           title={'이메일'}
-          placeholder="이메일은 입력해주세요."
+          placeholder="이메일을 입력해주세요."
           value={email}
           onChangeText={(email) => setEmail(email.trim())}
           returnKeyType={ReturnKeyTypes.NEXT}
