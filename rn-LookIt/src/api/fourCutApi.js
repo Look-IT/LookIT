@@ -69,6 +69,14 @@ export const fourCutTagGet = async (photo4CutId) => {
   });
 };
 
+export const fourCutDel = async (photo4CutId) => {
+  return await axios({
+    method: 'DELETE',
+    url: 'https://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/collections/4CutPhotoDelete',
+    params: { photo4CutId: photo4CutId },
+  });
+};
+
 export const setFourCutTag = async (photo4CutId, tagArray) => {
   //4컷 태그 설정
 
@@ -109,6 +117,35 @@ export const getFourCutTag = async (photo4CutId, setTag) => {
     console.log(error.message);
 
     Alert.alert('태그 조회 실패', '태그 조회가 실패했습니다.', [
+      {
+        text: '확인',
+        style: 'default',
+        onPress: () => {},
+      },
+    ]);
+  }
+};
+
+export const deleteFourCut = async (photo4CutId, setReset) => {
+  //4컷 사진 삭제
+
+  try {
+    console.log(photo4CutId);
+    const response = await fourCutDel(photo4CutId);
+
+    if (response.data) {
+      console.log('네컷 사진 삭제 완료');
+      setReset(true);
+    } else {
+      console.log(response.data);
+      throw new Error(
+        '네컷 사진 삭제 실패: 서버로부터 잘못된 응답을 받았습니다.'
+      );
+    }
+  } catch (error) {
+    console.log(error.message);
+
+    Alert.alert('네컷 사진 삭제 실패', '네컷 사진 삭제가 실패했습니다.', [
       {
         text: '확인',
         style: 'default',

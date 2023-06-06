@@ -4,7 +4,7 @@ import { FlatList, View } from 'react-native';
 import PropTypes from 'prop-types';
 import FourCutListItem from './FourCutListItem';
 import { Dimensions } from 'react-native';
-const FourCutList = ({ data }) => {
+const FourCutList = ({ data, setReset, isLeft }) => {
   const fourCutwidth = Dimensions.get('window').width * (49 / 100);
   const fourCutSepreatorWidth = Dimensions.get('window').width * (2 / 100);
   const fourCutSepreatorHeight = fourCutSepreatorWidth;
@@ -26,6 +26,8 @@ const FourCutList = ({ data }) => {
             item={item}
             width={fourCutwidth}
             height={fourCutheight}
+            setReset={setReset}
+            isLeft={isLeft}
           />
         </View>
       )}

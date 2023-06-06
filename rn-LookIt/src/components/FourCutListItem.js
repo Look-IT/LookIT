@@ -13,16 +13,16 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { GRAY, BLACK, WHITE } from '../colors';
+import { GRAY, BLACK, WHITE, DANGER } from '../colors';
 import { Modal } from 'react-native';
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Dimensions } from 'react-native';
 import FourCutFAB from './FourCutFAB';
 import FriendTagButton from './FriendTagButton';
-import { getFourCutTag } from '../api/fourCutApi';
+import { getFourCutTag, deleteFourCut } from '../api/fourCutApi';
 import { saveImageToGallery } from '../functions/saveImage';
 
-const FourCutListItem = memo(({ item, width, height }) => {
+const FourCutListItem = memo(({ item, width, height, setReset, isLeft }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const viewWidth = Dimensions.get('window').width;
   const viewHeight = Dimensions.get('window').height;
@@ -102,6 +102,38 @@ const FourCutListItem = memo(({ item, width, height }) => {
             source={require('../../assets/Icon_Download.png')}
           ></Image>
         </FourCutFAB>
+        {isLeft ? (
+          <FourCutFAB
+            onPress={() => {
+              Alert.alert(
+                '네컷 사진 삭제',
+                '정말 네컷 사진을 삭제하실 건가요?',
+                [
+                  {
+                    text: '삭제',
+                    style: 'default',
+                    onPress: () => {
+                      deleteFourCut(item.id, setReset);
+                    },
+                  },
+                  {
+                    text: '취소',
+                    style: 'default',
+                    onPress: () => {},
+                  },
+                ]
+              );
+            }}
+            style={{ right: 16, top: 72, backgroundColor: DANGER.DEFAULT }}
+          >
+            <Image
+              style={styles.image}
+              source={require('../../assets/Icon_Clear.png')}
+            ></Image>
+          </FourCutFAB>
+        ) : (
+          <></>
+        )}
       </Modal>
     </>
   );

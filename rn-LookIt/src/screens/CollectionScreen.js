@@ -2,9 +2,10 @@
 
 import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import { GRAY, PRIMARY, WHITE } from '../colors';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FourCutList from '../components/FourCutList';
 import { fourCutGet, taggedFourCutGet } from '../api/fourCutApi';
+import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUserContext } from '../contexts/UserContext';
@@ -82,6 +83,7 @@ const CollectionScreen = () => {
 
   const [fourCut, setFourCut] = useState([]);
   const [taggedFourCut, setTaggedFourCut] = useState([]);
+  const [reset, setReset] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -89,10 +91,13 @@ const CollectionScreen = () => {
       taggedFourCutListGet(myAccount.tagId);
       getMyInfo(user, myAccount, setMyAccount);
       console.log(myAccount.tagId);
+      console.log('새로고침');
+      setReset(false);
+
       return () => {
         console.log('Screen unfocused');
       };
-    }, [isLeftPressed])
+    }, [isLeftPressed, reset])
   );
   return (
     <View style={styles.container}>
@@ -142,7 +147,11 @@ const CollectionScreen = () => {
       </View>
       <View style={{ height: fourCutSepreatorWidth }}></View>
       {isLeftPressed ? (
-        <FourCutList data={fourCut}></FourCutList>
+        <FourCutList
+          data={fourCut}
+          setReset={setReset}
+          isLeft={isLeftPressed}
+        ></FourCutList>
       ) : (
         <FourCutList data={taggedFourCut}></FourCutList>
       )}
