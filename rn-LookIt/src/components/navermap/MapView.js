@@ -1,4 +1,4 @@
-import NaverMapView from "react-native-nmap"
+import NaverMapView, { Marker } from "react-native-nmap"
 
 import { getCurrentLocation } from "./functions/GetLocation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -16,7 +16,8 @@ import { getLandmarkAndMyPositionDistance } from "../../functions/getLandmarkAnd
 const MapView = ({
   children,
   onPressMap = () => {},
-  setLandmarkId = () =>{}}) => {
+  setLandmarkId = () =>{},
+  isView}) => {
 
   const { myLocation, setMyLocation, trackingLocation } = useMemoriesContext();
 
@@ -47,12 +48,21 @@ const MapView = ({
     getDistance();
   }, [myLocation]);
 
+  useEffect(() => {
+    isView && trackingLocation.length &&
+    setMyLocation(trackingLocation[0]);
+  }, [trackingLocation]);
+
   const fetchData = async () => {
+
     const fetchedLandmarks = await callLandmarks();
     setLandmarks(fetchedLandmarks);
     
+    !isView &&
     getCurrentLocation()
-      .then(location => setMyLocation(location))
+      .then(location => {
+        setMyLocation(location);
+      })
       .catch(error => console.log(error));
 
 
@@ -78,11 +88,6 @@ const MapView = ({
     }, [])
   )
 
-  // 삭제 필요
-  useEffect(() => {
-    console.log("TRACKING LOCATION: ", trackingLocation);
-  }, [trackingLocation]);
-
   return (
     <>
       {
@@ -97,10 +102,10 @@ const MapView = ({
               onPressMap(event);
             }}>
             
-            <MyLocationMarker/>
+            { !isView && <MyLocationMarker/> }
 
             {
-              landmarks && (
+              landmarks && !isView && (
                 <LandmarkMarker 
                   landmarks={landmarks}
                   onClick={() => {
@@ -114,6 +119,24 @@ const MapView = ({
             <TrackingLine/>
 
             {children}
+
+            {
+              isView && trackingLocation.length > 1 &&
+              <>
+              <Marker
+                coordinate={trackingLocation[0]}
+                image={require('../../../assets/Icon_Marker_Start.png')}
+                width={48}
+                height={48}
+              />
+              <Marker
+                coordinate={trackingLocation[trackingLocation.length - 1]}
+                image={require('../../../assets/Icon_Marker_End.png')}
+                width={48}
+                height={48}
+              />
+              </>
+            }
 
           </NaverMapView>
         )
