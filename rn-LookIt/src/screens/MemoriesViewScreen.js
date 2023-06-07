@@ -66,7 +66,7 @@ const MemoriesViewScreen = ({ route }) => {
   
   return (
     <View style={styles.ViewContainer}>
-      <MapView>
+      <MapView isView={true}>
         <PictureMarker
           selectedPictureMarker={selectedPictureMarker}
           setSelectedPictureMarker={setSelectedPictureMarker}/>
