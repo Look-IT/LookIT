@@ -2,6 +2,8 @@ package lookIT.lookITspring.service;
 
 
 import java.util.Optional;
+
+import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.entity.LinePath;
 import lookIT.lookITspring.entity.Memory;
@@ -12,6 +14,7 @@ import lookIT.lookITspring.repository.MemoryPhotoRepository;
 import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +32,13 @@ public class MemorySpotService {
     private final MemoryRepository memoryRepository;
     private final MemoryPhotoRepository memoryPhotoRepository;
     private final LinePathRepository linePathRepository;
-    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl) {
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    @Autowired
+    private AmazonS3 s3Client;
+
+    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl, String key) {
         Optional<Memory> memoryOptional = memoryRepository.findById(memoryId);
         if (memoryOptional.isPresent()) {
             Memory memory = memoryOptional.get();
@@ -44,6 +53,7 @@ public class MemorySpotService {
             MemoryPhoto memoryPhoto = MemoryPhoto.builder()
                     .memorySpot(memorySpot)
                     .memoryPhoto(imageUrl)
+                    .memoryPhotoKey(key)
                     .build();
             memoryPhotoRepository.save(memoryPhoto);
 
@@ -117,4 +127,27 @@ public class MemorySpotService {
         return linePathRepository.findByMemory(memory);
     }
 
+    private void deletePhotoFromS3(String key){
+        try{
+            boolean isS3Object = s3Client.doesObjectExist(bucket, key);
+            if (isS3Object){
+                s3Client.deleteObject(bucket,key);
+            }else{
+                throw new Exception("S3 object does not exist for the given key.");
+            }
+        }catch(Exception e){
+            throw new RuntimeException("Failed - Delete S3 file",e);
+        }
+    }
+
+    public Boolean deletePhoto(String photoUrl) {
+        MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
+        if (memoryPhoto != null) {
+            deletePhotoFromS3(memoryPhoto.getMemoryPhotoKey());
+            memoryPhotoRepository.delete(memoryPhoto);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Memory photo not found.");
+        }
+    }
 }
