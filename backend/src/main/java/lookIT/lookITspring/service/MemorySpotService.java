@@ -1,6 +1,9 @@
 package lookIT.lookITspring.service;
 
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -141,7 +144,14 @@ public class MemorySpotService {
     }
 
     public Boolean deletePhoto(String photoUrl) {
-        MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
+        int tIndex = photoUrl.indexOf('T');
+        String timePart = photoUrl.substring(tIndex + 1);
+        String encodedTimePart = URLEncoder.encode(timePart, StandardCharsets.UTF_8);
+        String encodedPhotoUrl = photoUrl.substring(0, tIndex + 1) + encodedTimePart;
+        System.out.println("Found encodedPhotoUrl: " + encodedPhotoUrl);
+
+        MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(encodedPhotoUrl);
+
         if (memoryPhoto != null) {
             deletePhotoFromS3(memoryPhoto.getMemoryPhotoKey());
             memoryPhotoRepository.delete(memoryPhoto);
@@ -149,5 +159,8 @@ public class MemorySpotService {
         } else {
             throw new IllegalArgumentException("Memory photo not found.");
         }
+
     }
+
+
 }
