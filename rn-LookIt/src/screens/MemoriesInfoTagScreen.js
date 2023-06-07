@@ -7,7 +7,7 @@ import { PRIMARY, WHITE } from "../colors";
 import HashTag from "../components/HashTag";
 import { useMemoriesContext } from "../contexts/MemoriesContext";
 import { useNavigation } from "@react-navigation/native";
-import { postMemoriesCreate, postMemoriesHashtag } from "../api/memories";
+import { postMemoriesCreate, postMemoriesFriendTag, postMemoriesHashtag } from "../api/memories";
 import { postMemoriesImage } from "../api/memoriesImage";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
@@ -23,6 +23,8 @@ const MemoriesInfoTagScreen = () => {
     setTrackingLocation,
     pictureMarker,
     setPictureMarker,
+    friendTags,
+    setFriendTags,
   } = useMemoriesContext();
   const navigation = useNavigation();
 
@@ -37,23 +39,33 @@ const MemoriesInfoTagScreen = () => {
         .then(response => console.log('IMAGE UPLOAD SUCCESS'))
         .catch(error => console.error('IMAGE: ', error));
 
-      postMemoriesHashtag(memoryId, tags)
+      postMemoriesFriendTag(memoryId, friendTags)
         .then(response => {
           console.log(response);
 
-          setMemoryId(null);
-          setTrackingLocation([]);
-          setPictureMarker([]);
-          setTags([]);
-          navigation.popToTop();
+          postMemoriesHashtag(memoryId, tags)
+            .then(response => {
+              console.log(response);
 
-          Toast.show({
-            type: 'success',
-            text1: '추억일지가 생성되었습니다.',
-            position: 'bottom',
-          })
+              setMemoryId(null);
+              setTrackingLocation([]);
+              setPictureMarker([]);
+              setTags([]);
+              setFriendTags([]);
+              navigation.popToTop();
+
+              Toast.show({
+                type: 'success',
+                text1: '추억일지가 생성되었습니다.',
+                position: 'bottom',
+              })
+            })
+            .catch(error => console.error(error));
+
         })
         .catch(error => console.error(error));
+
+      
     }
   }, [memoryId]);
 

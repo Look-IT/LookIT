@@ -45,7 +45,7 @@ const MemoriesCreateScreen = ({}) => {
       <View style={styles.buttonContainer}>
         <Button
           title="다음"
-          onPress={() => navigation.navigate('MemoriesInfoTagScreen')}/>
+          onPress={() => navigation.navigate('MemoriesFriendTagScreen')}/>
       </View>
 
       <PictureUploadModal

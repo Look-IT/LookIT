@@ -16,6 +16,23 @@ export const postMemoriesCreate = async (trackingLocation) => {
   }
 }
 
+export const postMemoriesFriendTag = async (memoryId, frinedTags) => {
+  const endPoint = '/memories/friendTag';
+
+  try {
+    const response = apiClient.post(endPoint, frinedTags, {
+      params: {
+        memoryId: memoryId,
+      }
+    });
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const postMemoriesHashtag = async (memoryId, tags) => {
   const endPoint = '/memories/info';
 
