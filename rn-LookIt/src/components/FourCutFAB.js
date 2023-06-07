@@ -1,15 +1,22 @@
-import { Text, View, Pressable, StyleSheet, Platform } from 'react-native';
+import {
+  Text,
+  View,
+  Pressable,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
 import { PRIMARY, WHITE, BLACK } from '../colors';
 
 const FourCutFAB = ({ onPress, style, children }) => {
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       style={[styles.position, styles.button, style]}
     >
       {children}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

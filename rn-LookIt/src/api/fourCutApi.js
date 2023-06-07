@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 //네컷사진 post api
 export const fourCutPost = async (user, landmarkId, uri) => {
