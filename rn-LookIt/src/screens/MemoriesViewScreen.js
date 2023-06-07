@@ -39,8 +39,21 @@ const MemoriesViewScreen = ({ route }) => {
   useEffect(() => {
     getMemoriesPhoto(memoryId)
       .then(response => {
-        console.log(response.data);
-        const markerData = response.data.map((item, index) => {
+
+        let result = response.data.reduce((acc, curr) => {
+          const key = `${curr.spotLatitude}_${curr.spotLongitude}`;
+          if (!acc[key]) {
+            acc[key] = { ...curr };
+          } else {
+            acc[key].memoryPhotos.push(...curr.memoryPhotos);
+          }
+          return acc;
+        }, {});
+        result = Object.values(result);
+
+        console.log('getMemoriesPhoto: ', result);
+
+        const markerData = result.map((item, index) => {
           console.log((item, index));
           const data = {
             id: index,
