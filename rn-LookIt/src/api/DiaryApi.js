@@ -28,3 +28,20 @@ export const getTagFriendList = async (memoryId) => {
     throw error;
   }
 }
+
+export const getFriendMemoriesList = async (tagId) => {
+  const endPoint = '/memories/friendList';
+
+  try {
+    const response = await apiClient.get(endPoint, {
+      params: {
+        tagId: tagId,
+      }
+    })
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}
