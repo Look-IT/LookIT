@@ -143,24 +143,57 @@ public class MemorySpotService {
         }
     }
 
-    public Boolean deletePhoto(String photoUrl) {
-        int tIndex = photoUrl.indexOf('T');
-        String timePart = photoUrl.substring(tIndex + 1);
-        String encodedTimePart = URLEncoder.encode(timePart, StandardCharsets.UTF_8);
-        String encodedPhotoUrl = photoUrl.substring(0, tIndex + 1) + encodedTimePart;
-        System.out.println("Found encodedPhotoUrl: " + encodedPhotoUrl);
+    private void deleteSpotPhoto(String photoUrl){
 
-        MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(encodedPhotoUrl);
+        System.out.println("Found encodedPhotoUrl: " + photoUrl);
+
+        MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
 
         if (memoryPhoto != null) {
             deletePhotoFromS3(memoryPhoto.getMemoryPhotoKey());
             memoryPhotoRepository.delete(memoryPhoto);
-            return true;
         } else {
             throw new IllegalArgumentException("Memory photo not found.");
         }
-
     }
 
+    public Boolean deletePhoto(String photoUrl) {
+        try{
+            int tIndex = photoUrl.indexOf('T');
+            String timePart = photoUrl.substring(tIndex + 1);
+            String encodedTimePart = URLEncoder.encode(timePart, StandardCharsets.UTF_8);
+            String encodedPhotoUrl = photoUrl.substring(0, tIndex + 1) + encodedTimePart;
+            deleteSpotPhoto(encodedPhotoUrl);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
+    @Transactional
+    public Boolean deleteSpot(Double spotLatitude, Double spotLongitude) {
+        List<MemorySpot> memorySpots = memorySpotRepository.findBySpotLatitudeAndSpotLongitude(spotLatitude, spotLongitude);
+        if (!memorySpots.isEmpty()) {
+            for (MemorySpot memorySpot : memorySpots) {
+                Long spotId = memorySpot.getSpotId();
+                MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemorySpotSpotId(spotId);
+                System.out.println(spotId);
+                if (memoryPhoto != null){
+                    try{
+                        deleteSpotPhoto(memoryPhoto.getMemoryPhoto());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        throw e;
+                    }
+                }else{
+                    System.out.println("No memory Photo.");
+                }
+                memorySpotRepository.deleteById(spotId);
+            }
+            return true;
+        }else {
+            throw new IllegalArgumentException("Memory spot not found.");
+        }
+    }
 }
