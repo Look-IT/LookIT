@@ -73,7 +73,15 @@ public class MemorySpotController {
     }
 
     @DeleteMapping("/photo")
-    public Boolean MemorySpot(@RequestParam("memoryPhoto") String photoUrl){
+    public Boolean MemorySpotPhoto(@RequestParam("memoryPhoto") String photoUrl){
         return memorySpotService.deletePhoto(photoUrl);
+    }
+
+    @DeleteMapping("/spot")
+    public Boolean MemorySpot(
+            @RequestParam("spotLatitude") Double spotLatitude,
+            @RequestParam("spotLongitude") Double spotLongitude
+    ){
+        return memorySpotService.deleteSpot(spotLatitude, spotLongitude);
     }
 }
