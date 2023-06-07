@@ -18,6 +18,8 @@ import FourCutTagScreen from '../screens/FourCutTagScreen';
 import MemoriesInfoTagScreen from '../screens/MemoriesInfoTagScreen';
 import MemoriesViewScreen from '../screens/MemoriesViewScreen';
 import MemoriesFriendTagScreen from '../screens/MemoriesFriendTagScreen';
+import FriendMemoriesListScreen from '../screens/FriendMemoriesListScreen';
+import HeaderLeftTitle from '../components/HeaderLeftTitle';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -132,6 +134,26 @@ const MainStack = () => {
           headerLeft: HeaderLeftButton,
           headerShown: true,
         }}
+      />
+      <Stack.Screen
+        name="FriendMemoriesListScreen"
+        component={FriendMemoriesListScreen}
+        options={({ route }) => ({
+          title: '',
+          headerLeft: (canGoBack, tintColor) => (
+            [
+              <HeaderLeftButton 
+                key="icon"
+                canGoBack={canGoBack}
+                tintColor={tintColor}/>, 
+              <HeaderLeftTitle
+                key="text"
+                nickName={route.params.item.nickName}
+                tagId={route.params.item.id}/>
+            ]
+          ),
+          headerShown: true,
+        })}
       />
     </Stack.Navigator>
   );

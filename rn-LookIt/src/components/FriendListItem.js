@@ -5,13 +5,27 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { GRAY, BLACK } from '../colors';
+import { useNavigation } from '@react-navigation/core';
 
 const FriendListItem = memo(({ item }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.nickNameFont}>{item.nickName}</Text>
-      <Text style={styles.idFont}>#{item.id}</Text>
-    </View>
+    <Pressable 
+      style={({ pressed }) => [
+        pressed && { backgroundColor: GRAY['50'] }
+      ]}
+      onPress={() => {
+        navigation.navigate(
+        'FriendMemoriesListScreen', {
+          item
+        })
+      }}>
+      <View style={styles.container}>
+        <Text style={styles.nickNameFont}>{item.nickName}</Text>
+        <Text style={styles.idFont}>#{item.id}</Text>
+      </View>
+    </Pressable>
   );
 });
 
