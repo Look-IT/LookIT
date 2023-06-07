@@ -46,7 +46,7 @@ const MemoriesViewScreen = ({ route }) => {
             id: index,
             latitude: item.spotLatitude,
             longitude: item.spotLongitude,
-            uri: item.memoryPhotos[0],
+            uri: item.memoryPhotos,
           };
           return data;
         })

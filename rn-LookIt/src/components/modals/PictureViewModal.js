@@ -1,12 +1,14 @@
-import { useEffect } from "react";
-import { Image, Modal, Pressable, StyleSheet, View } from "react-native";
-import { GRAY } from "../../colors";
+import { useState } from "react";
+import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { BLACK, WHITE } from "../../colors";
 import { useMemoriesContext } from "../../contexts/MemoriesContext";
+import ImageSlider from "../ImageSlider";
+import { Family, Title } from "../../styles/fonts";
 
 const PictureViewModal = ({visibleModal, setSelectedPictureMarker, selectedPictureMarker}) => {
 
   const { pictureMarker } = useMemoriesContext();
-  
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <Modal
@@ -15,24 +17,30 @@ const PictureViewModal = ({visibleModal, setSelectedPictureMarker, selectedPictu
       visible={visibleModal}
       transparent={true}>
 
-      <Pressable style={stylesModal.viewContainer}
-        onPress={() => {
-          console.log('clicked');
-          setSelectedPictureMarker(null);
-        }}>
+        <View style={stylesModal.viewContainer}>
 
-        <View style={stylesModal.imageContainer}>
+          <View style={stylesModal.headerContainer}>
+            <Pressable
+              style={{ flexDirection: 'row' }}
+              onPress={() => setSelectedPictureMarker(null)}>
+                <Image
+                  style={stylesModal.headerIcon}
+                  source={require('../../../assets/Icon_Clear.png')}/>
+                <Text style={stylesModal.headerText}>
+                  {`${currentIndex + 1}  /  ${pictureMarker[selectedPictureMarker]?.uri.length}`}
+                </Text>
+            </Pressable>
+          </View>
+
           {
             pictureMarker[selectedPictureMarker]?.uri &&
-            <Image
-            style={stylesModal.image}
-            source={{ uri: pictureMarker[selectedPictureMarker].uri }}
-          />
+            <ImageSlider 
+              images={pictureMarker[selectedPictureMarker].uri}
+              setCurrentIndex={setCurrentIndex}/>
+            
           }
+
         </View>
-
-      </Pressable>
-
     </Modal>
   )
 }
@@ -40,18 +48,24 @@ const PictureViewModal = ({visibleModal, setSelectedPictureMarker, selectedPictu
 const stylesModal = StyleSheet.create({
   viewContainer: {
     flex: 1,
-    backgroundColor: '#3c3c3c48',
-    justifyContent: 'center',
+    backgroundColor: BLACK
+  },
+  headerContainer: {
+    height: 56,
     alignItems: 'center',
+    paddingHorizontal: 16,
+    flexDirection: 'row'
   },
-  imageContainer: {
-    width: '100%',
-    height: 256,
-    backgroundColor: GRAY['300'],
+  headerIcon: {
+    tintColor: WHITE,
+    width: 24,
+    height: 24,
+    marginRight: 16,
   },
-  image: {
-    width: '100%',
-    height: '100%',
+  headerText: {
+    ...Family.KR_Medium,
+    ...Title.Medium,
+    color: WHITE,
   },
 });
 
