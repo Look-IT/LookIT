@@ -24,8 +24,8 @@ export const useLocationTracking = (shouldTrack, isTrackingSave) => {
         {
           enableHighAccuracy: true,
           distanceFilter: 15,
-          interval: 5000,
-          fastestInterval: 3000,
+          interval: 2000,
+          fastestInterval: 2000,
         },
       );
       setWatchId(Id);

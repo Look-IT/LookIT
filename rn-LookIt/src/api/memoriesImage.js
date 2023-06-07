@@ -3,14 +3,14 @@ import axios from "axios";
 import { useMemoriesContext } from "../contexts/MemoriesContext"
 import { apiClient } from "./apiClient";
 
-export const postMemoriesImage = async (memoryId, pictureMarker) => {
+export const postMemoriesImage = async (memoryId, pictureMarker, uri) => {
   const endPoint = '/memories/upload';
 
   const formData = new FormData();
   formData.append(
     'file',
     {
-      uri: pictureMarker.uri,
+      uri: uri,
       name: 'image',
       type: 'image/png',
     }

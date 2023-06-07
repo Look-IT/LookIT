@@ -17,6 +17,7 @@ import FourCutFrameScreen from '../screens/FourCutFrameScreen';
 import FourCutTagScreen from '../screens/FourCutTagScreen';
 import MemoriesInfoTagScreen from '../screens/MemoriesInfoTagScreen';
 import MemoriesViewScreen from '../screens/MemoriesViewScreen';
+import MemoriesFriendTagScreen from '../screens/MemoriesFriendTagScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -101,6 +102,8 @@ const MainStack = () => {
         component={MemoriesCreateScreen}
         options={{
           title: '추억일지 생성',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
         }}
       />
       <Stack.Screen
@@ -108,6 +111,17 @@ const MainStack = () => {
         component={MemoriesInfoTagScreen}
         options={{ 
           title: '추억일지 생성',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="MemoriesFriendTagScreen"
+        component={MemoriesFriendTagScreen}
+        options={{ 
+          title: '추억일지 생성',
+          headerLeft: HeaderLeftButton,
+          headerShown: true,
         }}
       />
       <Stack.Screen

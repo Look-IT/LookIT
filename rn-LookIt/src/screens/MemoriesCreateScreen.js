@@ -30,7 +30,7 @@ const MemoriesCreateScreen = ({}) => {
             id: pictureMarker.length,
             latitude: event.latitude,
             longitude: event.longitude,
-            uri: null
+            uri: []
           };
           setPictureMarker(prevData => [...prevData, locationData]);
           setSelectedPictureMarker(pictureMarker.length);
@@ -45,7 +45,7 @@ const MemoriesCreateScreen = ({}) => {
       <View style={styles.buttonContainer}>
         <Button
           title="다음"
-          onPress={() => navigation.navigate('MemoriesInfoTagScreen')}/>
+          onPress={() => navigation.navigate('MemoriesFriendTagScreen')}/>
       </View>
 
       <PictureUploadModal

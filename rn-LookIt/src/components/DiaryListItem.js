@@ -7,21 +7,30 @@ import PropTypes from 'prop-types';
 import { GRAY, WHITE, PRIMARY } from '../colors';
 import FriendTagButton from './FriendTagButton';
 import { useNavigation } from '@react-navigation/core';
+import { getTagFriendList } from '../api/DiaryApi';
 
 const DiaryListItem = ({ item }) => {
   const date = item.date.split('T');
 
   const navigation = useNavigation();
   const [memoryId, setMemoryId] = useState(null);
+  const [friendTags, setFriendTags] = useState([]);
 
   handleMemoriesView = () => {
     setMemoryId(item.id);
   }
+
+  useEffect(() => {
+    getTagFriendList(item.id)
+      .then(response => setFriendTags(response))
+      .catch(error => console.error(error));
+  }, []);
   
   useEffect(() => {
     memoryId && navigation.navigate('MemoriesViewScreen', { memoryId });
     setMemoryId(null);
   }, [memoryId]);
+
 
   return (
     <Pressable
@@ -38,7 +47,8 @@ const DiaryListItem = ({ item }) => {
           }
 
           <View style={styles.friendTag}>
-            <FriendTagButton></FriendTagButton>
+            <FriendTagButton
+              tagFriend={friendTags}/>
           </View>
         </View>
 

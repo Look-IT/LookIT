@@ -11,6 +11,7 @@ export const MemoriesProvider = ({ children }) => {
   const [ memoryId, setMemoryId ] = useState(null);
   const [ trackingLocation, setTrackingLocation ] = useState([]);
   const [ pictureMarker, setPictureMarker ] = useState([]);
+  const [ friendTags, setFriendTags ] = useState([]);
   const [ tags, setTags ] = useState([]);
 
   return (
@@ -22,6 +23,7 @@ export const MemoriesProvider = ({ children }) => {
           memoryId, setMemoryId,
           trackingLocation, setTrackingLocation,
           pictureMarker, setPictureMarker,
+          friendTags, setFriendTags,
           tags, setTags,
         }
       }>

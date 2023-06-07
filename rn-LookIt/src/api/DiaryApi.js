@@ -11,3 +11,20 @@ export const getMemoriesList = async () => {
     throw error;
   }
 }
+
+export const getTagFriendList = async (memoryId) => {
+  const endPoint = '/memories/taggedFriendList';
+
+  try {
+    const response = await apiClient.get(endPoint, {
+      params: {
+        memoryId: memoryId,
+      }
+    })
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}

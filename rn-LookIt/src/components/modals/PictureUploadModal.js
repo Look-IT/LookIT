@@ -6,10 +6,11 @@ import { useMemoriesContext } from "../../contexts/MemoriesContext";
 import { requestPermissions } from "../../functions/Permissions";
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
+import MemoriesImageBox from "../../components/MemoriesImageBox";
 
 const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPictureMarker}) => {
   const { pictureMarker, setPictureMarker } = useMemoriesContext();
-  const [ imageUri, setImageUri ] = useState(null);
+  const [ imageUri, setImageUri ] = useState([]);
 
   useEffect(() => {
     setImageUri(pictureMarker[selectedPictureMarker]?.uri);
@@ -17,7 +18,7 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
 
   useEffect(() => {
     selectedPictureMarker === null
-      ? setImageUri(null)
+      ? setImageUri([])
       : setImageUri(pictureMarker[selectedPictureMarker]?.uri);
   }, [selectedPictureMarker]);
 
@@ -32,13 +33,15 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
     let response = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
+      allowsMultipleSelection: true,
     });
-    delete response.canceled;
-    console.log('이미지 데이터: ', response.assets[0].uri);
+    delete response.cancelled;
+    const imageData = response.assets.map(data => data.uri);
+    console.log('이미지 데이터: ', imageData);
 
     const updateData = pictureMarker.map(item => {
       if (item.id === selectedPictureMarker) {
-        return {...item, uri: response.assets[0].uri}
+        return {...item, uri: imageData}
       }
       return item;
     });
@@ -60,28 +63,39 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
             {"사진 업로드"}
           </Text>
 
-          <Pressable onPress={onPressPictureUpload}>
-            <View style={stylesModal.uploadContainer}>
-              {
-                selectedPictureMarker !== null && imageUri
-                ?
-                  <Image
-                    style={{width: '100%', height: '100%', resizeMode: 'contain'}}
-                    source={{ uri: imageUri }}/>
-                :
-                  <>
-                    <Text style={stylesModal.content}>
-                      {'갤러리에서'}
-                      {'\n'}
-                      {'사진을 1장 선택해 주세요'}
-                    </Text>
+          {
+            setPictureMarker !== null && imageUri?.length > 0
+            ?
+            <>
+              <Pressable onPress={onPressPictureUpload}>
+                <View style={[stylesModal.uploadContainer, stylesModal.imageContainer]}>
+                  
+                  <View style={[stylesModal.imageBox, stylesModal.border]}>
                     <Image
                       style={stylesModal.iconPicture}
                       source={require('../../../assets/Icon_Camera.png')}/>
-                  </>
-              }
-            </View>
-          </Pressable>
+                  </View>
+
+                  <MemoriesImageBox imageUri={imageUri} />
+
+                </View>
+            
+              </Pressable>
+            </>
+            :
+            <Pressable onPress={onPressPictureUpload}>
+              <View style={[stylesModal.uploadContainer, stylesModal.border]}>
+                <Text style={stylesModal.content}>
+                  {'갤러리에서'}
+                  {'\n'}
+                  {'업로드할 사진을 선택해 주세요'}
+                </Text>
+                <Image
+                  style={stylesModal.iconPicture}
+                  source={require('../../../assets/Icon_Camera.png')}/>
+              </View>
+            </Pressable>
+          }
 
           <View style={stylesModal.buttonContainer}>
             <ModalButton
@@ -123,23 +137,39 @@ const stylesModal = StyleSheet.create({
     height: 144,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 16,
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    columnGap: 8,
+    flexWrap: 'wrap',
+    rowGap: 8,
+    justifyContent: 'flex-start',
+    height: 'auto'
+  },
+  border: {
     borderStyle: 'dashed',
     borderColor: GRAY['400'],
     borderWidth: 1,
     borderRadius: 8,
-    marginTop: 16,
+  },
+  imageBox: {
+    width: 62,
+    height: 62,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     ...Family.KR_Medium,
     ...Label.Medium,
     color: GRAY['500'],
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 8,
   },
   iconPicture: {
     width: 18,
     height: 18,
     resizeMode: 'contain',
-    marginTop: 8,
   },
   buttonContainer: {
     flexDirection: 'row',

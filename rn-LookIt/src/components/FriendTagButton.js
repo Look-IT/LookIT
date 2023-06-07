@@ -16,8 +16,6 @@ import { BLACK, GRAY, WHITE } from '../colors';
 const FriendTagButton = ({ tagFriend, style }) => {
   const refRBSheet = useRef(); // bottom sheet의 ref 상태 변수
 
-  // console.log(tagFriend);
-
   return (
     <>
       <Pressable
