@@ -78,10 +78,8 @@ public class MemorySpotController {
     }
 
     @DeleteMapping("/spot")
-    public Boolean MemorySpot(
-            @RequestParam("spotLatitude") Double spotLatitude,
-            @RequestParam("spotLongitude") Double spotLongitude
-    ){
-        return memorySpotService.deleteSpot(spotLatitude, spotLongitude);
+    public Boolean MemorySpot(@RequestParam("spotIds") List<Long> spotIds) {
+        return memorySpotService.deleteSpots(spotIds);
     }
+
 }
