@@ -128,7 +128,7 @@ const FourCutListItem = memo(({ item, width, height, setReset, isLeft }) => {
           >
             <Image
               style={styles.image}
-              source={require('../../assets/Icon_Clear.png')}
+              source={require('../../assets/Icon_Delete.png')}
             ></Image>
           </FourCutFAB>
         ) : (
