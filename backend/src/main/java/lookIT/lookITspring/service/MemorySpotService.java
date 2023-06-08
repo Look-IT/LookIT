@@ -79,13 +79,16 @@ public class MemorySpotService {
             AtomicReference<Double> previousLatitude = new AtomicReference<>(null);
             List<String> spotMemoryPhotos = new ArrayList<String>();
             Map<String, Object> spot = new HashMap<>();
+            List<Long> spotIds = new ArrayList<>();
 
             for (MemorySpot memorySpot : memorySpots) {
-
+                Long memorySpotId = memorySpot.getSpotId();
                 Optional<MemoryPhoto> memoryPhotoOptional = Optional.ofNullable(memoryPhotoRepository.findByMemorySpotSpotId(memorySpot.getSpotId()));
 
                 Double currentLongitude = memorySpot.getSpotLongitude();
                 Double currentLatitude = memorySpot.getSpotLatitude();
+
+
                 if (previousLongitude.get() == null || previousLatitude.get() == null) {
                     previousLongitude.set(currentLongitude);
                     previousLatitude.set(currentLatitude);
@@ -93,26 +96,28 @@ public class MemorySpotService {
                     spot.put("spotLatitude", previousLatitude.get());
                 } else if (!previousLongitude.get().equals(currentLongitude) || !previousLatitude.get().equals(currentLatitude)) {
                     spot.put("memoryPhotos", spotMemoryPhotos);
+                    spot.put("spotIDs", spotIds);
                     result.add(spot);
 
                     spot = new HashMap<>();
                     spotMemoryPhotos = new ArrayList<String>();
+                    spotIds = new ArrayList<Long>();
 
                     spot.put("spotLongitude", currentLongitude);
                     spot.put("spotLatitude", currentLatitude);
 
-
                     previousLongitude.set(currentLongitude);
                     previousLatitude.set(currentLatitude);
                 }
+                spotIds.add(memorySpotId);
                 System.out.println(spot);
                 if (memoryPhotoOptional.isPresent()) {
                     spotMemoryPhotos.add(memoryPhotoOptional.get().getMemoryPhoto());
                 }
-
             }
             if (!spot.isEmpty()){
                 spot.put("memoryPhotos", spotMemoryPhotos);
+                spot.put("spotIDs", spotIds);
                 result.add(spot);
             }
 
@@ -144,9 +149,6 @@ public class MemorySpotService {
     }
 
     private void deleteSpotPhoto(String photoUrl){
-
-        System.out.println("Found encodedPhotoUrl: " + photoUrl);
-
         MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
 
         if (memoryPhoto != null) {
