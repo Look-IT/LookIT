@@ -28,16 +28,19 @@ const MemoriesInfoTagScreen = () => {
   } = useMemoriesContext();
   const navigation = useNavigation();
 
+  const processMarkers = async (pictureMarker) => {
+    for (const marker of pictureMarker) {
+      const promises = marker.uri.map(uri => postMemoriesImage(memoryId, marker, uri));
+      await Promise.all(promises);
+    }
+    console.log('IMAGE UPLOAD SUCCESS');
+  }
+
   useEffect(() => {
     if (memoryId !== null) {
       console.log('SAVE START : ', memoryId);
 
-      const promises = pictureMarker.flatMap(marker => {
-        marker.uri.map(uri => postMemoriesImage(memoryId, marker, uri));
-      });
-      Promise.all(promises)
-        .then(response => console.log('IMAGE UPLOAD SUCCESS'))
-        .catch(error => console.error('IMAGE: ', error));
+      processMarkers(pictureMarker).catch(error => console.error('IMAGE: ', error));
 
       postMemoriesFriendTag(memoryId, friendTags)
         .then(response => {
