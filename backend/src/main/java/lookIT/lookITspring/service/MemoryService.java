@@ -1,6 +1,7 @@
 package lookIT.lookITspring.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
@@ -85,12 +86,14 @@ public class MemoryService {
 				}
 		}
 
-		LocalDateTime createAt = memory.getCreateAt();
-		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
-		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
+			LocalDate createAt = memory.getCreateAt().toLocalDate();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E");
+			String createAtFormatted = createAt.format(formatter);
+			List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
+			List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
 
-		MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
-		result.add(memoryListDto);
+			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAtFormatted, info, friends);
+			result.add(memoryListDto);
 		}
 
 		Collections.reverse(result);
@@ -115,11 +118,13 @@ public class MemoryService {
 				}
 			}
 
-			LocalDateTime createAt = memory.getCreateAt();
+			LocalDate createAt = memory.getCreateAt().toLocalDate();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E");
+			String createAtFormatted = createAt.format(formatter);
 			List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
 			List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
 
-			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
+			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAtFormatted, info, friends);
 			result.add(memoryListDto);
 		}
 
