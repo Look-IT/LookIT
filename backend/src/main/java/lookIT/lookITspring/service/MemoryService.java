@@ -1,6 +1,6 @@
 package lookIT.lookITspring.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,9 +122,8 @@ public class MemoryService {
 			}
 		}
 
-		Locale.setDefault(Locale.KOREA);
-		LocalDate createAt = memory.getCreateAt().toLocalDate();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E", Locale.getDefault());
+		LocalDateTime createAt = memory.getCreateAt();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E", Locale.KOREA);
 		String createAtFormatted = createAt.format(formatter);
 		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
 		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
