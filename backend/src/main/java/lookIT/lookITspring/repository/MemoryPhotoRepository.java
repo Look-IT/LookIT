@@ -10,4 +10,7 @@ public interface MemoryPhotoRepository extends JpaRepository<MemoryPhoto, Long> 
   List<MemoryPhoto> findAllByMemorySpot(MemorySpot memorySpot);
 
   MemoryPhoto findByMemorySpotSpotId(Long spotId);
+
+  MemoryPhoto findByMemoryPhoto(String memoryPhoto);
+
 }

@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "추억일지",
+    "displayName": "추억일지",
+    "slug": "rn-LookIt",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.rnLookIt",
+      "runtimeVersion": "1.1.0"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "72614bfe-ef48-4ecb-ab28-a9c07c5e71a7"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/72614bfe-ef48-4ecb-ab28-a9c07c5e71a7"
+    }
+  }
+}

@@ -57,7 +57,7 @@ public class MemorySpotController {
             return false;
         }
         else{
-            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId, imageUrl);
+            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId, imageUrl, key);
         }
 
     }
@@ -72,5 +72,14 @@ public class MemorySpotController {
         return memorySpotService.showAllLinePath(memoryId);
     }
 
+    @DeleteMapping("/photo")
+    public Boolean MemorySpotPhoto(@RequestParam("memoryPhoto") String photoUrl){
+        return memorySpotService.deletePhoto(photoUrl);
+    }
+
+    @DeleteMapping("/spot")
+    public Boolean MemorySpot(@RequestParam("spotIds") List<Long> spotIds) {
+        return memorySpotService.deleteSpots(spotIds);
+    }
 
 }
