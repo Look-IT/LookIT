@@ -1,6 +1,7 @@
 package lookIT.lookITspring.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
@@ -72,29 +73,10 @@ public class MemoryService {
 		List<Memory> memories = memoryRepository.findByUser_UserId(userId);
 		List<MemoryListDto> result = new ArrayList<>();
 		for (Memory memory : memories) {
-			Long memoryId = memory.getMemoryId();
-			List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory);
-			String memoryPhoto = "";
-
-		if (memorySpots.size()!=0) {
-			MemorySpot memorySpot = memorySpots.get(0);
-			List<MemoryPhoto> memoryPhotos = memoryPhotoRepository.findAllByMemorySpot(memorySpot);
-				if (memoryPhotos.size()!=0) {
-					MemoryPhoto memoryPhotoEntity = memoryPhotos.get(0);
-					memoryPhoto = memoryPhotoEntity.getMemoryPhoto();
-				}
+			MemoryListDto memoryListDto = createMemoryListDto(memory);
+			result.add(memoryListDto);
 		}
-
-		LocalDateTime createAt = memory.getCreateAt();
-		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
-		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
-
-		MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
-		result.add(memoryListDto);
-		}
-
 		Collections.reverse(result);
-
 		return result;
 	}
 
@@ -102,30 +84,50 @@ public class MemoryService {
 		List<Memory> memories = memoryRepository.findByUser_tagId(tagId);
 		List<MemoryListDto> result = new ArrayList<>();
 		for (Memory memory : memories) {
-			Long memoryId = memory.getMemoryId();
-			List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory);
-			String memoryPhoto = "";
-
-			if (memorySpots.size()!=0) {
-				MemorySpot memorySpot = memorySpots.get(0);
-				List<MemoryPhoto> memoryPhotos = memoryPhotoRepository.findAllByMemorySpot(memorySpot);
-				if (memoryPhotos.size()!=0) {
-					MemoryPhoto memoryPhotoEntity = memoryPhotos.get(0);
-					memoryPhoto = memoryPhotoEntity.getMemoryPhoto();
-				}
-			}
-
-			LocalDateTime createAt = memory.getCreateAt();
-			List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
-			List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
-
-			MemoryListDto memoryListDto = new MemoryListDto(memoryId, memoryPhoto, createAt, info, friends);
+			MemoryListDto memoryListDto = createMemoryListDto(memory);
 			result.add(memoryListDto);
 		}
-
 		Collections.reverse(result);
-
 		return result;
+	}
+
+	public List<MemoryListDto> searchMemoryByInfoTags(String token, String info) {
+		Long userId = jwtProvider.getUserId(token);
+		List<InfoTags> infoTagsList = infoTagsRepository.findByInfoTagsIdInfo(info);
+		List<Memory> memories = new ArrayList<>();
+		List<MemoryListDto> result = new ArrayList<>();
+		for (InfoTags infoTags : infoTagsList) {
+			Memory memory = infoTags.getInfoTagsId().getMemory();
+			if(memory.getUser().getUserId().equals(userId)){
+				MemoryListDto memoryListDto = createMemoryListDto(memory);
+				result.add(memoryListDto);
+			}
+		}
+		Collections.reverse(result);
+		return result;
+	}
+
+	private MemoryListDto createMemoryListDto(Memory memory) {
+		Long memoryId = memory.getMemoryId();
+		List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory);
+		String memoryPhoto = "";
+
+		if (!memorySpots.isEmpty()) {
+			MemorySpot memorySpot = memorySpots.get(0);
+			List<MemoryPhoto> memoryPhotos = memoryPhotoRepository.findAllByMemorySpot(memorySpot);
+			if (!memoryPhotos.isEmpty()) {
+				MemoryPhoto memoryPhotoEntity = memoryPhotos.get(0);
+				memoryPhoto = memoryPhotoEntity.getMemoryPhoto();
+			}
+		}
+
+		LocalDate createAt = memory.getCreateAt().toLocalDate();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E");
+		String createAtFormatted = createAt.format(formatter);
+		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
+		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
+
+		return new MemoryListDto(memoryId, memoryPhoto, createAtFormatted, info, friends);
 	}
 
 	private List<FriendTagsDto> getFriendTagsDtoList(Long memoryId) {
@@ -178,15 +180,6 @@ public class MemoryService {
 			infoTagsRepository.save(infoTags);
 		}
 		return true;
-	}
-
-	public List<Long> searchMemoryByInfoTags(String info) {
-		List<InfoTags> infoTagsList = infoTagsRepository.findByInfoTagsIdInfo(info);
-		List<Long> memoryIdList = new ArrayList<>();
-		for(InfoTags infoTag : infoTagsList){
-			memoryIdList.add(infoTag.getInfoTagsId().getMemory().getMemoryId());
-		}
-		return memoryIdList;
 	}
 
 	public List<Map<String, String>> getTaggedFriendListByMemoryId(Long memoryId) {

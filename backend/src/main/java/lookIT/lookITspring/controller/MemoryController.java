@@ -37,8 +37,8 @@ public class MemoryController {
   }
 
   @GetMapping("/info")
-  public List<Long> searchMemoryByInfoTags(@RequestHeader String info){
-    return memoryService.searchMemoryByInfoTags(info);
+  public List<MemoryListDto> searchMemoryByInfoTags(@RequestHeader("token") String token, @RequestParam String info){
+    return memoryService.searchMemoryByInfoTags(token, info);
   }
 
   @PostMapping("/info/delete")
