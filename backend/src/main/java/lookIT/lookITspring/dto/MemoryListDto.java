@@ -1,6 +1,5 @@
 package lookIT.lookITspring.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +14,7 @@ public class MemoryListDto {
 
     private String memoryPhoto;
 
-    private LocalDateTime createAt;
+    private String createAt;
 
     private List<InfoTagsDto> info;
 
