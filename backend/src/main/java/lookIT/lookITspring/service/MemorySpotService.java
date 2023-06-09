@@ -200,7 +200,7 @@ public class MemorySpotService {
             throw new IllegalArgumentException("Memory spot not found.");
         }
     }
-
+/*
     @Transactional
     public Boolean deleteSpots(List<Long> spotIds) {
         List<MemorySpot> memorySpots = memorySpotRepository.findAllById(spotIds);
@@ -227,4 +227,6 @@ public class MemorySpotService {
         }
     }
 
+
+ */
 }
