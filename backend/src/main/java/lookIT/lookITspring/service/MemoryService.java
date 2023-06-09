@@ -238,7 +238,6 @@ public class MemoryService {
 		deleteFriendTag(memoryId);
 
 		// 추억일지 정보 태그 삭제
-		Map<String, String> infoId = new HashMap<>();
 		infoTagsRepository.deleteAllByInfoTagsIdMemory(memory);
 
 		// 추억일지 삭제

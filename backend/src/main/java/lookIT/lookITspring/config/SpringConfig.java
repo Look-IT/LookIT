@@ -13,6 +13,7 @@ import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import lookIT.lookITspring.security.CustomUserDetailsService;
 import lookIT.lookITspring.security.JwtProvider;
+import lookIT.lookITspring.service.EmailService;
 import lookIT.lookITspring.service.FriendService;
 import lookIT.lookITspring.service.LandmarkService;
 import lookIT.lookITspring.service.MemoryService;
