@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,5 +55,10 @@ public class UserController {
 	public String emailConfirm(@RequestParam String email) throws Exception {
 		String confirm = emailService.sendSimpleMessage(email);
 		return confirm;
+	}
+
+	@PostMapping("/findPassword")
+	public boolean regeneratePassword(@RequestBody Map<String, String> request) {
+		return userService.regeneratePassword(request);
 	}
 }

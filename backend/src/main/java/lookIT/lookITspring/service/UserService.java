@@ -60,4 +60,11 @@ public class UserService {
 		jwtProvider.setExpiration(token);
 		return true;
 	}
+
+	public boolean regeneratePassword(Map<String, String> request) {
+		User user = userRepository.findByEmail(request.get("email")).get();
+		user.update(request.get("password"));
+		user.encodePassword(passwordEncoder);
+		return true;
+	}
 }
