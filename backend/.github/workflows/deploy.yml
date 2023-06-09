@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: backend
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
