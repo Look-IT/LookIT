@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.UserJoinRequestDto;
 import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.security.JwtProvider;
+import lookIT.lookITspring.service.EmailService;
 import lookIT.lookITspring.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	private final UserService userService;
+	private final EmailService emailService;
 	private final UserRepository userRepository;
 	private final JwtProvider jwtProvider;
 
@@ -46,5 +48,11 @@ public class UserController {
 	@DeleteMapping("/logout")
 	public boolean logout(@RequestBody Map<String, String> request) {
 		return userService.logout(request.get("token"));
+	}
+
+	@PostMapping("/emailConfirm")
+	public String emailConfirm(@RequestParam String email) throws Exception {
+		String confirm = emailService.sendSimpleMessage(email);
+		return confirm;
 	}
 }
