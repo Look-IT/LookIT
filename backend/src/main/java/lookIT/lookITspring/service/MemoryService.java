@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -121,8 +122,9 @@ public class MemoryService {
 			}
 		}
 
+		Locale.setDefault(Locale.KOREA);
 		LocalDate createAt = memory.getCreateAt().toLocalDate();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E", Locale.getDefault());
 		String createAtFormatted = createAt.format(formatter);
 		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
 		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
