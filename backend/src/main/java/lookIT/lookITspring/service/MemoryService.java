@@ -1,6 +1,8 @@
 package lookIT.lookITspring.service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,8 +125,9 @@ public class MemoryService {
 		}
 
 		LocalDateTime createAt = memory.getCreateAt();
+		ZonedDateTime koreaDateTime = createAt.atZone(ZoneId.of("Asia/Seoul"));
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd E", Locale.KOREA);
-		String createAtFormatted = createAt.format(formatter);
+		String createAtFormatted = koreaDateTime.format(formatter);
 		List<InfoTagsDto> info = getInfoTagsDtoList(memoryId);
 		List<FriendTagsDto> friends = getFriendTagsDtoList(memoryId);
 
