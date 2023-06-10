@@ -41,6 +41,10 @@ jobs:
                   var: DB_USER
                 - name: DB_PASSWORD
                   secret: mariadb-root-password
+                - name: ADMIN_MAIL_ID
+                  secret: ADMIN_MAIL_ID
+                - name: ADMIN_MAIL_PW
+                  secret: ADMIN_MAIL_PW
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
