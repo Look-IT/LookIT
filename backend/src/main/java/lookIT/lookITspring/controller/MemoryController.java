@@ -8,15 +8,7 @@ import lookIT.lookITspring.dto.MemoryCreateRequestDto;
 import lookIT.lookITspring.dto.MemoryListDto;
 import lookIT.lookITspring.service.MemoryService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/memories")
@@ -69,7 +61,7 @@ public class MemoryController {
     return memoryService.getTaggedFriendListByMemoryId(memoryId);
   }
 
-  @PostMapping("/delete")
+  @DeleteMapping("")
   public boolean deleteMemory(@RequestHeader String token, @RequestParam Long memoryId){
     return memoryService.deleteMemory(token, memoryId);
   }
