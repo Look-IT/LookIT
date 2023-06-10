@@ -4,9 +4,9 @@ import { Keyboard, StyleSheet, Text, View, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useEffect, useState } from 'react';
-import Button, { ButtonTypes } from '../components/buttons/Button';
+import Button, { ButtonTypes } from '../components/Button';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { idUniqueCheck, signUp } from '../api/auth';
+import { idUniqueCheck, signUp, emailJoinConfirmPost } from '../api/auth';
 import TextButton from '../components/TextButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -16,16 +16,28 @@ const SignUpScreen = () => {
 
   const [tagId, setTagId] = useState(''); //아이디 저장
   const [email, setEmail] = useState(''); //이메일 저장
+  const [code, setCode] = useState(''); //인증코드 저장
+  const [serverCode, setServerCode] = useState(''); //서버인증코드 저장
   const [password, setPassword] = useState(''); //패스워드 저장
   const [nickName, setNickName] = useState(''); //닉네임 저장
   const [idConfirm, setIdConfirm] = useState(false);
+  const [emailConfirm, setEmailConfirm] = useState(false);
+  const [codeConfirm, setCodeConfirm] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(true); //입력 덜 된채로 버튼 클릭 방지
 
   useEffect(() => {
-    setDisabled(!email || !password || !tagId || !nickName || !idConfirm);
-  }, [email, password, tagId, nickName, idConfirm]);
+    setDisabled(
+      !email ||
+        !password ||
+        !tagId ||
+        !nickName ||
+        !idConfirm ||
+        !emailConfirm ||
+        !codeConfirm
+    );
+  }, [email, password, tagId, nickName, idConfirm, emailConfirm, codeConfirm]);
 
   const onSubmit = async () => {
     //회원가입 버튼 클릭시 호출되는 함수
@@ -75,6 +87,72 @@ const SignUpScreen = () => {
     idUniqueCheck(tagId, setIdConfirm, setIsLoading, isLoading);
     console.log(idConfirm);
   };
+
+  const onEmailConfirm = async () => {
+    console.log('인증 시작');
+    //이메일 인증 버튼 클릭 시 호출되는 함수
+    if (!isLoading) {
+      try {
+        setIsLoading(true);
+        Keyboard.dismiss();
+
+        const response = await emailJoinConfirmPost(email);
+
+        setIsLoading(false);
+        if (response.data) {
+          setEmailConfirm(true);
+          setServerCode(response.data);
+          Alert.alert('인증 코드', '이메일로 인증 코드가 발송되었습니다.', [
+            {
+              text: '확인',
+              style: 'default',
+              onPress: () => setIsLoading(false),
+            },
+          ]);
+          console.log('인증코드 : ' + response.data);
+        } else {
+          console.log(response.data);
+          throw new Error(
+            '이메일 인증 실패: 서버로부터 잘못된 응답을 받았습니다.'
+          );
+        }
+      } catch (error) {
+        console.log(error.message);
+        //console.log(error.response);
+        Alert.alert('이메일 인증 실패', '이메일 인증이 실패했습니다.', [
+          {
+            text: '확인',
+            style: 'default',
+            onPress: () => setIsLoading(false),
+          },
+        ]);
+      }
+    }
+  };
+
+  const onCodeConfirm = () => {
+    //코드 인증하기 버튼 클릭시 호출되는 함수
+
+    if (code == serverCode) {
+      Alert.alert('이메일 인증', '인증되었습니다.', [
+        {
+          text: '확인',
+          style: 'default',
+          onPress: () => setIsLoading(false),
+        },
+      ]);
+      setCodeConfirm(true);
+    } else {
+      Alert.alert('인증 실패', '인증 코드를 확인해주세요.', [
+        {
+          text: '확인',
+          style: 'default',
+          onPress: () => setIsLoading(false),
+        },
+      ]);
+      setCodeConfirm(false);
+    }
+  };
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View
@@ -86,7 +164,10 @@ const SignUpScreen = () => {
               title={'아이디'}
               placeholder="아이디를 입력해주세요."
               value={tagId}
-              onChangeText={(tagId) => setTagId(tagId.trim())}
+              onChangeText={(tagId) => {
+                setIdConfirm(false);
+                setTagId(tagId.trim());
+              }}
               returnKeyType={ReturnKeyTypes.NEXT}
               KeyboardType={KeyboardTypes.DEFAULT}
             ></Input>
@@ -104,15 +185,65 @@ const SignUpScreen = () => {
         </View>
 
         <View style={{ paddingBottom: 30 }}></View>
-        <Input
-          title={'이메일'}
-          placeholder="이메일을 입력해주세요."
-          value={email}
-          onChangeText={(email) => setEmail(email.trim())}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          KeyboardType={KeyboardTypes.EMAIL}
-        ></Input>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 4 }}>
+            <Input
+              title={'이메일'}
+              placeholder="이메일을 입력해주세요."
+              value={email}
+              onChangeText={(email) => {
+                setEmailConfirm(false);
+                setEmail(email.trim());
+              }}
+              returnKeyType={ReturnKeyTypes.NEXT}
+              KeyboardType={KeyboardTypes.DEFAULT}
+            ></Input>
+          </View>
+
+          <View style={styles.idCheck}>
+            <View style={(styles.buttonContainer, { height: 36 })}>
+              <TextButton
+                title={'코드전송'}
+                onPress={onEmailConfirm}
+                buttonType={ButtonTypes.TRANSPARENT}
+              ></TextButton>
+            </View>
+          </View>
+        </View>
         <View style={{ paddingBottom: 30 }}></View>
+        {emailConfirm ? (
+          <>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 4 }}>
+                <Input
+                  title={'인증코드'}
+                  placeholder="인증코드를 입력해주세요."
+                  value={code}
+                  onChangeText={(code) => {
+                    setCodeConfirm(false);
+                    setCode(code.trim());
+                  }}
+                  returnKeyType={ReturnKeyTypes.NEXT}
+                  KeyboardType={KeyboardTypes.DEFAULT}
+                ></Input>
+              </View>
+
+              <View style={styles.idCheck}>
+                <View style={(styles.buttonContainer, { height: 36 })}>
+                  <TextButton
+                    title={'인증하기'}
+                    onPress={onCodeConfirm}
+                    buttonType={ButtonTypes.TRANSPARENT}
+                  ></TextButton>
+                </View>
+              </View>
+            </View>
+            <View style={{ paddingBottom: 30 }}></View>
+          </>
+        ) : (
+          <></>
+        )}
+
         <Input
           title={'비밀번호'}
           placeholder="8~30자리의 알파벳, 숫자, 특수문자."

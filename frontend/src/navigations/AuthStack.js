@@ -5,7 +5,9 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import { WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton.js';
+import PasswordFindScreen from '../screens/PasswordFindScreen';
 
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 //로그인 전 화면에 표시되는 스크린 stack
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +29,24 @@ const AuthStack = () => {
         options={{
           headerShown: true,
           headerTitle: '회원가입',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="PasswordFind"
+        component={PasswordFindScreen}
+        options={{
+          headerShown: true,
+          headerTitle: '비밀번호 찾기',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="NewPassword"
+        component={ChangePasswordScreen}
+        options={{
+          headerShown: true,
+          headerTitle: '비밀번호 찾기',
           headerTitleAlign: 'center',
         }}
       />

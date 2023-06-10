@@ -1,6 +1,6 @@
 //로그인 화면
 
-import { Image, StyleSheet, View, Keyboard, Alert } from 'react-native';
+import { Image, StyleSheet, View, Keyboard, Alert, Text } from 'react-native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import SafeInputView from '../components/SafeInputView.js';
 import { useRef, useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { storeToken } from '../api/apiClient';
+import { PRIMARY } from '../colors';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState(''); //이메일 상태 변수
@@ -24,17 +25,16 @@ const SignInScreen = () => {
   const onSubmit = async () => {
     //로그인 버튼 클릭 시 호출되는 함수
     if (!isLoading && !disabled) {
-
       setIsLoading(true);
       Keyboard.dismiss();
 
       signIn(email, password)
-        .then(response => {
+        .then((response) => {
           setIsLoading(false);
           setUser(response);
           storeToken(response);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
 
           Alert.alert('로그인 실패', '로그인을 실패하였습니다.', [
@@ -43,8 +43,8 @@ const SignInScreen = () => {
               style: 'default',
               onPress: () => setIsLoading(false),
             },
-          ])
-        })
+          ]);
+        });
     }
   };
 
@@ -56,6 +56,12 @@ const SignInScreen = () => {
     console.log('heelo');
   };
   const [disabled, setDisabled] = useState(true);
+
+  const onFindPassword = () => {
+    //회원가입 버튼 클릭시 호출되는 함수
+    navigation.navigate('PasswordFind');
+    console.log('passwordFind');
+  };
 
   useEffect(() => {
     //로그인 버튼 활성화에 관여하는 상태변수
@@ -70,45 +76,69 @@ const SignInScreen = () => {
           { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
-        <Image
-          // eslint-disable-next-line no-undef
-          source={require('../../assets/main.png')}
-          style={styles.image}
-        ></Image>
+        <View style={[styles.container, { width: '100%' }]}>
+          <Image
+            // eslint-disable-next-line no-undef
+            source={require('../../assets/main.png')}
+            style={styles.image}
+          ></Image>
 
-        <Input
-          title={''}
-          placeholder="이메일"
-          keyboardType={KeyboardTypes.EMAIL}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          onChangeText={(email) => setEmail(email.trim())}
-          onSubmitEditing={() => passwordRef.current.focus()}
-          value={email}
-          //iconName={IconNames.EMAIL}
-        ></Input>
-        <Input
-          ref={passwordRef}
-          title={''}
-          placeholder="비밀번호"
-          returnKeyType={ReturnKeyTypes.DONE}
-          secureTextEntry
-          value={password}
-          onChangeText={(password) => setPassword(password.trim())}
-          //iconName={IconNames.PASSWORD}
-        ></Input>
-        <View style={[styles.buttonContainer, { marginTop: 30 }]}>
-          <Button
-            title={'로그인'}
-            onPress={onSubmit}
-            disabled={disabled}
-            isLoading={isLoading}
-          ></Button>
+          <Input
+            title={''}
+            placeholder="이메일"
+            keyboardType={KeyboardTypes.EMAIL}
+            returnKeyType={ReturnKeyTypes.NEXT}
+            onChangeText={(email) => setEmail(email.trim())}
+            onSubmitEditing={() => passwordRef.current.focus()}
+            value={email}
+            //iconName={IconNames.EMAIL}
+          ></Input>
+          <Input
+            ref={passwordRef}
+            title={''}
+            placeholder="비밀번호"
+            returnKeyType={ReturnKeyTypes.DONE}
+            secureTextEntry
+            value={password}
+            onChangeText={(password) => setPassword(password.trim())}
+            //iconName={IconNames.PASSWORD}
+          ></Input>
+          <View style={[styles.buttonContainer, { marginTop: 30 }]}>
+            <Button
+              title={'로그인'}
+              onPress={onSubmit}
+              disabled={disabled}
+              isLoading={isLoading}
+            ></Button>
+          </View>
+
+          <View
+            style={[styles.buttonContainer, { marginTop: 0, marginBottom: 32 }]}
+          >
+            <Button
+              title={'회원가입'}
+              onPress={onSignUp}
+              buttonType={ButtonTypes.TRANSPARENT}
+            ></Button>
+          </View>
         </View>
-
-        <View style={[styles.buttonContainer, { marginTop: 0 }]}>
+        <View
+          style={[
+            styles.buttonContainer,
+            {
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: PRIMARY[500],
+            },
+          ]}
+        >
+          <Text style={{ marginRight: 8, fontSize: 12 }}>
+            비밀번호를 잊으셨나요?
+          </Text>
           <Button
-            title={'회원가입'}
-            onPress={onSignUp}
+            title={'비밀번호 찾기'}
+            onPress={onFindPassword}
             buttonType={ButtonTypes.TRANSPARENT}
           ></Button>
         </View>
@@ -135,7 +165,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     height: 48,
-    paddingHorizontal: 10,
+    paddingHorizontal: 16,
   },
   checkBox: {
     width: 48,

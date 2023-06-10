@@ -54,6 +54,29 @@ export const idConfirm = async (tagId) => {
   });
 };
 
+export const emailConfirmPost = async (email) => {
+  return await axios({
+    method: 'POST',
+    url: 'http://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/emailConfirm',
+    params: { email: email },
+  });
+};
+export const emailJoinConfirmPost = async (email) => {
+  return await axios({
+    method: 'POST',
+    url: 'http://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/emailConfirmJoin',
+    params: { email: email },
+  });
+};
+
+export const newPasswordPost = async (email, password) => {
+  return await axios({
+    method: 'POST',
+    url: 'http://port-0-lookit-f69b2mlh8tij3t.sel4.cloudtype.app/member/findPassword',
+    data: { email: email, password: password },
+  });
+};
+
 export const idUniqueCheck = async (
   tagId,
   setIdConfirm,
