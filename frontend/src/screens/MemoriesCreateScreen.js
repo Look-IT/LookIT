@@ -15,7 +15,6 @@ const MemoriesCreateScreen = ({}) => {
   const [selectedPictureMarker, setSelectedPictureMarker] = useState(null);
 
   useEffect(() => {
-    console.log("Picture Marker; ", selectedPictureMarker);
     selectedPictureMarker !== null
       ? setVisibleModal(true)
       : setVisibleModal(false);
