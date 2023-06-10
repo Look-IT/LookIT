@@ -7,36 +7,41 @@ const PictureMarker = ({selectedPictureMarker, setSelectedPictureMarker}) => {
 
   return pictureMarker.map((marker, index) => {
 
+    const size = (
+      selectedPictureMarker === index
+        ? 48
+        : 32
+    );
+
     return (
       <Marker
         key={index}
-        width={32}
-        height={32}
+        width={size}
+        height={size}
         coordinate={{
           latitude: marker.latitude,
           longitude: marker.longitude,
         }}
         onClick={() => {
-          console.log('selected Id: ', marker.id);
-          setSelectedPictureMarker(marker.id);
+          setSelectedPictureMarker(index);
         }}>
 
         {
-          selectedPictureMarker === marker.id && !marker.uri
+          selectedPictureMarker === index
           ?
             <Image
               style={{
                 width: '100%',
                 height: '100%',
-              }} 
+              }}
               source={require('../../../assets/Icon_Location-2-Selected.png')} /> 
           :
             <Image
-            style={{
-              width: '100%',
-              height: '100%',
-            }} 
-            source={require('../../../assets/Icon_Location-2-Unselected.png')} />
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              source={require('../../../assets/Icon_Location-2-Unselected.png')} />
         }
       </Marker>
     )
