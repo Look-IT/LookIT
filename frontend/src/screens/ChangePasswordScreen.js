@@ -2,7 +2,7 @@ import { Keyboard, StyleSheet, Text, View, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useEffect, useState } from 'react';
-import Button, { ButtonTypes } from '../components/Button';
+import Button, { ButtonTypes } from '../components/buttons/Button';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { idUniqueCheck, newPasswordPost, signUp } from '../api/auth';
 import TextButton from '../components/TextButton';
