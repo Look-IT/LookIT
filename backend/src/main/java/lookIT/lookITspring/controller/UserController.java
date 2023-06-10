@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.UserJoinRequestDto;
+import lookIT.lookITspring.entity.User;
 import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.security.JwtProvider;
 import lookIT.lookITspring.service.EmailService;
@@ -53,6 +54,12 @@ public class UserController {
 
 	@PostMapping("/emailConfirm")
 	public String emailConfirm(@RequestParam String email) throws Exception {
+		try{
+			User user = userRepository.findByEmail(email).get();
+		}catch(Exception e){
+			return "해당 이메일로 가입된 유저가 없습니다.";
+		}
+
 		String confirm = emailService.sendSimpleMessage(email);
 		return confirm;
 	}
