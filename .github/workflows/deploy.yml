@@ -17,6 +17,7 @@ jobs:
       - name: Build
         run: |
           cd backend
+          chmod +x ./gradlew
           ./gradlew build
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
