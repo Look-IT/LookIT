@@ -15,7 +15,6 @@ const MemoriesCreateScreen = ({}) => {
   const [selectedPictureMarker, setSelectedPictureMarker] = useState(null);
 
   useEffect(() => {
-    console.log("Picture Marker; ", selectedPictureMarker);
     selectedPictureMarker !== null
       ? setVisibleModal(true)
       : setVisibleModal(false);
@@ -27,7 +26,6 @@ const MemoriesCreateScreen = ({}) => {
       <MapView
         onPressMap={(event) => {
           const locationData = {
-            id: pictureMarker.length,
             latitude: event.latitude,
             longitude: event.longitude,
             uri: []

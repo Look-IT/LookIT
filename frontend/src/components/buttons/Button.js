@@ -14,8 +14,6 @@ const Button = ({ title, onPress, disabled, isLoading, buttonType }) => {
   const colors = { PRIMARY, DANGER, TRANSPARENT };
   const transparent = buttonType === ButtonTypes.TRANSPARENT;
 
-  console.log(transparent);
-
   return (
     <Pressable
       onPress={onPress}
