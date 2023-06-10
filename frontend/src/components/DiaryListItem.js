@@ -1,16 +1,16 @@
-//그냥 친구 목록 컴포넌트
+// `내 프로필` 탭 추억일지 리스트 아이템 컴포넌트
 
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { GRAY, WHITE, PRIMARY } from '../colors';
+import { GRAY, PRIMARY } from '../colors';
+import { Body, Family, Label } from "../styles/fonts";
 import FriendTagButton from './FriendTagButton';
 import { useNavigation } from '@react-navigation/core';
 import { getTagFriendList } from '../api/DiaryApi';
 
 const DiaryListItem = ({ item }) => {
-  const date = item.date.split('T');
 
   const navigation = useNavigation();
   const [memoryId, setMemoryId] = useState(null);
@@ -33,57 +33,49 @@ const DiaryListItem = ({ item }) => {
 
 
   return (
-    <Pressable
-      onPress={handleMemoriesView}>
 
-      <View style={styles.container}>
-        <View style={[styles.textContainer, { height: 28, paddingBottom: 8 }]}>
-          <Text style={{ fontSize: 14 }}>{date[0] + ' ' + date[1]}</Text>
-        </View>
-        <View style={styles.imageContainer}>
+    <View style={styles.container}>
+
+      <View style={styles.margeHorizontal}>
+        <Text style={styles.dateText}>{item.date}</Text>
+      </View>
+
+      <Pressable onPress={handleMemoriesView}>
+        <View style={[
+            styles.imageContainer,
+            !item.thumbnail && styles.imageTextContainer
+          ]}>
           {
-            item.thumbnail &&
-              <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+            item.thumbnail
+              ? <Image
+                  style={styles.image}
+                  source={{ uri: item.thumbnail }}/>
+              : <Text style={styles.imageText}>{'업로드된 사진이 존재하지 않습니다'}</Text>
           }
-
-          <View style={styles.friendTag}>
+          <View style={styles.friendTagContainer}>
             <FriendTagButton
               tagFriend={friendTags}/>
           </View>
         </View>
+      </Pressable>
 
-        <View
-          style={[
-            styles.textContainer,
-            { height: 24, paddingTop: 8, fontSize: 14 },
-          ]}
-        >
-          
-          {
-            item.tag.map((tagitems, index) => {
-              const tagitem = Object.entries(tagitems)
-                .map(([_, value]) => value)
-                .join(", ");
+      <View style={[styles.margeHorizontal, styles.hashTagContainer]}>
+        {
+          item.tag.map((tagitems, index) => {
+            const tagitem = Object.entries(tagitems)
+              .map(([_, value]) => value)
+              .join(", ");
 
-              return (
-                <View key={index} style={{ height: 26 }}>
-                  <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
-                </View>
-              )
-            })
-          }
-
-          {/* 
-          {item.tag.map((tagitem, index) => {
             return (
-              <View key={index} style={{ height: 26 }}>
+              <View key={index} style={styles.hashTagBox}>
                 <Text style={{ color: PRIMARY.DEFAULT }}>#{tagitem} </Text>
               </View>
-            );
-          })} */}
-        </View>
+            )
+          })
+        }
       </View>
-    </Pressable>
+      
+    </View>
   );
 };
 
@@ -96,35 +88,47 @@ DiaryListItem.propTypes = {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 228,
-
-    alignItems: 'center',
-    backgroundColor: GRAY.DEFAULT,
+    height: 'auto',
     marginBottom: 16,
   },
-
+  dateText: {
+    ...Family.KR_Regular,
+    ...Body.Medium,
+  },
   imageContainer: {
     width: '100%',
     height: 176,
-    resizeMode: 'contain',
+    marginVertical: 8,
+    borderTopWidth: 1,
+    borderColor: GRAY['200'],
   },
   image: {
-    width: '100%',
-    height: 176,
+    height: '100%',
     resizeMode: 'contain',
   },
-  friendTag: {
-    position: 'absolute',
-    left: '89.33%',
-    bottom: 8,
-  },
-  textContainer: {
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-start',
-    backgroundColor: WHITE,
+  imageTextContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: GRAY['100'],
+  },
+  imageText: {
+    ...Family.KR_Medium,
+    ...Label.Medium,
+    color: GRAY['500'],
+  },
+  margeHorizontal: {
+    marginHorizontal: 16,
+  },
+  friendTagContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 8
+  },
+  hashTagContainer: {
+    flexDirection: 'row',
+    columnGap: 8,
+    rowGap: 4,
+    flexWrap: 'wrap',
   },
 });
 
