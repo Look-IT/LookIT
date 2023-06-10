@@ -32,23 +32,23 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
   const onPressPictureUpload = async () => {
     await requestPermissions();
 
-    console.log('이미지 선택 중');
     let response = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
       allowsMultipleSelection: true,
     });
     delete response.cancelled;
-    const imageData = response.assets.map(data => data.uri);
-    console.log('이미지 데이터: ', imageData);
+    const imageData = response.assets?.map(data => data.uri);
 
-    const updateData = pictureMarker.map((item, index) => {
-      if (index === selectedPictureMarker) {
-        return {...item, uri: [...item.uri, ...imageData]}
-      }
-      return item;
-    });
-    setPictureMarker(updateData);
+    if (imageData) {
+      const updateData = pictureMarker.map((item, index) => {
+        if (index === selectedPictureMarker) {
+          return {...item, uri: [...item.uri, ...imageData]}
+        }
+        return item;
+      });
+      setPictureMarker(updateData);
+    }
   }
 
   const onLayout = (event) => {
@@ -128,7 +128,6 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
               <View 
                 style={[
                     stylesModal.uploadContainer, stylesModal.border,
-                    
                   ]} onLayout={onLayout}>
 
                 <Text style={stylesModal.content}>
