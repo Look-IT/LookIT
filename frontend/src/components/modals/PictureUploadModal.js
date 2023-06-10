@@ -12,6 +12,9 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
   const { pictureMarker, setPictureMarker } = useMemoriesContext();
   const [ imageUri, setImageUri ] = useState([]);
 
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [pressIcon, setPressIcon] = useState(null);
+
   useEffect(() => {
     setImageUri(pictureMarker[selectedPictureMarker]?.uri);
   }, [pictureMarker]);
@@ -22,9 +25,9 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
       : setImageUri(pictureMarker[selectedPictureMarker]?.uri);
   }, [selectedPictureMarker]);
 
-  useEffect(() =>{
-    console.log('URI : ', imageUri);
-  }, [imageUri]);
+  useEffect(() => {
+    pressIcon !== null && deleteImageUri(pressIcon);
+  }, [pressIcon]);
 
   const onPressPictureUpload = async () => {
     await requestPermissions();
@@ -39,13 +42,43 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
     const imageData = response.assets.map(data => data.uri);
     console.log('이미지 데이터: ', imageData);
 
-    const updateData = pictureMarker.map(item => {
-      if (item.id === selectedPictureMarker) {
-        return {...item, uri: imageData}
+    const updateData = pictureMarker.map((item, index) => {
+      if (index === selectedPictureMarker) {
+        return {...item, uri: [...item.uri, ...imageData]}
       }
       return item;
     });
     setPictureMarker(updateData);
+  }
+
+  const onLayout = (event) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth((width - 8 * 3) / 4);
+  }
+
+  const deleteImageUri = async (index) => {
+    await setPictureMarker(current => {
+      const array = [...current];
+      array[selectedPictureMarker] = {
+        ...array[selectedPictureMarker],
+        uri: [
+          ...array[selectedPictureMarker].uri.slice(0, index),
+          ...array[selectedPictureMarker].uri.slice(index + 1),
+        ],
+      };
+      return array;
+    })
+    setPressIcon(null);
+  }
+
+  const deletePictureMarker = async () => {
+    await setPictureMarker(current => current.filter((_, idx) => idx !== selectedPictureMarker));
+    setSelectedPictureMarker(null);
+  }
+
+  const checkPictureMarkerImage = async () => {
+    await setPictureMarker(current => current.filter(item => item.uri && item.uri.length > 0));
+    setSelectedPictureMarker(null);
   }
 
   return (
@@ -67,24 +100,37 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
             setPictureMarker !== null && imageUri?.length > 0
             ?
             <>
-              <Pressable onPress={onPressPictureUpload}>
-                <View style={[stylesModal.uploadContainer, stylesModal.imageContainer]}>
+              <View style={[stylesModal.uploadContainer, stylesModal.imageContainer]} onLayout={onLayout}>
+                <Pressable onPress={onPressPictureUpload}>
                   
-                  <View style={[stylesModal.imageBox, stylesModal.border]}>
+                  <View style={[
+                    stylesModal.imageBox, stylesModal.border, {
+                      width: containerWidth, 
+                      justifyContent: 'center',
+                      alignItems: 'center' }
+                    ]}>
                     <Image
                       style={stylesModal.iconPicture}
                       source={require('../../../assets/Icon_Camera.png')}/>
                   </View>
+                </Pressable>
 
-                  <MemoriesImageBox imageUri={imageUri} />
+                <MemoriesImageBox
+                  style={[stylesModal.imageBox, {width: containerWidth}]}
+                  imageUri={imageUri}
+                  setPressIcon={setPressIcon}/>
 
-                </View>
+              </View>
             
-              </Pressable>
             </>
             :
             <Pressable onPress={onPressPictureUpload}>
-              <View style={[stylesModal.uploadContainer, stylesModal.border]}>
+              <View 
+                style={[
+                    stylesModal.uploadContainer, stylesModal.border,
+                    
+                  ]} onLayout={onLayout}>
+
                 <Text style={stylesModal.content}>
                   {'갤러리에서'}
                   {'\n'}
@@ -99,15 +145,13 @@ const PictureUploadModal = ({visibleModal, setSelectedPictureMarker, selectedPic
 
           <View style={stylesModal.buttonContainer}>
             <ModalButton
-              text={'취소'}
-              onPress={() => {
-                imageUri && setPictureMarker(prevData => prevData.slice(0, -1));
-                setSelectedPictureMarker(null);
-              }}/>
+              inlineStyle="DANGER"
+              text={'삭제'}
+              onPress={deletePictureMarker}/>
 
             <ModalButton
-              text={'업로드'}
-              onPress={() => setSelectedPictureMarker(null)}/>
+              text={'확인'}
+              onPress={checkPictureMarkerImage}/>
           </View>
         </View>
       </View>
@@ -120,11 +164,12 @@ const stylesModal = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(60, 60, 60, 0.48)'
+    backgroundColor: 'rgba(60, 60, 60, 0.48)',
+    paddingHorizontal: 16,
   },
   container: {
     backgroundColor: WHITE,
-    width: 320,
+    width: '100%',
     padding: 24,
     borderRadius: 24,
   },
@@ -133,7 +178,7 @@ const stylesModal = StyleSheet.create({
     ...Title.Large,
   },
   uploadContainer: {
-    width: 272,
+    width: '100%',
     height: 144,
     justifyContent: 'center',
     alignItems: 'center',
@@ -143,7 +188,7 @@ const stylesModal = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 8,
     flexWrap: 'wrap',
-    rowGap: 8,
+    rowGap: 16,
     justifyContent: 'flex-start',
     height: 'auto'
   },
@@ -154,10 +199,7 @@ const stylesModal = StyleSheet.create({
     borderRadius: 8,
   },
   imageBox: {
-    width: 62,
-    height: 62,
-    justifyContent: 'center',
-    alignItems: 'center',
+    aspectRatio: 1,
   },
   content: {
     ...Family.KR_Medium,
@@ -173,7 +215,7 @@ const stylesModal = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginTop: 24,
   }
 });

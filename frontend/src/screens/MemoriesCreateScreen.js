@@ -27,7 +27,6 @@ const MemoriesCreateScreen = ({}) => {
       <MapView
         onPressMap={(event) => {
           const locationData = {
-            id: pictureMarker.length,
             latitude: event.latitude,
             longitude: event.longitude,
             uri: []
