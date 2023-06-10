@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.transaction.Transactional;
+
+import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.FriendTagsDto;
 import lookIT.lookITspring.dto.InfoTagsDto;
@@ -34,6 +36,8 @@ import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import lookIT.lookITspring.repository.UserRepository;
 import lookIT.lookITspring.security.JwtProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 @RequiredArgsConstructor
 @Transactional
@@ -47,6 +51,10 @@ public class MemoryService {
 	private final MemorySpotRepository memorySpotRepository;
 	private final MemoryPhotoRepository memoryPhotoRepository;
 	private final JwtProvider jwtProvider;
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
+	@Autowired
+	private AmazonS3 s3Client;
 
 	public Long memoryCreate(String token, MemoryCreateRequestDto requestDto) throws Exception{
 		try{
@@ -227,7 +235,44 @@ public class MemoryService {
 			friendTagsRepository.deleteByFriendTagsId(friendTagsId);
 		}
 	}
+	private void deletePhotoFromS3(String key){
+		try{
+			boolean isS3Object = s3Client.doesObjectExist(bucket, key);
+			if (isS3Object){
+				s3Client.deleteObject(bucket,key);
+			}else{
+				throw new Exception("S3 object does not exist for the given key.");
+			}
+		}catch(Exception e){
+			throw new RuntimeException("Failed - Delete S3 file",e);
+		}
+	}
 
+	private void deleteSpotPhoto(String photoUrl){
+		MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
+
+		if (memoryPhoto != null) {
+			deletePhotoFromS3(memoryPhoto.getMemoryPhotoKey());
+			memoryPhotoRepository.delete(memoryPhoto);
+			MemorySpot memorySpot = memoryPhoto.getMemorySpot();
+			memorySpotRepository.delete(memorySpot);
+		} else {
+			throw new IllegalArgumentException("Memory photo not found.");
+		}
+	}
+	private void deleteMemorySpot(Long memoryId){
+		List<MemorySpot> memorySpots = memorySpotRepository.findByMemoryMemoryId(memoryId);
+		if (memorySpots.isEmpty()) {
+			System.out.println("No MemorySpot found for the given memoryId.");
+			return;
+		}
+
+		for (MemorySpot memorySpot : memorySpots) {
+			MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemorySpotSpotId(memorySpot.getSpotId());
+			deleteSpotPhoto(memoryPhoto.getMemoryPhoto());
+		}
+
+	}
 	public boolean deleteMemory(String token, Long memoryId) {
 		Memory memory = memoryRepository.findById(memoryId).get();
 		deleteLinePath(memory);
@@ -242,6 +287,9 @@ public class MemoryService {
 
 		// 추억일지 정보 태그 삭제
 		infoTagsRepository.deleteAllByInfoTagsIdMemory(memory);
+
+		// 추억일지 핀 및 사진 삭제
+		deleteMemorySpot(memoryId);
 
 		// 추억일지 삭제
 		memoryRepository.delete(memory);
