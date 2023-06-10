@@ -68,4 +68,10 @@ public class UserController {
 	public boolean regeneratePassword(@RequestBody Map<String, String> request) {
 		return userService.regeneratePassword(request);
 	}
+
+	@PostMapping("/emailConfirmJoin")
+	public String emailConfirmJoin(@RequestParam String email) throws Exception {
+		String confirm = emailService.sendSimpleMessage2(email);
+		return confirm;
+	}
 }
