@@ -57,5 +57,5 @@ cloud:
       auto: false
 
 AdminMail:
-  id: ${AdminMail.id}
-  password : ${AdminMail.password}
+  id: ${ADMIN_MAIL_ID}
+  password : ${ADMIN_MAIL_PW}
