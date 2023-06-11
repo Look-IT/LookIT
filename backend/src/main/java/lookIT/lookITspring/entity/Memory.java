@@ -3,7 +3,6 @@ package lookIT.lookITspring.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "Memory")
 public class Memory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memoryId;

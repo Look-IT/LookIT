@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FriendListDto {
 
-  private String tagId;
+    private String tagId;
 
-  private String nickName;
+    private String nickName;
 }

@@ -1,4 +1,5 @@
 package lookIT.lookITspring.controller;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lookIT.lookITspring.dto.AllLandmarkDto;
@@ -15,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LandmarkController {
 
-  private final LandmarkService landmarkService;
+    private final LandmarkService landmarkService;
 
-  @GetMapping("/landmarks")
-  public List<AllLandmarkDto> getAllLandmarks() {
-    return landmarkService.allLandmarkInfo();
-  }
+    @GetMapping("/landmarks")
+    public List<AllLandmarkDto> getAllLandmarks() {
+        return landmarkService.allLandmarkInfo();
+    }
 
-  @GetMapping
-  public ResponseEntity<LandmarkInfoDto> getLandmarkById(@RequestParam Long landmarkId) {
-    return landmarkService.landmarkInfoWithLandmarkId(landmarkId);
-  }
+    @GetMapping
+    public ResponseEntity<LandmarkInfoDto> getLandmarkById(@RequestParam Long landmarkId) {
+        return landmarkService.landmarkInfoWithLandmarkId(landmarkId);
+    }
 }

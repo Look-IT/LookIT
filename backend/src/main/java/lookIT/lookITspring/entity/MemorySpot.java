@@ -1,4 +1,5 @@
 package lookIT.lookITspring.entity;
+
 import javax.persistence.*;
 
 import lombok.AccessLevel;

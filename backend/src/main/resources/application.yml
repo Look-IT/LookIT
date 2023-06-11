@@ -58,4 +58,4 @@ cloud:
 
 AdminMail:
   id: ${ADMIN_MAIL_ID}
-  password : ${ADMIN_MAIL_PW}
+  password: ${ADMIN_MAIL_PW}

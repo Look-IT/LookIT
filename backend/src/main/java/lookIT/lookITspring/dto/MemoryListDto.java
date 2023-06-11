@@ -19,4 +19,5 @@ public class MemoryListDto {
     private List<InfoTagsDto> info;
 
     private List<FriendTagsDto> friends;
+
 }

@@ -20,27 +20,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity
 @Table(name = "User")
 public class User extends BaseTimeEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
 
-	@Column(name = "tagId", unique = true, nullable = false)
-	private String tagId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-	@Column(name = "email", unique = true, nullable = false)
-	private String email;
+    @Column(name = "tagId", unique = true, nullable = false)
+    private String tagId;
 
-	@Column(name = "nickName", nullable = false)
-	private String nickName;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
-	@Column(name = "password", nullable = false)
-	private String password;
+    @Column(name = "nickName", nullable = false)
+    private String nickName;
 
-	public void encodePassword(PasswordEncoder passwordEncoder) {
-		this.password = passwordEncoder.encode(password);
-	}
+    @Column(name = "password", nullable = false)
+    private String password;
 
-	public void update(String password){
-		this.password = password;
-	}
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void update(String password) {
+        this.password = password;
+    }
 }

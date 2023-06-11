@@ -8,10 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LandmarkInfoDto {
-  private String landmarkName;
-  private String landInfo;
-  private String frameUrl;
-  private String landmarkAddress;
+
+    private String landmarkName;
+
+    private String landInfo;
+
+    private String frameUrl;
+
+    private String landmarkAddress;
 
 }
 

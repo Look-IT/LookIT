@@ -29,6 +29,7 @@ import static org.testng.AssertJUnit.assertEquals;
 @AutoConfigureMockMvc
 @Transactional
 public class MemorySpotServiceTest {
+
     @Mock
     private MemorySpotRepository memorySpotRepository;
 

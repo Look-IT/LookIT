@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InfoTagsRepository extends JpaRepository<InfoTags, InfoTagsId> {
 
-  List<InfoTags> findByInfoTagsIdMemory(Memory memory);
-  List<InfoTags> findByInfoTagsIdInfo(String info);
-  void deleteAllByInfoTagsIdMemory(Memory memory);
+    List<InfoTags> findByInfoTagsIdMemory(Memory memory);
+
+    List<InfoTags> findByInfoTagsIdInfo(String info);
+
+    void deleteAllByInfoTagsIdMemory(Memory memory);
 }

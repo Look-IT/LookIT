@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinePathDto {
-	private Double latitude;
-	private Double longitude;
+
+    private Double latitude;
+
+    private Double longitude;
+
 }

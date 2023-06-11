@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FriendTagsRepository extends JpaRepository<FriendTags, FriendTagsId> {
 
-  List<FriendTags> findByFriendTagsId_Memory(Memory memory);
+    List<FriendTags> findByFriendTagsId_Memory(Memory memory);
 
-  void deleteByFriendTagsId(FriendTagsId friendTagsId);
+    void deleteByFriendTagsId(FriendTagsId friendTagsId);
 }

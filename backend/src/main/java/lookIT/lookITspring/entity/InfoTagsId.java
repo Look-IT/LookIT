@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class InfoTagsId implements Serializable {
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "memoryId")
-  private Memory memory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memoryId")
+    private Memory memory;
 
-  @Column(name = "info")
-  private String info;
+    @Column(name = "info")
+    private String info;
 }

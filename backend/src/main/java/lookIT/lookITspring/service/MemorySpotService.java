@@ -1,7 +1,6 @@
 package lookIT.lookITspring.service;
 
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -18,8 +17,6 @@ import lookIT.lookITspring.repository.MemoryRepository;
 import lookIT.lookITspring.repository.MemorySpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -31,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
 public class MemorySpotService {
+
     private final MemorySpotRepository memorySpotRepository;
     private final MemoryRepository memoryRepository;
     private final MemoryPhotoRepository memoryPhotoRepository;
@@ -41,23 +39,24 @@ public class MemorySpotService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId, String imageUrl, String key) {
+    public boolean createNewMemorySpot(Double spotLatitude, Double spotLongitude, Long memoryId,
+        String imageUrl, String key) {
         Optional<Memory> memoryOptional = memoryRepository.findById(memoryId);
         if (memoryOptional.isPresent()) {
             Memory memory = memoryOptional.get();
 
             MemorySpot memorySpot = MemorySpot.builder()
-                    .spotLatitude(spotLatitude)
-                    .spotLongitude(spotLongitude)
-                    .memory(memory)
-                    .build();
+                .spotLatitude(spotLatitude)
+                .spotLongitude(spotLongitude)
+                .memory(memory)
+                .build();
             memorySpotRepository.save(memorySpot);
 
             MemoryPhoto memoryPhoto = MemoryPhoto.builder()
-                    .memorySpot(memorySpot)
-                    .memoryPhoto(imageUrl)
-                    .memoryPhotoKey(key)
-                    .build();
+                .memorySpot(memorySpot)
+                .memoryPhoto(imageUrl)
+                .memoryPhotoKey(key)
+                .build();
             memoryPhotoRepository.save(memoryPhoto);
 
             return true;
@@ -70,7 +69,7 @@ public class MemorySpotService {
         try {
             Optional<Memory> memory = memoryRepository.findById(memoryId);
             List<MemorySpot> memorySpots = memorySpotRepository.findAllByMemory(memory.get());
-            if(memorySpots.isEmpty()) {
+            if (memorySpots.isEmpty()) {
                 return new ArrayList<>();
             }
 
@@ -83,18 +82,19 @@ public class MemorySpotService {
 
             for (MemorySpot memorySpot : memorySpots) {
                 Long memorySpotId = memorySpot.getSpotId();
-                Optional<MemoryPhoto> memoryPhotoOptional = Optional.ofNullable(memoryPhotoRepository.findByMemorySpotSpotId(memorySpot.getSpotId()));
+                Optional<MemoryPhoto> memoryPhotoOptional = Optional.ofNullable(
+                    memoryPhotoRepository.findByMemorySpotSpotId(memorySpot.getSpotId()));
 
                 Double currentLongitude = memorySpot.getSpotLongitude();
                 Double currentLatitude = memorySpot.getSpotLatitude();
-
 
                 if (previousLongitude.get() == null || previousLatitude.get() == null) {
                     previousLongitude.set(currentLongitude);
                     previousLatitude.set(currentLatitude);
                     spot.put("spotLongitude", previousLongitude.get());
                     spot.put("spotLatitude", previousLatitude.get());
-                } else if (!previousLongitude.get().equals(currentLongitude) || !previousLatitude.get().equals(currentLatitude)) {
+                } else if (!previousLongitude.get().equals(currentLongitude)
+                    || !previousLatitude.get().equals(currentLatitude)) {
                     spot.put("memoryPhotos", spotMemoryPhotos);
                     spot.put("spotIDs", spotIds);
                     result.add(spot);
@@ -115,7 +115,7 @@ public class MemorySpotService {
                     spotMemoryPhotos.add(memoryPhotoOptional.get().getMemoryPhoto());
                 }
             }
-            if (!spot.isEmpty()){
+            if (!spot.isEmpty()) {
                 spot.put("memoryPhotos", spotMemoryPhotos);
                 spot.put("spotIDs", spotIds);
                 result.add(spot);
@@ -128,27 +128,27 @@ public class MemorySpotService {
         }
     }
 
-    public List<LinePath> showAllLinePath(Long memoryId){
+    public List<LinePath> showAllLinePath(Long memoryId) {
         Memory memory = memoryRepository.findById(memoryId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memoryId"));
+            .orElseThrow(() -> new IllegalArgumentException("Invalid memoryId"));
 
         return linePathRepository.findByMemory(memory);
     }
 
-    private void deletePhotoFromS3(String key){
-        try{
+    private void deletePhotoFromS3(String key) {
+        try {
             boolean isS3Object = s3Client.doesObjectExist(bucket, key);
-            if (isS3Object){
-                s3Client.deleteObject(bucket,key);
-            }else{
+            if (isS3Object) {
+                s3Client.deleteObject(bucket, key);
+            } else {
                 throw new Exception("S3 object does not exist for the given key.");
             }
-        }catch(Exception e){
-            throw new RuntimeException("Failed - Delete S3 file",e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed - Delete S3 file", e);
         }
     }
 
-    private void deleteSpotPhoto(String photoUrl){
+    private void deleteSpotPhoto(String photoUrl) {
         MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemoryPhoto(photoUrl);
 
         if (memoryPhoto != null) {
@@ -162,14 +162,14 @@ public class MemorySpotService {
     }
 
     public Boolean deletePhoto(String photoUrl) {
-        try{
+        try {
             int tIndex = photoUrl.indexOf('T');
             String timePart = photoUrl.substring(tIndex + 1);
             String encodedTimePart = URLEncoder.encode(timePart, StandardCharsets.UTF_8);
             String encodedPhotoUrl = photoUrl.substring(0, tIndex + 1) + encodedTimePart;
             deleteSpotPhoto(encodedPhotoUrl);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -177,26 +177,27 @@ public class MemorySpotService {
 
     @Transactional
     public Boolean deleteSpot(Double spotLatitude, Double spotLongitude) {
-        List<MemorySpot> memorySpots = memorySpotRepository.findBySpotLatitudeAndSpotLongitude(spotLatitude, spotLongitude);
+        List<MemorySpot> memorySpots = memorySpotRepository.findBySpotLatitudeAndSpotLongitude(
+            spotLatitude, spotLongitude);
         if (!memorySpots.isEmpty()) {
             for (MemorySpot memorySpot : memorySpots) {
                 Long spotId = memorySpot.getSpotId();
                 MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemorySpotSpotId(spotId);
                 System.out.println(spotId);
-                if (memoryPhoto != null){
-                    try{
+                if (memoryPhoto != null) {
+                    try {
                         deleteSpotPhoto(memoryPhoto.getMemoryPhoto());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         throw e;
                     }
-                }else{
+                } else {
                     System.out.println("No memory Photo.");
                 }
                 memorySpotRepository.deleteById(spotId);
             }
             return true;
-        }else {
+        } else {
             throw new IllegalArgumentException("Memory spot not found.");
         }
     }

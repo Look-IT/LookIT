@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MemorySpotRepository extends JpaRepository<MemorySpot, Long> {
 
-     List<MemorySpot> findAllByMemory(Memory memory);
+    List<MemorySpot> findAllByMemory(Memory memory);
 
     List<MemorySpot> findBySpotLatitudeAndSpotLongitude(Double spotLatitude, Double spotLongitude);
 

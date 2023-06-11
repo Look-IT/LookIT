@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "FriendTags")
 public class FriendTags {
-  @EmbeddedId
-  private FriendTagsId friendTagsId;
+
+    @EmbeddedId
+    private FriendTagsId friendTagsId;
 }

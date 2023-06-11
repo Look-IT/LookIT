@@ -1,8 +1,5 @@
 package lookIT.lookITspring.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import java.util.Map;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -18,53 +15,53 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Transactional
 public class UserService {
 
-	private final UserRepository userRepository;
-	private final PasswordEncoder passwordEncoder;
-	private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
-	@Transactional
-	public boolean join(UserJoinRequestDto requestDto) throws Exception {
+    @Transactional
+    public boolean join(UserJoinRequestDto requestDto) throws Exception {
 
-		if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
-			throw new IllegalStateException("이미 존재하는 이메일입니다.");
-		}
+        if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        }
 
-		User user = userRepository.save(requestDto.toEntity());
-		user.encodePassword(passwordEncoder);
+        User user = userRepository.save(requestDto.toEntity());
+        user.encodePassword(passwordEncoder);
 
-		return true;
-	}
+        return true;
+    }
 
-	public String login(Map<String, String> members) {
-		User user = userRepository.findByEmail(members.get("email"))
-			.orElseThrow(() -> new IllegalArgumentException("가입되지 않은 Email 입니다."));
+    public String login(Map<String, String> members) {
+        User user = userRepository.findByEmail(members.get("email"))
+            .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 Email 입니다."));
 
-		String password = members.get("password");
-		if (!passwordEncoder.matches(password, user.getPassword())) {
-			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
-		}
-		return jwtProvider.createToken(user.getUserId());
-	}
+        String password = members.get("password");
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+        return jwtProvider.createToken(user.getUserId());
+    }
 
-	public boolean checkIdDuplicate(String tagId){
-		Optional<User> optionalMember = userRepository.findByTagId(tagId);
-		try{
-			User user = optionalMember.get();
-			return false;
-		}catch (Exception e) {
-			return true;
-		}
-	}
+    public boolean checkIdDuplicate(String tagId) {
+        Optional<User> optionalMember = userRepository.findByTagId(tagId);
+        try {
+            User user = optionalMember.get();
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
 
-	public boolean logout(String token) {
-		jwtProvider.setExpiration(token);
-		return true;
-	}
+    public boolean logout(String token) {
+        jwtProvider.setExpiration(token);
+        return true;
+    }
 
-	public boolean regeneratePassword(Map<String, String> request) {
-		User user = userRepository.findByEmail(request.get("email")).get();
-		user.update(request.get("password"));
-		user.encodePassword(passwordEncoder);
-		return true;
-	}
+    public boolean regeneratePassword(Map<String, String> request) {
+        User user = userRepository.findByEmail(request.get("email")).get();
+        user.update(request.get("password"));
+        user.encodePassword(passwordEncoder);
+        return true;
+    }
 }

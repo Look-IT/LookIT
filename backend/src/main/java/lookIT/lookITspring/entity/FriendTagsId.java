@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FriendTagsId implements Serializable {
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "memoryId", nullable = false)
-  private Memory memory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memoryId", nullable = false)
+    private Memory memory;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "userId", nullable = false)
-  private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
 }
