@@ -1,24 +1,30 @@
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { BLACK } from "../colors";
 import { KeyboardTypes, ReturnKeyTypes } from "../components/FriendAddInput";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { getSearchMemories } from "../api/DiaryApi";
 import DiaryList from "../components/DiaryList";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import MemoriesSearchInput from "../components/MemoriesSearchInput";
 
 const MemoriesSearchScreen = () => {
   const [infoTag, setInfoTag] = useState('');
   const [searchDiaryList, setSearchDiaryList] = useState([]);
-  const navigation = useNavigation();
+  const saveInfoTag = useRef();
 
   useFocusEffect(
     useCallback(() => {
-      handleGetDiary();
+      saveInfoTag.current && handleReload();
     }, [])
   )
 
-  const handleGetDiary = () => {
+  const handleReload = async () => {
+      setInfoTag(saveInfoTag.current);
+      handleGetDiary(saveInfoTag.current);
+      saveInfoTag.current = null;
+  }
+
+  const handleGetDiary = (infoTag) => {
     getSearchMemories(infoTag)
       .then(response => {
         setSearchDiaryList(
@@ -49,10 +55,11 @@ const MemoriesSearchScreen = () => {
           returnKeyType={ReturnKeyTypes.DONE}
           value={infoTag}
           onChangeText={(inputData) => {
-            setInfoTag(inputData.trim())
+            setInfoTag(inputData.trim());
           }}
           onSubmitEditing={() => {
-            handleGetDiary();
+            saveInfoTag.current = infoTag;
+            handleGetDiary(infoTag);
           }}/>
       </View>
 

@@ -65,7 +65,7 @@ const IconBottomSheet = ({
                   object.handleFunction()
                     .then(response => {
                       if (response) {
-                        navigation.goBack();
+                        navigation.pop();
                         Toast.show({
                           type: 'success',
                           text1: '추억일지가 삭제되었습니다.',
