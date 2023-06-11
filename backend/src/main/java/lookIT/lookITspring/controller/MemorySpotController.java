@@ -76,10 +76,4 @@ public class MemorySpotController {
     public Boolean MemorySpotPhoto(@RequestParam("memoryPhoto") String photoUrl){
         return memorySpotService.deletePhoto(photoUrl);
     }
-/*
-    @DeleteMapping("/spot")
-    public Boolean MemorySpot(@RequestParam("spotIds") List<Long> spotIds) {
-        return memorySpotService.deleteSpots(spotIds);
-    }
-*/
 }

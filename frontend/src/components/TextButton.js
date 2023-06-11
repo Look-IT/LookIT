@@ -1,14 +1,14 @@
 //중복확인 버튼
 
-import { Pressable, StyleSheet, Text } from 'react-native';
-import { GRAY } from '../colors';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { GRAY, PRIMARY } from '../colors';
 import PropTypes from 'prop-types';
 
-const TextButton = ({ title, onPress }) => {
+const TextButton = ({ title, onPress, style, textStyle }) => {
   return (
-    <Pressable onPress={onPress} style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-    </Pressable>
+    <TouchableOpacity onPress={onPress} style={[styles.container, style]}>
+      <Text style={[styles.title, textStyle]}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: GRAY.DEFAULT,
+    borderColor: PRIMARY.DEFAULT,
     justifyContent: 'center',
     alignItems: 'center',
     height: 36,
