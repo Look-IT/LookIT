@@ -11,22 +11,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final JwtProvider jwtAuthenticationProvider;
+    private final JwtProvider jwtAuthenticationProvider;
 
-	public JwtAuthenticationFilter(JwtProvider provider) {
-		jwtAuthenticationProvider = provider;
-	}
+    public JwtAuthenticationFilter(JwtProvider provider) {
+        jwtAuthenticationProvider = provider;
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		String token = jwtAuthenticationProvider.resolveToken(request);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+        FilterChain filterChain) throws ServletException, IOException {
+        String token = jwtAuthenticationProvider.resolveToken(request);
 
-		if (token != null && jwtAuthenticationProvider.validateToken(token)) {
-			Authentication authentication = jwtAuthenticationProvider.getAuthentication(token);
+        if (token != null && jwtAuthenticationProvider.validateToken(token)) {
+            Authentication authentication = jwtAuthenticationProvider.getAuthentication(token);
 
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-		}
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
 
-		filterChain.doFilter(request, response);
-	}
+        filterChain.doFilter(request, response);
+    }
 }

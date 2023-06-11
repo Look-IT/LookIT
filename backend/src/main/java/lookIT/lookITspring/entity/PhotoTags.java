@@ -24,15 +24,16 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "PhotoTags")
 public class PhotoTags {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long photoTagId;
 
-	@JsonIgnoreProperties({"hibernateLazyInitializer"})
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "photo4CutId", referencedColumnName = "photo4CutId")
-	private Collections collections;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long photoTagId;
 
-	@Column
-	private String tagId;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo4CutId", referencedColumnName = "photo4CutId")
+    private Collections collections;
+
+    @Column
+    private String tagId;
 }

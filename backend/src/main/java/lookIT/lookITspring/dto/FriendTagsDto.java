@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FriendTagsDto {
 
-  private String tagId;
+    private String tagId;
 
 }

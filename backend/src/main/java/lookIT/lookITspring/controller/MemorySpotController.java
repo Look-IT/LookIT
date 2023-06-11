@@ -21,6 +21,7 @@ import java.util.Map;
 @RequestMapping("/memories")
 @RequiredArgsConstructor
 public class MemorySpotController {
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -32,11 +33,11 @@ public class MemorySpotController {
 
     @PostMapping("/upload")
     public boolean uploadFile(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("spotLatitude") Double spotLatitude,
-            @RequestParam("spotLongitude") Double spotLongitude,
-            @RequestParam("memoryId") Long memoryId
-            ) throws IOException {
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("spotLatitude") Double spotLatitude,
+        @RequestParam("spotLongitude") Double spotLongitude,
+        @RequestParam("memoryId") Long memoryId
+    ) throws IOException {
 
         String fileName = file.getOriginalFilename();
         String folderName = "memoryphoto";
@@ -47,7 +48,8 @@ public class MemorySpotController {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
 
-        PutObjectRequest request = new PutObjectRequest(bucket, key, file.getInputStream(), metadata);
+        PutObjectRequest request = new PutObjectRequest(bucket, key, file.getInputStream(),
+            metadata);
         request.setCannedAcl(CannedAccessControlList.PublicRead);
         s3Client.putObject(request);
 
@@ -55,16 +57,17 @@ public class MemorySpotController {
         if (imageUrl == null) {
             System.out.println("S3 Err - s3Client is null");
             return false;
-        }
-        else{
-            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId, imageUrl, key);
+        } else {
+            return memorySpotService.createNewMemorySpot(spotLatitude, spotLongitude, memoryId,
+                imageUrl, key);
         }
 
     }
 
     @GetMapping("/photo")
-    public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Long memoryId) throws Exception {
-            return memorySpotService.showAllMemorySpotPhotos(memoryId);
+    public List<Map<String, Object>> MemoryPhoto(@RequestParam("memoryId") Long memoryId)
+        throws Exception {
+        return memorySpotService.showAllMemorySpotPhotos(memoryId);
     }
 
     @GetMapping("/linePath")
@@ -73,7 +76,7 @@ public class MemorySpotController {
     }
 
     @DeleteMapping("/photo")
-    public Boolean MemorySpotPhoto(@RequestParam("memoryPhoto") String photoUrl){
+    public Boolean MemorySpotPhoto(@RequestParam("memoryPhoto") String photoUrl) {
         return memorySpotService.deletePhoto(photoUrl);
     }
 }

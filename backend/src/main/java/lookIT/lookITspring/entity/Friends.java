@@ -1,4 +1,5 @@
 package lookIT.lookITspring.entity;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,14 +19,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "Friends")
 public class Friends {
-  @EmbeddedId
-  private FriendsId friendsId;
 
-  @Column(name = "status", nullable = false)
-  private String status;
+    @EmbeddedId
+    private FriendsId friendsId;
 
-  public Friends(User friend, User user, String status) {
-    this.friendsId = new FriendsId(friend, user);
-    this.status = status;
-  }
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    public Friends(User friend, User user, String status) {
+        this.friendsId = new FriendsId(friend, user);
+        this.status = status;
+    }
 }

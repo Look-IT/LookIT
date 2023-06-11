@@ -1,9 +1,6 @@
 package lookIT.lookITspring.entity;
 
-import java.security.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,27 +28,28 @@ import org.springframework.data.annotation.CreatedDate;
 @Table(name = "Collections")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Collections {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long photo4CutId;
 
-	@CreatedDate
-	@Column(name = "createAt", nullable = false)
-	private LocalDateTime createAt;
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId", nullable = false)
-	private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long photo4CutId;
 
-	@JsonIgnoreProperties({"hibernateLazyInitializer"})
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "landmarkId", nullable = false)
-	private Landmark landmark;
+    @CreatedDate
+    @Column(name = "createAt", nullable = false)
+    private LocalDateTime createAt;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-	@Column(name = "photo4Cut", nullable = false)
-	private String photo4Cut;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "landmarkId", nullable = false)
+    private Landmark landmark;
 
-	@Column(nullable = false)
-	private String photo4CutKey;
+    @Column(name = "photo4Cut", nullable = false)
+    private String photo4Cut;
+
+    @Column(nullable = false)
+    private String photo4CutKey;
 
 }

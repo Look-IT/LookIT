@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllLandmarkDto {
-  private Long landmarkId;
-  private Double landLatitude;
-  private Double landLongitude;
+
+    private Long landmarkId;
+
+    private Double landLatitude;
+
+    private Double landLongitude;
+
 }
 

@@ -37,13 +37,13 @@ public class Photo4CutServiceTest {
         Long landmarkId = 1L;
         String expectedFrameUrl = "http://example.com/frame.jpg";
         Landmark landmark = Landmark.builder()
-                .landmarkId(landmarkId)
-                .landmarkName("Test Landmark")
-                .landLatitude(0.0)
-                .landLongitude(0.0)
-                .landInfo("Test Landmark Info")
-                .frameUrl(expectedFrameUrl)
-                .build();
+            .landmarkId(landmarkId)
+            .landmarkName("Test Landmark")
+            .landLatitude(0.0)
+            .landLongitude(0.0)
+            .landInfo("Test Landmark Info")
+            .frameUrl(expectedFrameUrl)
+            .build();
         when(landmarkRepository.findById(landmarkId)).thenReturn(Optional.of(landmark));
 
         String result = photo4CutService.getPhotoFrame(landmarkId);
@@ -63,30 +63,33 @@ public class Photo4CutServiceTest {
     public void testGetPhotoFrameNoFrameUrl() throws Exception {
         Long landmarkId = 1L;
         Landmark landmark = Landmark.builder()
-                .landmarkId(landmarkId)
-                .landmarkName("Test Landmark")
-                .landLatitude(0.0)
-                .landLongitude(0.0)
-                .landInfo("Test Landmark Info")
-                .build();
+            .landmarkId(landmarkId)
+            .landmarkName("Test Landmark")
+            .landLatitude(0.0)
+            .landLongitude(0.0)
+            .landInfo("Test Landmark Info")
+            .build();
         when(landmarkRepository.findById(landmarkId)).thenReturn(Optional.of(landmark));
 
         assertThrows(Exception.class, () -> photo4CutService.getPhotoFrame(landmarkId));
     }
 
     @Test
-    public void getCollectionsByUserId(){
+    public void getCollectionsByUserId() {
         Long userId = 1L;
         Long landmarkId = 1L;
         List<Collections> collectionsList = new ArrayList<>();
         User user = User.builder().userId(userId).build();
         Landmark landmark = Landmark.builder().landmarkId(landmarkId).build();
         LocalDateTime now = LocalDateTime.now();
-        Collections collection1 = Collections.builder().photo4CutId(1L).user(user).landmark(landmark).photo4Cut("test1").createAt(now).build();
-        Collections collection2 = Collections.builder().photo4CutId(2L).user(user).landmark(landmark).photo4Cut("test2").createAt(now.minusMinutes(10)).build();
+        Collections collection1 = Collections.builder().photo4CutId(1L).user(user)
+            .landmark(landmark).photo4Cut("test1").createAt(now).build();
+        Collections collection2 = Collections.builder().photo4CutId(2L).user(user)
+            .landmark(landmark).photo4Cut("test2").createAt(now.minusMinutes(10)).build();
         collectionsList.add(collection1);
         collectionsList.add(collection2);
-        when(collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId)).thenReturn(collectionsList);
+        when(collectionsRepository.findAllByUserIdOrderByCreateAtDesc(userId)).thenReturn(
+            collectionsList);
 
         List<Collections> result = photo4CutService.getCollectionsByUserId(userId);
 

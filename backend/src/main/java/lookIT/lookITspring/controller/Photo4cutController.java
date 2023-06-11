@@ -40,12 +40,11 @@ public class Photo4cutController {
 
     @PostMapping("/4cutphoto")
     public Long uploadFile(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("landmarkId") Long landmarkId,
-            @RequestHeader("token") String token
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("landmarkId") Long landmarkId,
+        @RequestHeader("token") String token
     ) throws IOException {
         Long userId = jwtProvider.getUserId(token);
-
 
         String fileName = file.getOriginalFilename();
         String folderName = "photo4cut/photo";
@@ -56,7 +55,8 @@ public class Photo4cutController {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
 
-        PutObjectRequest request = new PutObjectRequest(bucket, key, file.getInputStream(), metadata);
+        PutObjectRequest request = new PutObjectRequest(bucket, key, file.getInputStream(),
+            metadata);
         request.setCannedAcl(CannedAccessControlList.PublicRead);
         s3Client.putObject(request);
 
@@ -64,8 +64,7 @@ public class Photo4cutController {
         if (imageUrl == null) {
             System.out.println("S3 Err - s3Client is null");
             throw new Error("S3 Err - s3Client is null");
-        }
-        else{
+        } else {
             return photo4CutService.savePhoto4Cut(landmarkId, userId, imageUrl, key);
         }
 
@@ -78,23 +77,25 @@ public class Photo4cutController {
     }
 
     @GetMapping("/{tagId}")
-    public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId) throws Exception {
+    public List<Collections> FriendMemory4Cut(@PathVariable("tagId") String tagId)
+        throws Exception {
         return photo4CutService.getCollectionsByTagId(tagId);
     }
 
     @PostMapping("/tag")
-    public String TagPhoto4Cut(@RequestBody String[] friendsList, @RequestParam Long photo4CutId){
+    public String TagPhoto4Cut(@RequestBody String[] friendsList, @RequestParam Long photo4CutId) {
         return photo4CutService.collectionFriendTag(friendsList, photo4CutId);
     }
 
     @GetMapping("/taggedFriendList")
     @ResponseBody
-    public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(@RequestParam Long photo4CutId){
+    public List<Map<String, String>> getTaggedFriendListByPhoto4CutIdId(
+        @RequestParam Long photo4CutId) {
         return photo4CutService.getTaggedFriendListByPhoto4CutIdId(photo4CutId);
     }
 
     @DeleteMapping("/4CutPhotoDelete")
-    public boolean deleteTag(@RequestParam Long photo4CutId){
+    public boolean deleteTag(@RequestParam Long photo4CutId) {
         return photo4CutService.Photo4CutDelete(photo4CutId);
     }
 }

@@ -1,7 +1,6 @@
 package lookIT.lookITspring.entity;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,17 +22,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "LinePath")
 public class LinePath {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long linePathId;
 
-	@Column(name = "latitude", nullable = false)
-	private Double latitude;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long linePathId;
 
-	@Column(name = "longitude", nullable = false)
-	private Double longitude;
+    @Column(name = "latitude", nullable = false)
+    private Double latitude;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "memoryId", nullable = false)
-	private Memory memory;
+    @Column(name = "longitude", nullable = false)
+    private Double longitude;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memoryId", nullable = false)
+    private Memory memory;
 }
