@@ -14,12 +14,15 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Build
+        run: ./gradlew build
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: 9659tig/lookit
           stage: main
+          jar: ./backend/build/libs/lookIT-spring-0.0.1-SNAPSHOT.jar
           yaml: |
             name: lookit
             app: java@17
