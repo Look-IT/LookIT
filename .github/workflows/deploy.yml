@@ -14,8 +14,10 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
-      - name: Setup Gradle Wrapper
-        run: ./gradlew wrapper
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
       - name: Build
         working-directory: ./backend
         run: ./gradlew build
