@@ -20,7 +20,7 @@ const FriendHeaderRightButton = ({ tintColor }) => {
 
   return (
     <Pressable
-      hitSlop={10}
+      hitSlop={8}
       onPress={() => {
         navigation.navigate('FriendAddScreen');
       }}

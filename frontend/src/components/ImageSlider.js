@@ -14,14 +14,14 @@ const ImageSlider = ({  images, setCurrentIndex }) => {
       data={images}
       renderItem={({ item }) => (
         <Image
-          source={{ uri: item }}
+          source={{ uri: item.uri }}
           style={{width: width}}
           resizeMode="contain"
           />
       )}
       horizontal
       pagingEnabled
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item, index) => item.id || index.toString()}
       onViewableItemsChanged={onViewableItemsChanged.current}/>
   )
 }

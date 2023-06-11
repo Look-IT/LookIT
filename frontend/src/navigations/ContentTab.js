@@ -14,6 +14,7 @@ import { PRIMARY, WHITE } from '../colors';
 import { Image, StyleSheet } from 'react-native';
 import HeaderRightButton from '../components/HeaderRightButton';
 import FriendHeaderRightButton from '../components/FriendHeaderRightButton';
+import HeaderRightMyPage from '../components/HeaderRightMyPage';
 const Tab = createBottomTabNavigator();
 
 const ContentTab = () => {
@@ -98,7 +99,7 @@ const ContentTab = () => {
           component={MyPageScreen}
           options={{
             headerShown: true,
-            headerRight: HeaderRightButton,
+            headerRight: HeaderRightMyPage,
             headerRightContainerStyle: { paddingRight: 16 },
             tabBarIcon: (props) => {
               return props.focused ? (
