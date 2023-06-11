@@ -200,33 +200,4 @@ public class MemorySpotService {
             throw new IllegalArgumentException("Memory spot not found.");
         }
     }
-/*
-    @Transactional
-    public Boolean deleteSpots(List<Long> spotIds) {
-        List<MemorySpot> memorySpots = memorySpotRepository.findAllById(spotIds);
-        if (!memorySpots.isEmpty()) {
-            for (MemorySpot memorySpot : memorySpots) {
-                Long spotId = memorySpot.getSpotId();
-                MemoryPhoto memoryPhoto = memoryPhotoRepository.findByMemorySpotSpotId(spotId);
-                System.out.println(spotId);
-                if (memoryPhoto != null){
-                    try{
-                        deleteSpotPhoto(memoryPhoto.getMemoryPhoto());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-                } else {
-                    System.out.println("No memory photo.");
-                }
-                memorySpotRepository.deleteById(spotId);
-            }
-            return true;
-        } else {
-            throw new IllegalArgumentException("Memory spots not found.");
-        }
-    }
-
-
- */
 }
