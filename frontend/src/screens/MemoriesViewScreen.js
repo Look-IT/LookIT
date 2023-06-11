@@ -67,11 +67,11 @@ const MemoriesViewScreen = ({ route }) => {
 
   useEffect(() => {
     getMemoriesPath(memoryId)
-    .then(response => {
-      const path = response.data.map(({ latitude, longitude }) => ({ latitude, longitude }))
-      setTrackingLocation(path);
-    })
-    .catch(error => console.error(error));
+      .then(response => {
+        const path = response.data.map(({ latitude, longitude }) => ({ latitude, longitude }))
+        setTrackingLocation(path);
+      })
+      .catch(error => console.error(error));
   }, []);
   
   return (

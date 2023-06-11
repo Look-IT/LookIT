@@ -1,15 +1,14 @@
 import { deleteMemories } from "../api/deleteMemories"
 
-export const handleDeleteMemories = (memoryId) => {
+export const handleDeleteMemories = async (memoryId) => {
 
-  deleteMemories(memoryId)
-    .then(response => {
-      console.log('deleteMemories: ', response);
-      return response;
-    })
-    .catch(error =>{
-      return error
-    })
+  try {
+    const response = await deleteMemories(memoryId);
 
+    return response;
+
+  } catch (error) {
+    throw error;
+  }
 }
 
