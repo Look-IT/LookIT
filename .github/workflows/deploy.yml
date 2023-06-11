@@ -17,6 +17,7 @@ jobs:
       - name: Setup Gradle Wrapper
         run: ./gradlew wrapper
       - name: Build
+        working-directory: ./backend
         run: ./gradlew build
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
