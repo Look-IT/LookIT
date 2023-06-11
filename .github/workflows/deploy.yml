@@ -14,8 +14,6 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
-      - name: Setup Gradle Wrapper
-        run: ./gradlew wrapper
       - name: Build
         working-directory: ./backend
         run: ./gradlew build
