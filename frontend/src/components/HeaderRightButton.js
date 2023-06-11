@@ -37,7 +37,7 @@ const HeaderRightButton = ({ tintColor }) => {
 
   return (
     <>
-      <Pressable hitSlop={10} onPress={() => refRBSheet.current.open()}>
+      <Pressable hitSlop={8} onPress={() => refRBSheet.current.open()}>
         <Image
           source={require('../../assets/Icon_More.png')}
           style={styles.image}

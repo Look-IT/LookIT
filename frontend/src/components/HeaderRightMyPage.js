@@ -8,7 +8,11 @@ const HeaderRightMyPage = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => navigation.navigate('MemoriesSearchScreen')}>
+      <Pressable
+        style={{ marginRight: 16 }}
+        hitSlop={8}
+        onPress={() => navigation.navigate('MemoriesSearchScreen')}>
+
         <Image
           style={styles.icon}
           source={require('../../assets/Icon_Search.png')}/>
@@ -22,7 +26,6 @@ const HeaderRightMyPage = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    columnGap: 16,
   },
   icon: {
     width: 24,
