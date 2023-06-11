@@ -8,8 +8,4 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class LookItSpringApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
 }
