@@ -8,21 +8,17 @@ import { getMemoriesList } from '../api/DiaryApi';
 import { useFocusEffect } from '@react-navigation/native';
 import DateFilter from '../components/DateFilter';
 
-const yearData = [
-  '2023', '2022',
-]
-
 const MyPageScreen = () => {
 
   const [diary, setDiary] = useState([]);
+  const [filterDiary, setFilterDiary] = useState([]);
   const [yearCategory, setYearCategory] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
 
-  useEffect(() =>{
+  useEffect(() => {
     
     const years = diary?.map(item => item.date.split('.')[0]);
-    // let uniqueYears = [...new Set(years)];
-    let uniqueYears = yearData;
+    let uniqueYears = [...new Set(years)];
 
     uniqueYears = uniqueYears.map(item => {
       return ({
@@ -33,6 +29,7 @@ const MyPageScreen = () => {
     uniqueYears.sort((a, b) => a.value - b.value);
 
     setYearCategory(uniqueYears);
+    setFilterDiary(diary);
 
   }, [diary]);
 
@@ -40,42 +37,15 @@ const MyPageScreen = () => {
     handleFilter(selectedYear);
   }, [selectedYear]);
 
-  const handleFilter = async (selectedYear) => {
+  const handleFilter = (selectedYear) => {
 
-      handleGetDiaryList()
-        .then(response => {
-
-          let diaryData = response.map((diaryObj) => {
-            return {
-              id: diaryObj.memoryId,
-              date: diaryObj.createAt,
-              thumbnail: diaryObj.memoryPhoto,
-              tag: diaryObj.info,
-              friends: diaryObj.friends,
-            };
-          })
-
-          if (selectedYear !== null) {
-            diaryData = diaryData.filter(item => item.date.split('.')[0] === selectedYear);
-            setDiary(diaryData);
-          }
-          else {
-            setDiary(diaryData);
-          }
-
-        })
-        .catch(error => {
-          console.log(error);
-
-            Alert.alert('추억일지 조회 실패', '추억일지 조회가 실패했습니다.', [
-              {
-                text: '확인',
-                style: 'default',
-                onPress: () => {},
-              },
-            ]);
-        })
-
+    if (selectedYear !== null) {
+      const diaryData = diary.filter(item => item.date.split('.')[0] === selectedYear);
+      setFilterDiary(diaryData);
+    }
+    else {
+      setFilterDiary(diary);
+    }
   }
 
   const handleGetDiaryList = async () => {
@@ -131,7 +101,7 @@ const MyPageScreen = () => {
             setSelectedCategory={setSelectedYear}/>
       }
 
-      <DiaryList data={diary} style={{ width: '100%' }}></DiaryList>
+      <DiaryList data={filterDiary} style={{ width: '100%' }}></DiaryList>
     </View>
   );
 };
