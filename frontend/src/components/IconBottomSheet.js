@@ -61,13 +61,23 @@ const IconBottomSheet = ({
             SheetList.map((object, index) => {
               return (
                 <TouchableOpacity key={index} onPress={async () => {
-                  await object.handleFunction();
-                  navigation.goBack();
-                  Toast.show({
-                    type: 'success',
-                    text1: '추억일지가 삭제되었습니다.',
-                    position: 'bottom',
-                  })
+                  const response = await object.handleFunction();
+
+                  if (response) {
+                    navigation.goBack();
+                    Toast.show({
+                      type: 'success',
+                      text1: '추억일지가 삭제되었습니다.',
+                      position: 'bottom',
+                    })
+                  } else {
+                    refRBSheet.current.close();
+                    Toast.show({
+                      type: 'error',
+                      text1: '추억일지 삭제를 실패하였습니다.',
+                      position: 'bottom',
+                    })
+                  }
                 }}>
                   <View style={styles.bottomSheetList}>
                     <Image

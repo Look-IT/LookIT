@@ -5,8 +5,11 @@ export const handleDeleteMemories = (memoryId) => {
   deleteMemories(memoryId)
     .then(response => {
       console.log('deleteMemories: ', response);
+      return response;
     })
-    .catch(error => console.error(error))
+    .catch(error =>{
+      return error
+    })
 
 }
 
