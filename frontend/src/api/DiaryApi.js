@@ -45,3 +45,20 @@ export const getFriendMemoriesList = async (tagId) => {
     throw error;
   }
 }
+
+export const getSearchMemories = async (infoTag) => {
+  const endPoint = '/memories/info';
+
+  try {
+    const response = await apiClient.get(endPoint, {
+      params: {
+        info: infoTag,
+      }
+    })
+
+    return response.data;
+
+  } catch (error) {
+    throw error;
+  }
+}

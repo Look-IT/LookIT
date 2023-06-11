@@ -21,6 +21,7 @@ import FriendMemoriesListScreen from '../screens/FriendMemoriesListScreen';
 import HeaderLeftTitle from '../components/HeaderLeftTitle';
 import IconBottomSheet from '../components/IconBottomSheet';
 import { handleDeleteMemories } from '../functions/handleFunction';
+import MemoriesSearchScreen from '../screens/MemoriesSearchScreen';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -132,7 +133,6 @@ const MainStack = () => {
         component={MemoriesViewScreen}
         options={({ route }) => ({ 
           title: '추억일지',
-          // headerLeft: HeaderLeftButton,
           headerRight: (canGoBack) => (
             [
               <IconBottomSheet
@@ -149,9 +149,15 @@ const MainStack = () => {
                 tintColor={DANGER['500']}/>
             ]
           ),
-          // headerRight: IconBottomSheet,
           headerShown: true,
         })}
+      />
+      <Stack.Screen
+        name="MemoriesSearchScreen"
+        component={MemoriesSearchScreen}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="FriendMemoriesListScreen"
