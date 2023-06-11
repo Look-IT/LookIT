@@ -24,7 +24,7 @@ const IconBottomSheet = ({
 
   return (
     <>
-      <Pressable onPress={() => refRBSheet.current.open()}>
+      <Pressable hitSlop={8} onPress={() => refRBSheet.current.open()}>
         <Image
           style={{
             width: rootIconSize,
