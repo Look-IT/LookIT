@@ -2,7 +2,7 @@
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { BLACK, PRIMARY, WHITE } from '../colors';
+import { BLACK, DANGER, WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import { MainRoutes } from './routes';
@@ -10,7 +10,6 @@ import CameraScreen from '../screens/CameraScreen';
 import FourPictureEditScreen from '../screens/FourPictureEditScreen';
 import FourCutFinalScreen from '../screens/FourCutFinalScreen';
 import MemoriesCreateScreen from '../screens/MemoriesCreateScreen';
-import PictureUploadModal from '../components/modals/PictureUploadModal';
 import FourCutSellectScreen from '../screens/FourCutSellectScreen';
 import FriendAddScreen from '../screens/FriendAddScreen';
 import FourCutFrameScreen from '../screens/FourCutFrameScreen';
@@ -20,6 +19,8 @@ import MemoriesViewScreen from '../screens/MemoriesViewScreen';
 import MemoriesFriendTagScreen from '../screens/MemoriesFriendTagScreen';
 import FriendMemoriesListScreen from '../screens/FriendMemoriesListScreen';
 import HeaderLeftTitle from '../components/HeaderLeftTitle';
+import IconBottomSheet from '../components/IconBottomSheet';
+import { handleDeleteMemories } from '../functions/handleFunction';
 
 //로그인 후 화면에 표시되는 스크린 stack
 
@@ -129,11 +130,28 @@ const MainStack = () => {
       <Stack.Screen
         name="MemoriesViewScreen"
         component={MemoriesViewScreen}
-        options={{ 
+        options={({ route }) => ({ 
           title: '추억일지',
-          headerLeft: HeaderLeftButton,
+          // headerLeft: HeaderLeftButton,
+          headerRight: (canGoBack) => (
+            [
+              <IconBottomSheet
+                key="icon"
+                canGoBack={canGoBack}
+                SheetList={[
+                  {
+                    icon: require('../../assets/Icon_Delete.png'),
+                    text: '추억일지 삭제',
+                    handleFunction: () => handleDeleteMemories(route.params.memoryId),
+                    color: DANGER['500'],
+                  },
+                ]}
+                tintColor={DANGER['500']}/>
+            ]
+          ),
+          // headerRight: IconBottomSheet,
           headerShown: true,
-        }}
+        })}
       />
       <Stack.Screen
         name="FriendMemoriesListScreen"
