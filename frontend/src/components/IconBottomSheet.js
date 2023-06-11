@@ -64,23 +64,22 @@ const IconBottomSheet = ({
                   
                   object.handleFunction()
                     .then(response => {
-                      if (response) {
-                        navigation.pop();
-                        Toast.show({
-                          type: 'success',
-                          text1: '추억일지가 삭제되었습니다.',
-                          position: 'bottom',
-                        })
-                      } else {
-                        refRBSheet.current.close();
+                      navigation.pop();
+                      Toast.show({
+                        type: 'success',
+                        text1: '추억일지가 삭제되었습니다.',
+                        position: 'bottom',
+                      })
+                    })
+                    .catch(error => {
+                      console.log(error);
+                      refRBSheet.current.close();
                         Toast.show({
                           type: 'error',
                           text1: '추억일지 삭제를 실패하였습니다.',
                           position: 'bottom',
                         })
-                      }
-                    })
-                    .catch(error => console.log(error));
+                    });
 
                 }}>
                   <View style={styles.bottomSheetList}>
