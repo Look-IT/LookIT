@@ -8,7 +8,7 @@ const DiaryList = ({ data }) => {
 
   return (
     <FlatList
-      style={{ flexGrow: 1, marginTop: 24 }}
+      style={{ flexGrow: 1 }}
       windowSize={2}
       data={data}
       keyExtractor={(item) => item.id.toString()}

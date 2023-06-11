@@ -3,58 +3,105 @@
 import { StyleSheet, View, Alert } from 'react-native';
 import { WHITE } from '../colors';
 import DiaryList from '../components/DiaryList';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getMemoriesList } from '../api/DiaryApi';
 import { useFocusEffect } from '@react-navigation/native';
-import { getMemoriesPhoto } from '../api/memories';
+import DateFilter from '../components/DateFilter';
+
 const MyPageScreen = () => {
 
   const [diary, setDiary] = useState([]);
-  
-  const getDiaryList = async () => {
-    //네컷 사진 리스트 요청하는 함수
+  const [filterDiary, setFilterDiary] = useState([]);
+  const [yearCategory, setYearCategory] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
 
-    getMemoriesList()
-      .then(response => {
+  useEffect(() => {
+    
+    const years = diary?.map(item => item.date.split('.')[0]);
+    let uniqueYears = [...new Set(years)];
 
-        setDiary(
-          response.map((diaryObj) => {
-            return {
-              id: diaryObj.memoryId,
-              date: diaryObj.createAt,
-              thumbnail: diaryObj.memoryPhoto,
-              tag: diaryObj.info,
-              friends: diaryObj.friends,
-            };
-          })
-        )
+    uniqueYears = uniqueYears.map(item => {
+      return ({
+        name: item,
+        value: item,
       })
-      .catch(error => {
-        console.log(error.message);
+    })
+    uniqueYears.sort((a, b) => a.value - b.value);
 
-        Alert.alert('추억일지 조회 실패', '추억일지 조회가 실패했습니다.', [
-          {
-            text: '확인',
-            style: 'default',
-            onPress: () => {},
-          },
-        ]);
-      })
-  };
+    setYearCategory(uniqueYears);
+    setFilterDiary(diary);
+
+  }, [diary]);
+
+  useEffect(() => {
+    handleFilter(selectedYear);
+  }, [selectedYear]);
+
+  const handleFilter = (selectedYear) => {
+
+    if (selectedYear !== null) {
+      const diaryData = diary.filter(item => item.date.split('.')[0] === selectedYear);
+      setFilterDiary(diaryData);
+    }
+    else {
+      setFilterDiary(diary);
+    }
+  }
+
+  const handleGetDiaryList = async () => {
+    try {
+      const response = await getMemoriesList();
+
+      return response;
+
+    } catch (error) {
+      throw error;
+    }
+  }
 
   useFocusEffect(
     React.useCallback(() => {
-      getDiaryList();
+      handleGetDiaryList()
+        .then(response => {
+          setDiary(
+            response.map((diaryObj) => {
+              return {
+                id: diaryObj.memoryId,
+                date: diaryObj.createAt,
+                thumbnail: diaryObj.memoryPhoto,
+                tag: diaryObj.info,
+                friends: diaryObj.friends,
+              };
+            })
+          )
+        })
+        .catch(error => {
+          console.error(error);
 
-      return () => {
-        console.log('Screen unfocused');
-      };
+          Alert.alert('추억일지 조회 실패', '추억일지 조회가 실패했습니다.', [
+            {
+              text: '확인',
+              style: 'default',
+              onPress: () => {},
+            },
+          ]);
+        })
+
     }, [])
   );
 
   return (
     <View style={styles.container}>
-      <DiaryList data={diary} style={{ width: '100%' }}></DiaryList>
+
+      {
+        yearCategory.length > 0 &&
+          <DateFilter
+            categories={yearCategory}
+            selectedCategory={selectedYear}
+            setSelectedCategory={setSelectedYear}/>
+      }
+
+      <DiaryList data={filterDiary} style={{ width: '100%' }}></DiaryList>
     </View>
   );
 };
