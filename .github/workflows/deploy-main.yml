@@ -20,12 +20,14 @@ jobs:
           chmod +x ./gradlew
           ./gradlew build
       - name: Deploy
-        uses: cloudtype-github-actions/deploy@v1
-        with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: 9659tig/lookit
-          stage: main
-          yaml: |
+        working-directory: ./backend
+        run: |
+          java -jar ./build/libs/*.jar
+        env:
+          CLOUDTYPE_TOKEN: ${{ secrets.CLOUDTYPE_TOKEN }}
+          PROJECT_NAME: 9659tig/lookit
+          STAGE: main
+          YAML: |
             name: lookit
             app: java@17
             options:
@@ -49,7 +51,7 @@ jobs:
                   secret: ADMIN_MAIL_ID
                 - name: ADMIN_MAIL_PW
                   secret: ADMIN_MAIL_PW
-            context:
-              git:
-                url: git@github.com:${{ github.repository }}.git
-                ref: ${{ github.ref }}
+          CONTEXT: |
+            git:
+              url: git@github.com:${{ github.repository }}.git
+              ref: ${{ github.ref }}
