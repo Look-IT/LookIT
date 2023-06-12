@@ -16,7 +16,7 @@ jobs:
           ghtoken: ${{ secrets.GHP_TOKEN }}
       - name: Checkout repository
         run: |
-          git clone --depth 1 --branch main git@github.com:Look-IT/LookIT.git repository
+          git clone --depth 1 --branch main https://github.com/Look-IT/LookIT.git repository
           cd repository/backend
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
