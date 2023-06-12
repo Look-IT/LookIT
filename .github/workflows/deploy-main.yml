@@ -9,13 +9,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: backend
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Update submodules
+        run: |
+          git submodule init
+          git config submodule.backend.path backend
+          git submodule update --remote
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
