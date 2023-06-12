@@ -14,11 +14,10 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
-      - name: Update submodules
+      - name: Checkout repository
         run: |
-          git submodule init
-          git config submodule.backend.path backend
-          git submodule update --remote
+          git clone --depth 1 --branch main git@github.com:Look-IT/LookIT.git repository
+          cd repository/backend
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
