@@ -44,6 +44,7 @@ jobs:
                   secret: ADMIN_MAIL_ID
                 - name: ADMIN_MAIL_PW
                   secret: ADMIN_MAIL_PW
+              jarPath: backend/build/libs/lookIT-spring-0.0.1-SNAPSHOT.jar
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
