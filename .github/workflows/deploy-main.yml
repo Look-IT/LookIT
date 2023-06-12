@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: 9659tig/lookit
           stage: main
-          jar: /app/build/libs/*.jar
+          jar: ${{ needs.build.outputs.jar }}
           yaml: |
             name: lookit
             app: java@17
