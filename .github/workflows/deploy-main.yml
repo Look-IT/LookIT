@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: backend
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
@@ -20,7 +22,6 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: 9659tig/lookit
           stage: main
-          jar: ${{ needs.build.outputs.jar }}
           yaml: |
             name: lookit
             app: java@17
